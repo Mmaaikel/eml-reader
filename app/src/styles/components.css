@@ -7,8 +7,7 @@
 	.stamp-perforation {
 		--perf: 6px;
 		padding: var(--perf);
-		background:
-			radial-gradient(circle at var(--perf) var(--perf), transparent 3px, var(--color-white) 3.5px)
+		background: radial-gradient(circle at var(--perf) var(--perf), transparent 3px, var(--color-white) 3.5px)
 			calc(var(--perf) * -1) calc(var(--perf) * -1) / calc(var(--perf) * 2) calc(var(--perf) * 2) round;
 	}
 

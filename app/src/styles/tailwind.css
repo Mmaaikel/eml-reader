@@ -1,17 +1,17 @@
 @layer theme, base, components, utilities;
 
 /* Tailwind CSS */
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
-@import "tailwindcss/utilities.css" layer(utilities);
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css' layer(utilities);
 
 /* Iconify Plugin for Tailwind CSS */
-@plugin "@iconify/tailwind4";
+@plugin '@iconify/tailwind4';
 
 /* Stockbook & Postmark theme */
 @theme {
-	--font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
-	--font-display: "Barlow Semi Condensed", "Barlow", ui-sans-serif, system-ui, sans-serif;
+	--font-sans: 'Barlow', ui-sans-serif, system-ui, sans-serif;
+	--font-display: 'Barlow Semi Condensed', 'Barlow', ui-sans-serif, system-ui, sans-serif;
 
 	/* One 9-step stockbook ramp, the only neutrals */
 	--color-book-900: #0f1715;
@@ -56,22 +56,34 @@
 	--animate-rise: rise 260ms var(--ease-out-expo);
 
 	@keyframes lay-down {
-		from { transform: translateY(18px) rotate(0.8deg); }
+		from {
+			transform: translateY(18px) rotate(0.8deg);
+		}
 	}
 
 	@keyframes cancel {
-		from { transform: rotate(-14deg) scale(1.25); opacity: 0; }
+		from {
+			transform: rotate(-14deg) scale(1.25);
+			opacity: 0;
+		}
 	}
 
 	@keyframes mount {
-		from { transform: translateY(10px); opacity: 0; }
+		from {
+			transform: translateY(10px);
+			opacity: 0;
+		}
 	}
 
 	@keyframes fade-in {
-		from { opacity: 0; }
+		from {
+			opacity: 0;
+		}
 	}
 
 	@keyframes rise {
-		from { transform: translateY(12px); }
+		from {
+			transform: translateY(12px);
+		}
 	}
 }

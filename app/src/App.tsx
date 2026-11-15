@@ -11,13 +11,11 @@ import { Reader } from '~/components/reader/Reader'
 import { ReaderError } from '~/components/RenderError'
 import emlData from '~/stores/emlData'
 
-export function App()
-{
+export function App() {
 	const { t } = useTranslation()
 	const data = useStore(emlData)
 
-	useEffect(() =>
-	{
+	useEffect(() => {
 		// Lets tests (and anything else) know the app is interactive
 		document.documentElement.dataset.ready = 'true'
 	}, [])
@@ -32,7 +30,10 @@ export function App()
 						href={import.meta.env.BASE_URL}
 						className="flex items-center gap-2.5 font-display text-[22px] font-bold tracking-[0.01em] text-book-100 no-underline"
 					>
-						<span aria-hidden="true" className="flex size-8 items-center justify-center rounded-[3px] bg-white text-lg text-ultramarine">
+						<span
+							aria-hidden="true"
+							className="flex size-8 items-center justify-center rounded-[3px] bg-white text-lg text-ultramarine"
+						>
 							<span className="icon-[mdi--email-open-outline]" />
 						</span>
 						EML <b className="text-carmine-bright">Reader</b>
@@ -53,7 +54,7 @@ export function App()
 
 				<main className="flex flex-1 flex-col overflow-x-clip py-8 [overflow-clip-margin:1rem] sm:py-10">
 					<EmptyState />
-					<ErrorBoundary resetKey={data} fallback={error => <ReaderError error={error} />}>
+					<ErrorBoundary resetKey={data} fallback={(error) => <ReaderError error={error} />}>
 						<Reader />
 					</ErrorBoundary>
 				</main>

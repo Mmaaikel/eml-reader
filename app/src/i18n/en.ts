@@ -33,11 +33,12 @@ const en = {
 		railNote: 'Attachments are mounted here, with their size and type.',
 	},
 	errors: {
-		parseTitle: 'This file couldn\'t be read as an email.',
+		parseTitle: "This file couldn't be read as an email.",
 		parseHelp: 'Make sure it is an .eml file saved from a mail program, then try again.',
-		renderTitle: 'This email couldn\'t be displayed',
-		renderHelp: 'Something in this message tripped up the reader. Nothing was sent anywhere. You can try another file.',
-		previewTitle: 'This attachment couldn\'t be previewed.',
+		renderTitle: "This email couldn't be displayed",
+		renderHelp:
+			'Something in this message tripped up the reader. Nothing was sent anywhere. You can try another file.',
+		previewTitle: "This attachment couldn't be previewed.",
 	},
 	reader: {
 		view: 'View',
@@ -54,8 +55,8 @@ const en = {
 		showAs: 'Show message as',
 		formatted: 'Formatted',
 		plainText: 'Plain text',
-		remoteBlocked: 'Remote images are blocked, so the sender can\'t tell you opened this email.',
-		remoteShown: 'Remote images are shown. The sender\'s server can see that this email was opened.',
+		remoteBlocked: "Remote images are blocked, so the sender can't tell you opened this email.",
+		remoteShown: "Remote images are shown. The sender's server can see that this email was opened.",
 		loadRemote: 'Load remote images',
 		blockAgain: 'Block again',
 		body: 'Message body',
@@ -63,7 +64,8 @@ const en = {
 		enclosed_one: 'Enclosed · {{count}} attachment',
 		enclosed_other: 'Enclosed · {{count}} attachments',
 		noAttachments: 'No attachments',
-		warning: 'Only open attachments from people you trust. They open on this device, but files can still be harmful.',
+		warning:
+			'Only open attachments from people you trust. They open on this device, but files can still be harmful.',
 	},
 	attachment: {
 		untitled: 'Untitled file',
@@ -72,7 +74,7 @@ const en = {
 		file: 'File',
 		empty: 'Empty file',
 		isEmail: 'This attachment is an email itself. Open it here, or download it.',
-		noPreview: 'This file type can\'t be previewed here. Download it to open it with another app.',
+		noPreview: "This file type can't be previewed here. Download it to open it with another app.",
 		openEmail: 'Open this email',
 	},
 	viewer: {
@@ -86,11 +88,13 @@ const en = {
 	},
 	footer: {
 		privacyTitle: 'Data privacy',
-		privacy: 'No data is collected or processed over the network or on any server. All data is processed locally in your browser, and stays on your own device.',
+		privacy:
+			'No data is collected or processed over the network or on any server. All data is processed locally in your browser, and stays on your own device.',
 		cookies: 'This website uses no cookies and does no tracking.',
 		sourceTitle: 'Open source project',
 		source: 'See the source code on <repo>GitHub</repo>',
-		credits: 'Made by <author>{{author}}</author>, based on the original by <original>{{original}}</original>. Built with <react>React</react>.',
+		credits:
+			'Made by <author>{{author}}</author>, based on the original by <original>{{original}}</original>. Built with <react>React</react>.',
 	},
 } as const
 

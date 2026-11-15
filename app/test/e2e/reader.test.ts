@@ -3,43 +3,39 @@ import { test, expect, type Page } from '@playwright/test'
 
 const fixture = (name: string) => path.join(import.meta.dirname, '..', 'fixtures', name)
 
-async function open(page: Page, name: string)
-{
+async function open(page: Page, name: string) {
 	// Wait until React has mounted so the input has its handler
 	await page.locator('html[data-ready]').waitFor({ state: 'attached' })
 	await page.setInputFiles('#eml-file-input', fixture(name))
 }
 
-test.beforeEach(async ({ page }) =>
-{
+test.beforeEach(async ({ page }) => {
 	await page.goto('/')
 })
 
-test('empty state invites a file and states the privacy promise', async ({ page }) =>
-{
+test('empty state invites a file and states the privacy promise', async ({ page }) => {
 	await expect(page.getByRole('heading', { level: 1, name: 'Read an email file' })).toBeVisible()
 	await expect(page.getByRole('button', { name: 'Choose a file' })).toBeVisible()
 	await expect(page.getByText('Stays on this device. Nothing is uploaded.').first()).toBeAttached()
 })
 
-test('a file that is not an email shows a clear error', async ({ page }) =>
-{
+test('a file that is not an email shows a clear error', async ({ page }) => {
 	await open(page, 'not-an-email.eml')
-	await expect(page.getByRole('alert')).toContainText('couldn\'t be read as an email')
+	await expect(page.getByRole('alert')).toContainText("couldn't be read as an email")
 })
 
-test('an email opens as a letter with its attachments', async ({ page }) =>
-{
+test('an email opens as a letter with its attachments', async ({ page }) => {
 	await open(page, 'sample.eml')
-	await expect(page.getByRole('heading', { level: 1, name: 'Quote for kitchen renovation (final version)' })).toBeVisible()
+	await expect(
+		page.getByRole('heading', { level: 1, name: 'Quote for kitchen renovation (final version)' }),
+	).toBeVisible()
 	await expect(page.getByText('sanne@studionoord.nl').first()).toBeVisible()
 	await expect(page.getByRole('heading', { name: /Enclosed · 6 attachments/ })).toBeVisible()
 	await expect(page.locator('[data-stamp]')).toHaveCount(6)
 	await expect(page.getByRole('button', { name: /leeg\.bin/ })).toBeDisabled()
 })
 
-test('remote images are blocked until the reader allows them', async ({ page }) =>
-{
+test('remote images are blocked until the reader allows them', async ({ page }) => {
 	await open(page, 'sample.eml')
 	const notice = page.getByRole('status').filter({ hasText: 'Remote images are blocked' })
 	await expect(notice).toBeVisible()
@@ -47,16 +43,14 @@ test('remote images are blocked until the reader allows them', async ({ page }) 
 	await expect(page.getByRole('button', { name: 'Block again' })).toBeVisible()
 })
 
-test('switching between formatted and plain text', async ({ page }) =>
-{
+test('switching between formatted and plain text', async ({ page }) => {
 	await open(page, 'sample.eml')
 	await page.getByRole('radio', { name: 'Plain text' }).click()
 	await expect(page.getByRole('radio', { name: 'Plain text' })).toHaveAttribute('aria-checked', 'true')
 	await expect(page.frameLocator('iframe[title="Message body"]').locator('pre')).toContainText('As promised')
 })
 
-test('headers tab lists key headers first and all headers on request', async ({ page }) =>
-{
+test('headers tab lists key headers first and all headers on request', async ({ page }) => {
 	await open(page, 'sample.eml')
 	await page.getByRole('tab', { name: 'Headers' }).click()
 	await expect(page.getByText('<quote-2026-11-12@studionoord.nl>').first()).toBeVisible()
@@ -64,8 +58,7 @@ test('headers tab lists key headers first and all headers on request', async ({ 
 	await expect(page.getByRole('button', { name: 'Copy all headers' })).toBeVisible()
 })
 
-test('attachments preview and close with Escape', async ({ page }) =>
-{
+test('attachments preview and close with Escape', async ({ page }) => {
 	await open(page, 'sample.eml')
 
 	await page.getByRole('button', { name: /plattegrond\.png/ }).click()
@@ -83,19 +76,59 @@ test('attachments preview and close with Escape', async ({ page }) =>
 	await page.keyboard.press('Escape')
 })
 
-test('an attached email opens in the reader', async ({ page }) =>
-{
+test('an attached email opens in the reader', async ({ page }) => {
 	await open(page, 'sample.eml')
 	await page.getByRole('button', { name: /leverancier\.eml/ }).click()
 	await page.getByRole('button', { name: 'Open this email' }).click()
 	await expect(page.getByRole('heading', { level: 1, name: 'Supplier confirmation: oak worktop' })).toBeVisible()
 })
 
-test('older emails in a legacy charset show their text', async ({ page }) =>
-{
+test('older emails in a legacy charset show their text', async ({ page }) => {
 	await open(page, 'mixed-8bit.eml')
 	await expect(page.getByRole('heading', { level: 1, name: 'Menú van de week' })).toBeVisible()
 	await expect(page.getByText('Zoë').first()).toBeVisible()
 	await page.getByRole('radio', { name: 'Plain text' }).click()
 	await expect(page.frameLocator('iframe[title="Message body"]').locator('pre')).toContainText('één ü — prijs € 12')
+})
+
+test('focus stays inside the preview until it closes, then returns to the stamp', async ({ page }) => {
+	await open(page, 'sample.eml')
+	const stamp = page.getByRole('button', { name: /prijzen\.csv/ })
+	await stamp.click()
+	const dialog = page.getByRole('dialog')
+	await expect(dialog).toBeVisible()
+
+	// Tab cycles through the dialog (and the browser's own UI), never the page behind it
+	let insideCount = 0
+	for (let i = 0; i < 8; i++) {
+		await page.keyboard.press('Tab')
+		const where = await dialog.evaluate((element) =>
+			element.contains(document.activeElement)
+				? 'dialog'
+				: document.activeElement === document.body
+					? 'browser'
+					: 'page',
+		)
+		expect(where).not.toBe('page')
+		if (where === 'dialog') insideCount++
+	}
+	expect(insideCount).toBeGreaterThan(2)
+
+	await page.keyboard.press('Escape')
+	await expect(dialog).toBeHidden()
+	await expect(stamp).toBeFocused()
+})
+
+test('downloading an attachment saves the original file', async ({ page }) => {
+	await open(page, 'sample.eml')
+	await page.getByRole('button', { name: /voorwaarden\.docx/ }).click()
+	const [download] = await Promise.all([
+		page.waitForEvent('download'),
+		page.getByRole('button', { name: 'Download file' }).click(),
+	])
+	expect(download.suggestedFilename()).toBe('voorwaarden.docx')
+	const fs = await import('node:fs')
+	const bytes = fs.readFileSync(await download.path())
+	expect(bytes.length).toBe(60004)
+	expect(bytes.subarray(0, 2).toString()).toBe('PK')
 })

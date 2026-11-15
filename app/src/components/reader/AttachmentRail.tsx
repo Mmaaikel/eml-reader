@@ -2,24 +2,18 @@ import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 
 import { cn } from '~/lib/cn'
+import { inkClass } from '~/lib/ink'
 import type { EmailAttachment } from '~/lib/email'
 import { formatSize } from '~/lib/fileSize'
 import { openFilePicker } from '~/lib/filePicker'
 import { getAttachmentExtension, getInkKind, getPreviewKind, isAttachmentEmpty } from '~/lib/attachments'
 import openedAttachmentIndex from '~/stores/openedAttachmentIndex'
 
-/** One engraved ink per kind of attachment, used everywhere that kind appears */
-export const inkClass = {
-	pdf: '[--ink:var(--color-carmine)]',
-	image: '[--ink:var(--color-ultramarine)]',
-	other: '[--ink:var(--color-olive)]',
-}
-
 const railTitle = 'mb-3 font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-book-300'
-const strip = 'flex flex-col gap-4 border-t border-glassine-edge bg-linear-to-b from-glassine to-glassine-fade px-3.5 py-4'
+const strip =
+	'flex flex-col gap-4 border-t border-glassine-edge bg-linear-to-b from-glassine to-glassine-fade px-3.5 py-4'
 
-function typeLabel(t: TFunction, attachment: EmailAttachment): string
-{
+function typeLabel(t: TFunction, attachment: EmailAttachment): string {
 	const kind = getPreviewKind(attachment)
 	if (kind === 'pdf') return 'PDF'
 	if (kind === 'image') return t('attachment.image')
@@ -27,16 +21,14 @@ function typeLabel(t: TFunction, attachment: EmailAttachment): string
 	return getAttachmentExtension(attachment) || t('attachment.file')
 }
 
-function actionLabel(t: TFunction, attachment: EmailAttachment): string
-{
+function actionLabel(t: TFunction, attachment: EmailAttachment): string {
 	if (isAttachmentEmpty(attachment)) return t('attachment.empty')
 	const kind = getPreviewKind(attachment)
 	if (kind === 'email') return t('actions.open')
 	return kind === 'download' ? t('actions.download') : t('actions.preview')
 }
 
-function Stamp({ attachment, index }: { attachment: EmailAttachment, index: number })
-{
+function Stamp({ attachment, index }: { attachment: EmailAttachment; index: number }) {
 	const { t } = useTranslation()
 
 	return (
@@ -48,16 +40,16 @@ function Stamp({ attachment, index }: { attachment: EmailAttachment, index: numb
 				'stamp-perforation group block w-full cursor-pointer text-left drop-shadow-[0_2px_3px_rgb(0_0_0/0.3)]',
 				'transition-[transform,filter] duration-180 ease-out-expo hover:-translate-y-0.5 hover:-rotate-[0.6deg] hover:drop-shadow-[0_8px_12px_rgb(0_0_0/0.4)]',
 				'focus-visible:outline-offset-4',
-				'disabled:cursor-not-allowed disabled:opacity-70 disabled:grayscale disabled:hover:translate-y-0 disabled:hover:rotate-0 disabled:[--ink:var(--color-book-400)]',
+				'disabled:cursor-not-allowed disabled:opacity-70 disabled:grayscale disabled:[--ink:var(--color-book-400)] disabled:hover:translate-y-0 disabled:hover:rotate-0',
 				inkClass[getInkKind(attachment)],
 			)}
 		>
-			<span className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-3 gap-y-1 bg-white px-3 pb-3 pt-2.5">
+			<span className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-3 gap-y-1 bg-white px-3 pt-2.5 pb-3">
 				<span className="col-span-2 mb-1.5 h-1.5 bg-(--ink)" />
-				<span className="line-clamp-2 text-[15px] font-semibold leading-snug wrap-anywhere text-book-800 group-disabled:line-through group-disabled:decoration-book-400">
+				<span className="line-clamp-2 text-[15px] leading-snug font-semibold wrap-anywhere text-book-800 group-disabled:line-through group-disabled:decoration-book-400">
 					{attachment.filename || t('attachment.untitled')}
 				</span>
-				<span className="row-span-2 self-start whitespace-nowrap font-display text-[22px] font-bold leading-none tabular-nums text-(--ink)">
+				<span className="row-span-2 self-start font-display text-[22px] leading-none font-bold whitespace-nowrap text-(--ink) tabular-nums">
 					{formatSize(attachment.size)}
 				</span>
 				<span className="text-[13px] text-book-500">
@@ -69,8 +61,7 @@ function Stamp({ attachment, index }: { attachment: EmailAttachment, index: numb
 }
 
 /** The glassine strip beside the letter where attachments are mounted as stamps. */
-export function AttachmentRail({ attachments }: { attachments: EmailAttachment[] })
-{
+export function AttachmentRail({ attachments }: { attachments: EmailAttachment[] }) {
 	const { t } = useTranslation()
 
 	return (
@@ -85,14 +76,18 @@ export function AttachmentRail({ attachments }: { attachments: EmailAttachment[]
 				<>
 					<ul className={cn(strip, 'grid sm:grid-cols-2 lg:grid-cols-1')}>
 						{attachments.map((attachment, index) => (
-							<li key={index} className="animate-mount" style={{ animationDelay: `${260 + index * 70}ms` }}>
+							<li
+								key={index}
+								className="animate-mount"
+								style={{ animationDelay: `${260 + index * 70}ms` }}
+							>
 								<Stamp attachment={attachment} index={index} />
 							</li>
 						))}
 					</ul>
 
 					<p className="mt-4 flex gap-2.5 text-sm leading-relaxed text-book-200">
-						<span className="icon-[mdi--shield-alert-outline] mt-0.5 shrink-0 text-lg text-carmine-light" />
+						<span className="mt-0.5 icon-[mdi--shield-alert-outline] shrink-0 text-lg text-carmine-light" />
 						<span>{t('reader.warning')}</span>
 					</p>
 				</>
@@ -111,8 +106,7 @@ export function AttachmentRail({ attachments }: { attachments: EmailAttachment[]
 }
 
 /** The empty rail shown before any file is open. */
-AttachmentRail.Placeholder = function AttachmentRailPlaceholder()
-{
+AttachmentRail.Placeholder = function AttachmentRailPlaceholder() {
 	const { t } = useTranslation()
 
 	return (

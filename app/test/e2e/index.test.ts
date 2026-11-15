@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('has title', async ({ page }) =>
-{
+test('has title', async ({ page }) => {
 	await page.goto('/')
 	await expect(page).toHaveTitle('EML Reader')
-});
+})

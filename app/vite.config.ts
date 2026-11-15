@@ -14,18 +14,15 @@ const version = (process.env.GITHUB_SHA || '').slice(0, 7) || process.env.VERSIO
 
 const base = basePath.endsWith('/') ? basePath : `${basePath}/`
 
-function escapeAttr(value: string): string
-{
+function escapeAttr(value: string): string {
 	return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
 }
 
 /** Write the page's <head>: title, description, icons and social tags. */
-function siteHead(): Plugin
-{
+function siteHead(): Plugin {
 	return {
 		name: 'site-head',
-		transformIndexHtml(html)
-		{
+		transformIndexHtml(html) {
 			const pageUrl = siteUrl ? new URL(base, siteUrl).href : ''
 			const imageUrl = siteUrl ? new URL(base + 'og-image.png', siteUrl).href : ''
 
@@ -63,15 +60,11 @@ export default defineConfig({
 		__APP_VERSION__: JSON.stringify(version),
 		__REPOSITORY_URL__: JSON.stringify(repositoryUrl),
 	},
-	plugins: [
-		react(),
-		tailwindcss(),
-		siteHead(),
-	],
+	plugins: [react(), tailwindcss(), siteHead()],
 	experimental: assetsPrefix
 		? {
-			renderBuiltUrl: (filename: string) => `${assetsPrefix.replace(/\/$/, '')}/${filename}`,
-		}
+				renderBuiltUrl: (filename: string) => `${assetsPrefix.replace(/\/$/, '')}/${filename}`,
+			}
 		: undefined,
 	server: {
 		port: 4321,

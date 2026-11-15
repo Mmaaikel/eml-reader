@@ -1,10 +1,14 @@
-/** Save base64 data as a file through the browser. */
-export function downloadBase64(data64: string | undefined, filename: string, contentType = 'application/octet-stream')
-{
-	if (!data64) return
+import { toBlob } from '~/lib/objectUrl'
+
+/** Save bytes as a file through the browser. */
+export function downloadFile(content: Uint8Array, filename: string, contentType = 'application/octet-stream') {
+	const url = URL.createObjectURL(toBlob(content, contentType))
 	const a = document.createElement('a')
-	a.href = `data:${contentType};base64,${data64}`
+	a.href = url
 	a.download = filename
+	document.body.append(a)
 	a.click()
 	a.remove()
+	// Give the browser a moment to start the download before releasing the bytes
+	setTimeout(() => URL.revokeObjectURL(url), 10_000)
 }

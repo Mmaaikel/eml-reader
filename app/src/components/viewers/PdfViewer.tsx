@@ -1,19 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
-import { downloadBase64 } from '~/lib/download'
-import { ViewerButton, ViewerNav, ViewerReadout, ViewerShell } from './ViewerNav'
+import { downloadFile } from '~/lib/download'
+import { ViewerButton, ViewerNav, ViewerReadout, ViewerShell, type ViewerProps } from './ViewerNav'
 
 const MIN_SCALE = 0.25
 const MAX_SCALE = 5
 const ZOOM_STEP = 1.25
 
-export function PdfViewer({ filename, data64, onClose }: {
-	filename: string
-	data64?: string
-	onClose: () => void
-})
-{
+export function PdfViewer({ attachment, filename, onClose }: ViewerProps) {
 	const { t } = useTranslation()
 	const contentRef = useRef<HTMLDivElement>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -31,8 +26,7 @@ export function PdfViewer({ filename, data64, onClose }: {
 	const [scale, setScale] = useState<number | null>(null)
 	const [fit, setFit] = useState(true)
 
-	const render = useCallback(async () =>
-	{
+	const render = useCallback(async () => {
 		const pdf = pdfRef.current
 		const content = contentRef.current
 		const canvas = canvasRef.current
@@ -41,17 +35,16 @@ export function PdfViewer({ filename, data64, onClose }: {
 
 		const pdfPage = await pdf.getPage(pageRef.current)
 
-		if (scaleRef.current === null || fitRef.current)
-		{
+		if (scaleRef.current === null || fitRef.current) {
 			// Fit the whole page inside the content area (minus its padding)
 			const { width, height } = pdfPage.getViewport({ scale: 1 })
 			const style = getComputedStyle(content)
 			const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
 			const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
-			scaleRef.current = Math.max(MIN_SCALE, Math.min(
-				(content.clientWidth - padX) / width,
-				(content.clientHeight - padY) / height,
-			))
+			scaleRef.current = Math.max(
+				MIN_SCALE,
+				Math.min((content.clientWidth - padX) / width, (content.clientHeight - padY) / height),
+			)
 		}
 
 		const viewport = pdfPage.getViewport({ scale: scaleRef.current })
@@ -71,12 +64,9 @@ export function PdfViewer({ filename, data64, onClose }: {
 		})
 		renderTaskRef.current = task
 
-		try
-		{
+		try {
 			await task.promise
-		}
-		catch
-		{
+		} catch {
 			return // superseded by a newer render
 		}
 
@@ -96,20 +86,16 @@ export function PdfViewer({ filename, data64, onClose }: {
 	}, [])
 
 	// Load the document once
-	useEffect(() =>
-	{
-		if (!data64) return
+	useEffect(() => {
 		let cancelled = false
 		let loaded: any = null
 
-		;(async () =>
-		{
+		;(async () => {
 			const PdfJS = await import('pdfjs-dist')
 			const worker = (await import('pdfjs-dist/build/pdf.worker.min.mjs?url')).default
 			PdfJS.GlobalWorkerOptions.workerSrc = worker
-			loaded = await PdfJS.getDocument({ data: atob(data64) }).promise
-			if (cancelled)
-			{
+			loaded = await PdfJS.getDocument({ data: attachment.content.slice() }).promise
+			if (cancelled) {
 				loaded.destroy()
 				return
 			}
@@ -118,58 +104,51 @@ export function PdfViewer({ filename, data64, onClose }: {
 			await render()
 		})()
 
-		return () =>
-		{
+		return () => {
 			cancelled = true
 			renderTaskRef.current?.cancel()
 			pdfRef.current = null
 			loaded?.destroy()
 		}
-	}, [data64, render])
+	}, [attachment.content, render])
 
 	// Refit when the window resizes, while in fit mode
-	useEffect(() =>
-	{
+	useEffect(() => {
 		const content = contentRef.current
 		if (!content) return
 		let timer: ReturnType<typeof setTimeout> | null = null
-		const observer = new ResizeObserver(() =>
-		{
+		const observer = new ResizeObserver(() => {
 			if (!fitRef.current || !pdfRef.current) return
 			if (timer) clearTimeout(timer)
 			timer = setTimeout(() => void render(), 60)
 		})
 		observer.observe(content)
-		return () =>
-		{
+		return () => {
 			observer.disconnect()
 			if (timer) clearTimeout(timer)
 		}
 	}, [render])
 
-	const goTo = useCallback(async (target: number) =>
-	{
-		const pdf = pdfRef.current
-		if (!pdf) return
-		const next = Math.min(Math.max(1, target), pdf.numPages)
-		if (next === pageRef.current) return
-		pageRef.current = next
-		setPage(next)
-		await render()
-	}, [render])
+	const goTo = useCallback(
+		async (target: number) => {
+			const pdf = pdfRef.current
+			if (!pdf) return
+			const next = Math.min(Math.max(1, target), pdf.numPages)
+			if (next === pageRef.current) return
+			pageRef.current = next
+			setPage(next)
+			await render()
+		},
+		[render],
+	)
 
 	// Arrow keys flip pages
-	useEffect(() =>
-	{
-		function onKey(event: KeyboardEvent)
-		{
-			if (event.key === 'ArrowLeft' || event.key === 'ArrowUp')
-			{
+	useEffect(() => {
+		function onKey(event: KeyboardEvent) {
+			if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
 				event.preventDefault()
 				void goTo(pageRef.current - 1)
-			}
-			else if (event.key === 'ArrowRight' || event.key === 'ArrowDown')
-			{
+			} else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
 				event.preventDefault()
 				void goTo(pageRef.current + 1)
 			}
@@ -178,8 +157,7 @@ export function PdfViewer({ filename, data64, onClose }: {
 		return () => document.removeEventListener('keydown', onKey)
 	}, [goTo])
 
-	async function zoomBy(factor: number)
-	{
+	async function zoomBy(factor: number) {
 		if (!pdfRef.current || scaleRef.current === null) return
 		fitRef.current = false
 		setFit(false)
@@ -187,8 +165,7 @@ export function PdfViewer({ filename, data64, onClose }: {
 		await render()
 	}
 
-	async function zoomFit()
-	{
+	async function zoomFit() {
 		if (!pdfRef.current) return
 		fitRef.current = true
 		setFit(true)
@@ -201,21 +178,51 @@ export function PdfViewer({ filename, data64, onClose }: {
 		<ViewerShell>
 			<ViewerNav
 				filename={filename}
-				data64={data64}
-				onDownload={() => downloadBase64(data64, filename, 'application/pdf')}
+				size={attachment.size}
+				onDownload={() => downloadFile(attachment.content, filename, 'application/pdf')}
 				onClose={onClose}
 			>
 				<div className="flex items-center">
-					<ViewerButton icon={<span className="icon-[mdi--chevron-left]" />} label={t('viewer.previousPage')} onClick={() => goTo(page - 1)} disabled={!ready || page <= 1} />
-					<ViewerReadout label={t('viewer.page')}>{page} / {numPages ?? '…'}</ViewerReadout>
-					<ViewerButton icon={<span className="icon-[mdi--chevron-right]" />} label={t('viewer.nextPage')} onClick={() => goTo(page + 1)} disabled={!ready || page >= (numPages ?? 1)} />
+					<ViewerButton
+						icon={<span className="icon-[mdi--chevron-left]" />}
+						label={t('viewer.previousPage')}
+						onClick={() => goTo(page - 1)}
+						disabled={!ready || page <= 1}
+					/>
+					<ViewerReadout label={t('viewer.page')}>
+						{page} / {numPages ?? '…'}
+					</ViewerReadout>
+					<ViewerButton
+						icon={<span className="icon-[mdi--chevron-right]" />}
+						label={t('viewer.nextPage')}
+						onClick={() => goTo(page + 1)}
+						disabled={!ready || page >= (numPages ?? 1)}
+					/>
 				</div>
 
 				<div className="hidden items-center md:flex">
-					<ViewerButton icon={<span className="icon-[mdi--magnify-minus]" />} label={t('viewer.zoomOut')} onClick={() => zoomBy(1 / ZOOM_STEP)} disabled={!ready || (scale ?? 1) <= MIN_SCALE} />
-					<ViewerReadout label={t('viewer.zoom')}>{scale ? `${Math.round(scale * 100)}%` : '…'}</ViewerReadout>
-					<ViewerButton icon={<span className="icon-[mdi--magnify-plus]" />} label={t('viewer.zoomIn')} onClick={() => zoomBy(ZOOM_STEP)} disabled={!ready || (scale ?? 1) >= MAX_SCALE} />
-					<ViewerButton icon={<span className="icon-[mdi--fit-to-screen]" />} label={t('viewer.fit')} onClick={zoomFit} aria-pressed={fit} disabled={!ready} />
+					<ViewerButton
+						icon={<span className="icon-[mdi--magnify-minus]" />}
+						label={t('viewer.zoomOut')}
+						onClick={() => zoomBy(1 / ZOOM_STEP)}
+						disabled={!ready || (scale ?? 1) <= MIN_SCALE}
+					/>
+					<ViewerReadout label={t('viewer.zoom')}>
+						{scale ? `${Math.round(scale * 100)}%` : '…'}
+					</ViewerReadout>
+					<ViewerButton
+						icon={<span className="icon-[mdi--magnify-plus]" />}
+						label={t('viewer.zoomIn')}
+						onClick={() => zoomBy(ZOOM_STEP)}
+						disabled={!ready || (scale ?? 1) >= MAX_SCALE}
+					/>
+					<ViewerButton
+						icon={<span className="icon-[mdi--fit-to-screen]" />}
+						label={t('viewer.fit')}
+						onClick={zoomFit}
+						aria-pressed={fit}
+						disabled={!ready}
+					/>
 				</div>
 			</ViewerNav>
 

@@ -21,26 +21,24 @@ const TYPES_BY_EXTENSION: Record<string, string> = {
 	txt: 'text/plain',
 }
 
-export function getAttachmentExtension(attachment: EmailAttachment): string
-{
+export function getAttachmentExtension(attachment: EmailAttachment): string {
 	return /\.([a-z0-9]{1,5})$/i.exec(attachment.filename ?? '')?.[1]?.toUpperCase() ?? ''
 }
 
 /** The declared type, or one guessed from the extension when the sender used a generic type. */
-export function getAttachmentContentType(attachment: EmailAttachment): string
-{
+export function getAttachmentContentType(attachment: EmailAttachment): string {
 	const declared = attachment.contentType.toLowerCase()
 	if (declared && declared !== 'application/octet-stream') return declared
-	return TYPES_BY_EXTENSION[getAttachmentExtension(attachment).toLowerCase()] ?? (declared || 'application/octet-stream')
+	return (
+		TYPES_BY_EXTENSION[getAttachmentExtension(attachment).toLowerCase()] ?? (declared || 'application/octet-stream')
+	)
 }
 
-export function isAttachmentEmpty(attachment: EmailAttachment): boolean
-{
+export function isAttachmentEmpty(attachment: EmailAttachment): boolean {
 	return attachment.size <= 0
 }
 
-export function getPreviewKind(attachment: EmailAttachment): PreviewKind
-{
+export function getPreviewKind(attachment: EmailAttachment): PreviewKind {
 	const type = getAttachmentContentType(attachment)
 	const name = attachment.filename ?? ''
 	if (type === 'application/pdf') return 'pdf'
@@ -50,17 +48,12 @@ export function getPreviewKind(attachment: EmailAttachment): PreviewKind
 	return 'download'
 }
 
-export function getInkKind(attachment: EmailAttachment): InkKind
-{
+export function getInkKind(attachment: EmailAttachment): InkKind {
 	const kind = getPreviewKind(attachment)
 	return kind === 'pdf' ? 'pdf' : kind === 'image' ? 'image' : 'other'
 }
 
-/** Decode base64 attachment data to text as UTF-8. */
-export function decodeBase64Text(data64: string | undefined | null): string
-{
-	if (!data64) return ''
-	const binary = atob(data64.replace(/\s/g, ''))
-	const bytes = Uint8Array.from(binary, c => c.charCodeAt(0))
-	return new TextDecoder('utf-8').decode(bytes)
+/** Decode attachment bytes to text as UTF-8. */
+export function decodeText(content: Uint8Array): string {
+	return new TextDecoder('utf-8').decode(content)
 }

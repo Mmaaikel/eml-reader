@@ -5,8 +5,7 @@ import { openFilePicker } from '~/lib/filePicker'
 import emlData from '~/stores/emlData'
 import { Button } from './ui/Button'
 
-export function OpenFileButton()
-{
+export function OpenFileButton() {
 	const { t } = useTranslation()
 	const data = useStore(emlData)
 	if (!data) return null

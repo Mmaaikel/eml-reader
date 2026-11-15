@@ -26,8 +26,7 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 	size?: keyof typeof sizes
 }
 
-export function Button({ variant = 'primary', size = 'md', className, type = 'button', ...props }: ButtonProps)
-{
+export function Button({ variant = 'primary', size = 'md', className, type = 'button', ...props }: ButtonProps) {
 	return (
 		<button
 			type={type}

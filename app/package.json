@@ -1,57 +1,69 @@
 {
-  "name": "eml-reader",
-  "author": "Maikel",
-  "license": "MIT",
-  "version": "0.0.1",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "start": "vite",
-    "check": "tsc --noEmit",
-    "build-only": "vite build",
-    "build": "pnpm run check && pnpm run build-only",
-    "preview": "vite preview",
-    "test:vitest": "vitest run",
-    "test:playwright": "playwright test",
-    "npm:lockfile": "npm install --package-lock-only --ignore-scripts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Mmaaikel/eml-reader.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Mmaaikel/eml-reader/issues"
-  },
-  "homepage": "https://github.com/Mmaaikel/eml-reader#readme",
-  "dependencies": {
-    "@fontsource/barlow": "^5.3.0",
-    "@fontsource/barlow-semi-condensed": "^5.3.0",
-    "@iconify-json/mdi": "^1.2.3",
-    "@iconify/tailwind4": "^1.2.3",
-    "@nanostores/react": "^2.0.1",
-    "@tailwindcss/vite": "^4.3.5",
-    "bytes": "^3.1.2",
-    "clsx": "^2.1.1",
-    "i18next": "^27.1.2",
-    "nanostores": "^0.11.4",
-    "pdfjs-dist": "^4.10.38",
-    "postal-mime": "^4.2.1",
-    "react": "^19.3.1",
-    "react-dom": "^19.3.1",
-    "react-i18next": "^18.0.1",
-    "tailwind-merge": "^3.7.0",
-    "tailwindcss": "^4.3.5"
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.65.0",
-    "@types/bytes": "^3.1.6",
-    "@types/node": "^24.19.2",
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0",
-    "@vitejs/plugin-react": "^6.3.0",
-    "typescript": "^5.9.3",
-    "vite": "^8.3.8",
-    "vitest": "^4.1.12"
-  }
+	"name": "eml-reader",
+	"author": "Maikel",
+	"license": "MIT",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"start": "vite",
+		"check": "tsc --noEmit",
+		"build-only": "vite build",
+		"build": "pnpm run check && pnpm run build-only",
+		"preview": "vite preview",
+		"test:vitest": "vitest run",
+		"test:playwright": "playwright test",
+		"npm:lockfile": "npm install --package-lock-only --ignore-scripts",
+		"lint": "eslint .",
+		"format": "prettier --write .",
+		"format:check": "prettier --check ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Mmaaikel/eml-reader.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Mmaaikel/eml-reader/issues"
+	},
+	"homepage": "https://github.com/Mmaaikel/eml-reader#readme",
+	"dependencies": {
+		"@fontsource/barlow": "^5.3.0",
+		"@fontsource/barlow-semi-condensed": "^5.3.0",
+		"@iconify-json/mdi": "^1.2.3",
+		"@iconify/tailwind4": "^1.2.3",
+		"@nanostores/react": "^2.0.1",
+		"@tailwindcss/vite": "^4.3.5",
+		"bytes": "^3.1.2",
+		"clsx": "^2.1.1",
+		"i18next": "^27.1.2",
+		"nanostores": "^0.11.4",
+		"pdfjs-dist": "^4.10.38",
+		"postal-mime": "^4.2.1",
+		"react": "^19.3.1",
+		"react-dom": "^19.3.1",
+		"react-i18next": "^18.0.1",
+		"tailwind-merge": "^3.7.0",
+		"tailwindcss": "^4.3.5"
+	},
+	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"@playwright/test": "^1.65.0",
+		"@types/bytes": "^3.1.6",
+		"@types/node": "^24.19.2",
+		"@types/react": "^19.3.0",
+		"@types/react-dom": "^19.3.0",
+		"@vitejs/plugin-react": "^6.3.0",
+		"eslint": "^10.15.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-react-hooks": "^7.1.1",
+		"eslint-plugin-react-refresh": "^0.5.8",
+		"globals": "^17.14.0",
+		"prettier": "^3.10.1",
+		"prettier-plugin-tailwindcss": "^0.8.1",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.72.2",
+		"vite": "^8.3.8",
+		"vitest": "^4.1.12"
+	}
 }

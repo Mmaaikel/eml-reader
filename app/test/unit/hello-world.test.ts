@@ -1,6 +1,5 @@
 import { test, expect } from 'vitest'
 
-test('hello world', () =>
-{
+test('hello world', () => {
 	expect('hello world').toBe('hello world')
 })
