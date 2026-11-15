@@ -12,6 +12,12 @@ const baseProps: BaseProps = {
 		? (site.title ? `${Astro.props.title} – ${site.title}` : Astro.props.title)
 		: (site.title || undefined),
 }
+
+// Social images must be absolute URLs; only emit one when the site URL is known
+const socialImage = Astro.props.socialImage ?? site.socialImage
+baseProps.socialImage = socialImage && Astro.site
+	? new URL(String(socialImage), Astro.site).href
+	: undefined
 ---
 
 <Base {...baseProps}>

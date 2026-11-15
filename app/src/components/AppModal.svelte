@@ -5,13 +5,12 @@ import type { Locales } from '~/i18n/type.d.ts'
 import openedAttachmentIndex from '~/stores/openedAttachmentIndex'
 import emlData from '~/stores/emlData'
 import {
-	decodeBase64Text,
 	getAttachmentContentType,
 	getAttachmentFileName,
 	getInkKind,
 	getPreviewKind,
 } from '~/lib/attachments'
-import { loadEmlText } from '~/lib/loadEml'
+import { loadEmlBase64 } from '~/lib/loadEml'
 import PdfFrame from '~/components/PdfFrame.svelte'
 import ImageFrame from '~/components/ImageFrame.svelte'
 import TextFrame from '~/components/TextFrame.svelte'
@@ -62,7 +61,7 @@ async function openAttachedEmail()
 {
 	if (!attachment?.data64) return
 	returnFocus = null
-	const ok = await loadEmlText(decodeBase64Text(attachment.data64))
+	const ok = await loadEmlBase64(attachment.data64)
 	if (ok) window.scrollTo({ top: 0 })
 }
 

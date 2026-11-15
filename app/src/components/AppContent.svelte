@@ -747,7 +747,7 @@ function formatPostmarkDate(value: Date): string
 	}
 
 	.count {
-		@apply rounded-full bg-book-100 px-2 text-xs text-book-600;
+		@apply rounded-sm bg-book-100 px-1.5 text-xs text-book-600;
 	}
 
 	.copy-all {

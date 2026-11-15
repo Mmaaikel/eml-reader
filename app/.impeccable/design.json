@@ -1,0 +1,586 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-15T00:00:00Z",
+  "title": "Design System: EML Reader",
+  "extensions": {
+    "colorMeta": {
+      "book-900": {
+        "role": "neutral",
+        "displayName": "Stockbook Black",
+        "canonical": "#0f1715",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
+      },
+      "book-800": {
+        "role": "neutral",
+        "displayName": "Stockbook Leaf",
+        "canonical": "#16201e",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
+      },
+      "book-700": {
+        "role": "neutral",
+        "displayName": "Deep Leaf",
+        "canonical": "#212c29",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
+      },
+      "book-600": {
+        "role": "neutral",
+        "displayName": "Slate Leaf",
+        "canonical": "#34433f",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
+      },
+      "book-500": {
+        "role": "neutral",
+        "displayName": "Mid Slate",
+        "canonical": "#4f5f5b",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
+      },
+      "book-400": {
+        "role": "neutral",
+        "displayName": "Muted Slate",
+        "canonical": "#74827e",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
+      },
+      "book-300": {
+        "role": "neutral",
+        "displayName": "Pale Slate",
+        "canonical": "#a3afac",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
+      },
+      "book-200": {
+        "role": "neutral",
+        "displayName": "Mist",
+        "canonical": "#cfd7d4",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
+      },
+      "book-100": {
+        "role": "neutral",
+        "displayName": "Fog",
+        "canonical": "#e7ecea",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Letter White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
+      },
+      "ultramarine": {
+        "role": "primary",
+        "displayName": "Engraved Ultramarine",
+        "canonical": "#23408e",
+        "tonalRamp": [
+          "#0e1a3d",
+          "#162a5f",
+          "#23408e",
+          "#3456b0",
+          "#5a78c9",
+          "#8fa6e6",
+          "#bccbf1",
+          "#e3e9fa"
+        ]
+      },
+      "ultramarine-light": {
+        "role": "primary",
+        "displayName": "Pale Ultramarine",
+        "canonical": "#8fa6e6",
+        "tonalRamp": [
+          "#0e1a3d",
+          "#162a5f",
+          "#23408e",
+          "#3456b0",
+          "#5a78c9",
+          "#8fa6e6",
+          "#bccbf1",
+          "#e3e9fa"
+        ]
+      },
+      "carmine": {
+        "role": "secondary",
+        "displayName": "Engraved Carmine",
+        "canonical": "#c0283a",
+        "tonalRamp": [
+          "#4a0e16",
+          "#7a1824",
+          "#c0283a",
+          "#e04a5a",
+          "#ea6f7c",
+          "#f08a95",
+          "#f6bcc2",
+          "#fbe5e8"
+        ]
+      },
+      "carmine-light": {
+        "role": "secondary",
+        "displayName": "Pale Carmine",
+        "canonical": "#f08a95",
+        "tonalRamp": [
+          "#4a0e16",
+          "#7a1824",
+          "#c0283a",
+          "#e04a5a",
+          "#ea6f7c",
+          "#f08a95",
+          "#f6bcc2",
+          "#fbe5e8"
+        ]
+      },
+      "carmine-bright": {
+        "role": "secondary",
+        "displayName": "Bright Carmine",
+        "canonical": "#e04a5a",
+        "tonalRamp": [
+          "#4a0e16",
+          "#7a1824",
+          "#c0283a",
+          "#e04a5a",
+          "#ea6f7c",
+          "#f08a95",
+          "#f6bcc2",
+          "#fbe5e8"
+        ]
+      },
+      "olive": {
+        "role": "tertiary",
+        "displayName": "Engraved Olive",
+        "canonical": "#5b6a2b",
+        "tonalRamp": [
+          "#23290f",
+          "#3a441a",
+          "#5b6a2b",
+          "#76873a",
+          "#97a85a",
+          "#b9c77f",
+          "#d6dfae",
+          "#eef2dc"
+        ]
+      },
+      "olive-light": {
+        "role": "tertiary",
+        "displayName": "Pale Olive",
+        "canonical": "#b9c77f",
+        "tonalRamp": [
+          "#23290f",
+          "#3a441a",
+          "#5b6a2b",
+          "#76873a",
+          "#97a85a",
+          "#b9c77f",
+          "#d6dfae",
+          "#eef2dc"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Empty-state title on the blank sheet (36px mobile, 48px from 640px)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Email subject (26px mobile, 34px from 640px)."
+      },
+      "denomination": {
+        "displayName": "Denomination",
+        "purpose": "File size on a stamp, printed in the stamp's ink."
+      },
+      "postmark": {
+        "displayName": "Postmark",
+        "purpose": "Struck date or promise inside the postmark, uppercase (16px mobile)."
+      },
+      "postmark-ring": {
+        "displayName": "Postmark Ring",
+        "purpose": "Small uppercase ring lines of the postmark (9px mobile)."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase section headings on the dark ground (rail title; footer at 15px)."
+      },
+      "body-large": {
+        "displayName": "Body Large",
+        "purpose": "Empty-state lede, max 56ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Header fields and reading text (15px under 640px)."
+      },
+      "ui": {
+        "displayName": "UI",
+        "purpose": "Tabs, buttons, stamp names, viewer titles."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Hints, notices, warnings, footer."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Stamp kind and action line; locale options."
+      }
+    },
+    "shadows": [
+      {
+        "name": "laid-sheet",
+        "value": "0 18px 40px rgb(0 0 0 / 0.35)",
+        "purpose": "Letter sheet."
+      },
+      {
+        "name": "previewed-page",
+        "value": "0 12px 30px rgb(0 0 0 / 0.35)",
+        "purpose": "PDF pages and text sheets in the viewer."
+      },
+      {
+        "name": "mounted-stamp",
+        "value": "drop-shadow(0 2px 3px rgb(0 0 0 / 0.3))",
+        "purpose": "Stamp at rest (filter, follows perforations)."
+      },
+      {
+        "name": "mounted-stamp-lift",
+        "value": "drop-shadow(0 8px 12px rgb(0 0 0 / 0.4))",
+        "purpose": "Stamp on hover."
+      },
+      {
+        "name": "pressed-in-segment",
+        "value": "0 1px 2px rgb(15 23 21 / 0.18)",
+        "purpose": "Selected segmented option; paper button inside the remote notice."
+      },
+      {
+        "name": "modal",
+        "value": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+        "purpose": "Attachment viewer."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Anything that lands or settles: lay-down, cancel, mount, modal rise, stamp hover, chevron."
+      },
+      {
+        "name": "state-change",
+        "value": "150ms ease-out",
+        "purpose": "Colour, background, and border state transitions."
+      },
+      {
+        "name": "lay-down",
+        "value": "520ms cubic-bezier(0.16, 1, 0.3, 1); from translateY(18px) rotate(0.8deg)",
+        "purpose": "Letter sheet settles when an email opens."
+      },
+      {
+        "name": "cancel",
+        "value": "420ms cubic-bezier(0.16, 1, 0.3, 1) 180ms delay; from rotate(-14deg) scale(1.25) opacity 0",
+        "purpose": "Postmark strikes onto the letter."
+      },
+      {
+        "name": "mount-stagger",
+        "value": "420ms cubic-bezier(0.16, 1, 0.3, 1), delay 260ms + 70ms per stamp; from translateY(10px) opacity 0",
+        "purpose": "Stamps mount into the glassine strip."
+      },
+      {
+        "name": "rise",
+        "value": "260ms cubic-bezier(0.16, 1, 0.3, 1); from translateY(12px)",
+        "purpose": "Attachment viewer modal settles."
+      },
+      {
+        "name": "fade-in",
+        "value": "120-140ms ease-out",
+        "purpose": "Drag overlay and modal backdrop."
+      },
+      {
+        "name": "stamp-lift",
+        "value": "180ms cubic-bezier(0.16, 1, 0.3, 1); translateY(-2px) rotate(-0.6deg)",
+        "purpose": "Stamp hover."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation-duration and transition-duration 0.01ms",
+        "purpose": "Applied under prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "viewer-stack",
+        "value": "900px"
+      },
+      {
+        "name": "viewer-compact",
+        "value": "600px"
+      }
+    ],
+    "materials": [
+      {
+        "name": "glassine",
+        "value": "linear-gradient(rgb(214 226 232 / 0.12), rgb(214 226 232 / 0.07)); border-top 1px rgb(233 238 240 / 0.3)",
+        "purpose": "Translucent stamp mount strip on the ground."
+      },
+      {
+        "name": "perforation",
+        "value": "6px radial dot grid: radial-gradient(circle at 6px 6px, transparent 3px, #fff 3.5px) -6px -6px / 12px 12px round",
+        "purpose": "Stamp edge."
+      },
+      {
+        "name": "paper-stack",
+        "value": "back sheet book-200 rotate(-1.4deg) translate(-6px, 6px); second sheet book-300 rotate(1.2deg) translate(8px, 4px) when attachments exist",
+        "purpose": "Letter stack under the sheet."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one main action per view: choose a file, download.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6m4 18H6V4h7v5h5v11m-6-9-4 4h3v4h2v-4h3l-4-4Z\"/></svg>Choose a file</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border:0;border-radius:4px;background:var(--color-ultramarine,#23408e);color:#fff;font:600 18px/1.4 var(--font-sans,Barlow,sans-serif);cursor:pointer;transition:background-color 150ms ease-out,transform 150ms ease-out}.ds-btn-primary:hover{background:color-mix(in srgb,var(--color-ultramarine,#23408e) 85%,black)}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline: 2px solid var(--color-ultramarine-light); outline-offset: 2px;}"
+    },
+    {
+      "name": "Paper Button",
+      "kind": "button",
+      "refersTo": "button-paper",
+      "description": "White button on the dark ground, e.g. Open another file.",
+      "html": "<div class=\"ds-ground\"><button class=\"ds-btn-paper\">Open another file</button></div>",
+      "css": ".ds-ground{background:var(--color-book-800,#16201e);padding:16px}.ds-btn-paper{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:0;border-radius:4px;background:#fff;color:var(--color-book-800,#16201e);font:600 15px/1.4 var(--font-sans,Barlow,sans-serif);cursor:pointer;transition:background-color 150ms ease-out}.ds-btn-paper:hover{background:var(--color-book-100,#e7ecea)}.ds-btn-paper:focus-visible{outline: 2px solid var(--color-ultramarine-light); outline-offset: 2px;}"
+    },
+    {
+      "name": "Tabs",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "Message / Headers switch on the letter sheet.",
+      "html": "<div class=\"ds-sheet\"><div class=\"ds-tabs\" role=\"tablist\"><button role=\"tab\" aria-selected=\"true\">Message</button><button role=\"tab\" aria-selected=\"false\">Headers</button></div></div>",
+      "css": ".ds-sheet{background:#fff;padding:8px 24px 24px;border-radius:3px}.ds-tabs{display:flex;gap:4px;border-bottom:1px solid var(--color-book-200,#cfd7d4)}.ds-tabs button{padding:10px 16px;border:0;background:none;font:600 15px var(--font-sans,Barlow,sans-serif);color:var(--color-book-500,#4f5f5b);cursor:pointer;transition:color 150ms ease-out,box-shadow 150ms ease-out}.ds-tabs button:hover{color:var(--color-book-800,#16201e)}.ds-tabs button[aria-selected=true]{color:var(--color-book-800,#16201e);box-shadow:inset 0 -3px 0 var(--color-ultramarine,#23408e)}.ds-tabs button:focus-visible{outline:2px solid var(--color-ultramarine,#23408e);outline-offset:-2px}"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "chip",
+      "refersTo": "segmented",
+      "description": "Formatted / Plain text choice on paper.",
+      "html": "<div class=\"ds-seg\" role=\"radiogroup\"><button role=\"radio\" aria-checked=\"true\">Formatted</button><button role=\"radio\" aria-checked=\"false\">Plain text</button></div>",
+      "css": ".ds-seg{display:inline-flex;padding:2px;border-radius:4px;background:var(--color-book-100,#e7ecea)}.ds-seg button{padding:6px 12px;border:0;border-radius:3px;background:none;font:600 14px var(--font-sans,Barlow,sans-serif);color:var(--color-book-500,#4f5f5b);cursor:pointer;transition:background-color 150ms ease-out,color 150ms ease-out}.ds-seg button:hover{color:var(--color-book-800,#16201e)}.ds-seg button[aria-checked=true]{background:#fff;color:var(--color-book-800,#16201e);box-shadow:0 1px 2px rgb(15 23 21 / .18)}.ds-seg button:focus-visible{outline: 2px solid var(--color-ultramarine-light); outline-offset: 2px;}"
+    },
+    {
+      "name": "Language Switch",
+      "kind": "nav",
+      "refersTo": "locale-option",
+      "description": "EN / FR switch in the top bar.",
+      "html": "<div class=\"ds-ground\"><nav class=\"ds-locale\"><a class=\"current\" href=\"#\">EN</a><a href=\"#\">FR</a></nav></div>",
+      "css": ".ds-ground{background:var(--color-book-800,#16201e);padding:16px}.ds-locale{display:inline-flex;padding:2px;border:1px solid var(--color-book-600,#34433f);border-radius:4px}.ds-locale a{padding:4px 8px;border-radius:3px;font:600 13px var(--font-sans,Barlow,sans-serif);letter-spacing:.025em;color:var(--color-book-300,#a3afac);text-decoration:none;transition:color 150ms ease-out,background-color 150ms ease-out}.ds-locale a:hover{color:var(--color-book-100,#e7ecea)}.ds-locale a.current{background:var(--color-book-600,#34433f);color:#fff}.ds-locale a:focus-visible{outline: 2px solid var(--color-ultramarine-light); outline-offset: 2px;}"
+    },
+    {
+      "name": "Stamp",
+      "kind": "custom",
+      "refersTo": "stamp-face",
+      "description": "Signature: an attachment as a perforated stamp, one ink per kind, size as denomination.",
+      "html": "<ul class=\"ds-strip\"><li><button class=\"ds-stamp ds-stamp-pdf\"><span class=\"ds-face\"><span class=\"ds-ink\"></span><span class=\"ds-name\">offerte-keuken.pdf</span><span class=\"ds-value\">403 B</span><span class=\"ds-meta\">PDF · Preview</span></span></button></li><li><button class=\"ds-stamp ds-stamp-image\"><span class=\"ds-face\"><span class=\"ds-ink\"></span><span class=\"ds-name\">plattegrond.png</span><span class=\"ds-value\">100 KB</span><span class=\"ds-meta\">Image · Preview</span></span></button></li><li><button class=\"ds-stamp ds-stamp-other\" disabled><span class=\"ds-face\"><span class=\"ds-ink\"></span><span class=\"ds-name\">leeg.bin</span><span class=\"ds-value\">0 B</span><span class=\"ds-meta\">BIN · Empty file</span></span></button></li></ul>",
+      "css": ".ds-strip{list-style:none;margin:0;display:grid;gap:16px;padding:16px 14px;width:300px;background-color:var(--color-book-800,#16201e);background-image:linear-gradient(rgb(214 226 232 / .12),rgb(214 226 232 / .07));border-top:1px solid rgb(233 238 240 / .3)}.ds-stamp{--perf:6px;display:block;width:100%;text-align:left;border:0;cursor:pointer;padding:var(--perf);background:radial-gradient(circle at var(--perf) var(--perf),transparent 3px,#fff 3.5px) calc(var(--perf) * -1) calc(var(--perf) * -1)/calc(var(--perf) * 2) calc(var(--perf) * 2) round;filter:drop-shadow(0 2px 3px rgb(0 0 0 / .3));transition:transform 180ms cubic-bezier(.16,1,.3,1),filter 180ms ease-out}.ds-stamp:hover{transform:translateY(-2px) rotate(-.6deg);filter:drop-shadow(0 8px 12px rgb(0 0 0 / .4))}.ds-stamp:focus-visible{outline:2px solid var(--color-ultramarine-light,#8fa6e6);outline-offset:4px}.ds-stamp:disabled{cursor:not-allowed;--ink:var(--color-book-400,#74827e);filter:grayscale(1) drop-shadow(0 1px 2px rgb(0 0 0 / .25));opacity:.7;transform:none}.ds-stamp:disabled .ds-name{text-decoration:line-through}.ds-face{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:12px;row-gap:4px;background:#fff;padding:10px 12px 12px}.ds-ink{grid-column:span 2;height:6px;margin-bottom:6px;background:var(--ink)}.ds-name{font:600 15px/1.375 var(--font-sans,Barlow,sans-serif);color:var(--color-book-800,#16201e);overflow-wrap:anywhere}.ds-value{grid-row:span 2;align-self:start;white-space:nowrap;font:700 22px/1 var(--font-display,'Barlow Semi Condensed',sans-serif);font-variant-numeric:tabular-nums;color:var(--ink)}.ds-meta{font:400 13px var(--font-sans,Barlow,sans-serif);color:var(--color-book-500,#4f5f5b)}.ds-stamp-pdf{--ink:var(--color-carmine,#c0283a)}.ds-stamp-image{--ink:var(--color-ultramarine,#23408e)}.ds-stamp-other{--ink:var(--color-olive,#5b6a2b)}"
+    },
+    {
+      "name": "Postmark",
+      "kind": "custom",
+      "refersTo": "letter-sheet",
+      "description": "Signature: the only circle, struck onto the letter with the local-only promise and open time.",
+      "html": "<div class=\"ds-sheet\"><div class=\"ds-postmark\"><small>Opened locally</small><strong>NOV 15, 2026</strong><small>6:05 PM</small></div></div>",
+      "css": ".ds-sheet{background:#fff;padding:32px;border-radius:3px;box-shadow:0 18px 40px rgb(0 0 0 / .35);isolation:isolate}.ds-postmark{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;width:132px;height:132px;margin-left:auto;border:3px solid currentColor;border-radius:9999px;text-align:center;color:var(--color-ultramarine,#23408e);transform:rotate(-8deg);animation:ds-cancel 420ms 180ms cubic-bezier(.16,1,.3,1) backwards}.ds-postmark::after{content:'';position:absolute;left:-64px;right:-12px;top:50%;height:36px;transform:translateY(-50%);border-top:3px solid currentColor;border-bottom:3px solid currentColor;opacity:.18;z-index:-1;pointer-events:none}.ds-postmark small{font:600 11px var(--font-display,'Barlow Semi Condensed',sans-serif);letter-spacing:.12em;text-transform:uppercase}.ds-postmark strong{margin:2px 0;max-width:90%;font:700 22px/1.05 var(--font-display,'Barlow Semi Condensed',sans-serif);text-transform:uppercase}@keyframes ds-cancel{from{transform:rotate(-14deg) scale(1.25);opacity:0}}@media (prefers-reduced-motion: reduce){.ds-postmark{animation-duration:.01ms}}"
+    },
+    {
+      "name": "Remote Content Notice",
+      "kind": "card",
+      "refersTo": "remote-notice",
+      "description": "Reports that remote images are blocked, with a toggle; a protection, not a warning.",
+      "html": "<div class=\"ds-sheet\"><div class=\"ds-notice\" role=\"status\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M21 17.2 6.8 3H19a2 2 0 0 1 2 2v12.2m-.7 4.4L19.7 21H5a2 2 0 0 1-2-2V4.3l-.9-.9L3.4 2l18.4 18.4-1.5 1.2M16.8 18l-3.3-3.3-1 1.3L10 13l-3 4h9.8Z\"/></svg><p>Remote images are blocked, so the sender can't tell you opened this email.</p><button>Load remote images</button></div></div>",
+      "css": ".ds-sheet{background:#fff;padding:24px;border-radius:3px}.ds-notice{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 16px;border-radius:4px;background:var(--color-book-100,#e7ecea);color:var(--color-book-700,#212c29);font:400 14px/1.5 var(--font-sans,Barlow,sans-serif)}.ds-notice svg{flex-shrink:0;color:var(--color-book-500,#4f5f5b)}.ds-notice p{margin:0;flex:1 1 15rem;min-width:0}.ds-notice button{padding:6px 12px;border:0;border-radius:4px;background:#fff;color:var(--color-ultramarine,#23408e);font:600 14px var(--font-sans,Barlow,sans-serif);box-shadow:0 1px 2px rgb(15 23 21 / .18);cursor:pointer}.ds-notice button:hover{background:var(--color-book-200,#cfd7d4)}.ds-notice button:focus-visible{outline: 2px solid var(--color-ultramarine-light); outline-offset: 2px;}"
+    },
+    {
+      "name": "Drop Hint",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Dashed empty slot on the ground inviting another file.",
+      "html": "<div class=\"ds-ground\"><button class=\"ds-drop\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M2 12h2v5h16v-5h2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5m10 3-5.5-5.5 1.4-1.4 3.1 3V2h2v9.1l3.1-3 1.4 1.4L12 15Z\"/></svg>Drop another .eml file anywhere, or choose one</button></div>",
+      "css": ".ds-ground{background:var(--color-book-800,#16201e);padding:16px;width:300px}.ds-drop{display:flex;align-items:center;gap:8px;width:100%;padding:14px 16px;background:none;text-align:left;border:1.5px dashed var(--color-book-600,#34433f);color:var(--color-book-300,#a3afac);font:400 14px/1.5 var(--font-sans,Barlow,sans-serif);cursor:pointer;transition:color 150ms ease-out,border-color 150ms ease-out}.ds-drop:hover{color:var(--color-book-100,#e7ecea);border-color:var(--color-book-400,#74827e)}.ds-drop:focus-visible{outline: 2px solid var(--color-ultramarine-light); outline-offset: 2px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Stockbook & Postmark",
+    "overview": "The page is a collector's stockbook opened on a dark green-grey leaf. The email is a white letter laid on top of a small stack of sheets; its attachments are mounted in a glassine strip beside it as perforated stamps, each printed in one engraved ink for its kind and carrying its file size as the denomination. A single circular postmark, struck at an angle onto the letter, carries the local-only promise and the moment the file was opened. Everything else is flat, quiet, and squared to the page.\n\nDensity is calm and operational: one letter, one rail, generous margins, nothing competing with the message. The palette is one neutral ramp plus three inks, and the inks are rationed: ultramarine marks what is active, carmine marks PDFs and warnings, olive marks every other file. Physical objects (sheets, stamps, postmark) are the only things allowed to tilt or cast shadow; the page structure around them stays strictly orthogonal.\n\nThe world rejects the mail-client split pane and the white SaaS card holding a file input.",
+    "keyCharacteristics": [
+      "Dark stockbook ground built from a single 9-step green-grey ramp; no other neutrals.",
+      "White paper sheets stacked with slight rotation; one more sheet when attachments exist.",
+      "Three engraved inks, each with a fixed meaning, and light variants reserved for the dark ground.",
+      "Perforated stamps with one ink per attachment kind and size as the denomination.",
+      "One circular postmark per view, and it is the only circle.",
+      "Structural rules only at 0° and 90°.",
+      "Barlow for reading, Barlow Semi Condensed for subjects, denominations, postmark, and labels."
+    ],
+    "rules": [
+      {
+        "name": "The Single Ramp Rule",
+        "body": "The nine book steps plus paper white are the only neutrals. No Tailwind greys, no ad-hoc hex greys; tints are built by mixing a book step with transparency.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink Has A Meaning Rule",
+        "body": "Ultramarine is active, carmine is PDF or warning, olive is every other file. An ink never appears as decoration without that meaning.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ground Variant Rule",
+        "body": "Base inks carry text and icons on paper; their light or bright variants carry text and icons on the dark ground. Base inks may appear on the ground only as non-text bars (the modal's ink edge).",
+        "section": "colors"
+      },
+      {
+        "name": "The Struck Type Rule",
+        "body": "Semi Condensed is for what would be printed or stamped: subjects, display titles, denominations, the postmark, labels, the wordmark. Reading text, controls, and field values are always Barlow.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Numbers Rule",
+        "body": "Sizes, counts, and times use tabular figures.",
+        "section": "typography"
+      },
+      {
+        "name": "The Only Paper Casts Rule",
+        "body": "Sheets, stamps, and previewed pages cast shadows; bars, rails, notices, and buttons on the ground do not.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Paper Stack Rule",
+        "body": "The letter always sits on one backing sheet (book-200, rotated about -1.5°, offset -6px/6px); when the email has attachments a second sheet appears beneath it (book-300, rotated 1.2°, offset 8px/4px).",
+        "section": "elevation"
+      },
+      {
+        "name": "The One Circle Rule",
+        "body": "The postmark is the only circle in the system, and there is at most one per view. Perforation holes are part of the stamp edge, not shapes of their own.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Square Page Rule",
+        "body": "Structural rules (hairlines, borders, dividers, tab underlines, dashed slots) run only at 0° and 90°. Rotation belongs to physical objects: backing sheets, the postmark with its cancellation bars, the stamp's hover tilt, and the lay-down motion.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Dashed Means Empty Rule",
+        "body": "A dashed outline (1.5px book-600 on the ground, 2px ultramarine-light while dragging) marks a slot waiting for something: ghost stamps, the drop-another-file hint, the drag target.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "**Do** take every neutral from the nine book steps or paper white; build tints by giving a book step transparency.",
+      "**Do** give each attachment kind its fixed ink (PDF carmine, image ultramarine, other olive) on the stamp bar, denomination, and the viewer's top edge.",
+      "**Do** use the light or bright ink variant for text and icons on the dark ground, and the base ink on paper.",
+      "**Do** set subjects, display titles, denominations, labels, and the postmark in Barlow Semi Condensed; everything readable in Barlow.",
+      "**Do** keep the postmark as the single circle per view, struck at -8° with a 3px ring.",
+      "**Do** keep hairlines, borders, and underlines at 0° or 90°; let only sheets, stamps, and the postmark rotate.",
+      "**Do** use exponential ease-out for anything that lands, and honour reduced motion by removing it.",
+      "**Do** mark empty slots with a dashed book-600 outline."
+    ],
+    "donts": [
+      "**Don't** introduce a neutral outside the book ramp, or use Tailwind's default greys.",
+      "**Don't** use an ink without its meaning: no carmine accents that are not PDFs or warnings, no olive outside non-PDF, non-image files and the local/safe signal.",
+      "**Don't** add a second circle: no round avatars, pill badges, circular icon buttons, or a second postmark.",
+      "**Don't** draw rules at diagonals or put shadows on chrome; depth belongs to paper.",
+      "**Don't** give stamps rounded corners or a plain border; their edge is perforated.",
+      "**Don't** put base ultramarine, carmine, or olive text on the dark ground.",
+      "**Don't** stack an uppercase label above a heading; labels are headings of their own section."
+    ]
+  }
+}

@@ -14,6 +14,7 @@ export interface Site
 	themeColor?: BaseProps['themeColor']
 	viewportScale?: BaseProps['viewportScale']
 	favicon?: BaseProps['favicon']
+	appleTouchIcon?: BaseProps['appleTouchIcon']
 	socialTitle?: BaseProps['socialTitle']
 	socialDescription?: BaseProps['socialDescription']
 	socialImage?: BaseProps['socialImage']
@@ -21,6 +22,8 @@ export interface Site
 	socialType?: BaseProps['socialType']
 	socialTwitterCard?: BaseProps['socialTwitterCard']
 }
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
 
 export const site: Site = {
 	lang: 'en',
@@ -33,6 +36,11 @@ export const site: Site = {
 	author: 'Maikel',
 	themeColor: '#16201e',
 	viewportScale: 1,
+	favicon: `${base}favicon.svg`,
+	appleTouchIcon: `${base}apple-touch-icon.png`,
+	socialImage: `${base}og-image.png`,
+	socialType: 'website',
+	socialTwitterCard: 'summary_large_image',
 	socialTitle: true,
 	socialDescription: true,
 }

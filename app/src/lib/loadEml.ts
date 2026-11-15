@@ -1,5 +1,7 @@
 import { readEml } from 'eml-parse-js'
 
+import { decodeEmlBytes } from '~/lib/decodeEml'
+
 import openedAttachmentIndex from '~/stores/openedAttachmentIndex'
 import emlData from '~/stores/emlData'
 import emlError from '~/stores/emlError'
@@ -78,8 +80,15 @@ export function loadEmlFile(file: File): Promise<boolean>
 		}
 		reader.onload = async () =>
 		{
-			resolve(await loadEmlText(reader.result as string))
+			resolve(await loadEmlText(decodeEmlBytes(reader.result as ArrayBuffer)))
 		}
-		reader.readAsText(file)
+		reader.readAsArrayBuffer(file)
 	})
+}
+
+/** Load an email from base64 data, such as an attached .eml file. */
+export function loadEmlBase64(data64: string): Promise<boolean>
+{
+	const binary = atob(data64.replace(/\s/g, ''))
+	return loadEmlText(decodeEmlBytes(Uint8Array.from(binary, c => c.charCodeAt(0))))
 }

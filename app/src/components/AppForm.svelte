@@ -256,7 +256,7 @@ onMount(() =>
 }
 
 .postmark {
-	@apply float-right mb-3 ml-4 flex h-[7.25rem] w-[7.25rem] flex-col items-center justify-center rounded-full text-center text-ultramarine sm:mb-4 sm:ml-6 sm:h-32 sm:w-32;
+	@apply float-right mb-3 ml-4 flex h-[7.25rem] w-[7.25rem] flex-col items-center justify-center rounded-full text-center text-ultramarine sm:mb-4 sm:ml-6 sm:h-[132px] sm:w-[132px];
 	border: 3px solid currentColor;
 	transform: rotate(-8deg);
 
@@ -309,7 +309,7 @@ h1 {
 }
 
 .error {
-	@apply mt-8 flex gap-3 rounded-sm bg-[#fbeef0] p-4 text-carmine;
+	@apply mt-8 flex gap-3 rounded-sm bg-carmine-wash p-4 text-carmine;
 
 	> span {
 		@apply mt-0.5 shrink-0 text-xl;

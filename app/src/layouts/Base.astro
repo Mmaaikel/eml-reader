@@ -7,7 +7,6 @@ import { i18nFactory } from '~/i18n'
 const _ = i18nFactory(Astro.currentLocale as any)
 
 import '@fontsource/barlow/400.css'
-import '@fontsource/barlow/500.css'
 import '@fontsource/barlow/600.css'
 import '@fontsource/barlow-semi-condensed/600.css'
 import '@fontsource/barlow-semi-condensed/700.css'
@@ -29,6 +28,7 @@ export interface Props
 	themeColor?: string | undefined
 	viewportScale?: number | undefined
 	favicon?: ImageMetadata | string | undefined
+	appleTouchIcon?: string | undefined
 	socialTitle?: string | I18nKeys | true | undefined
 	socialDescription?: string | I18nKeys | true | undefined
 	socialImage?: URL | string | undefined
@@ -57,7 +57,7 @@ const socialTitle =
 
 const socialDescription =
 	typeof Astro.props.socialDescription !== 'string' && Astro.props.socialDescription !== undefined
-	? (Astro.props.socialDescription === true ? title : _(Astro.props.socialDescription))
+	? (Astro.props.socialDescription === true ? description : _(Astro.props.socialDescription))
 	: Astro.props.socialDescription
 
 const socialUrl = Astro.props.socialUrl === true ? Astro.site : Astro.props.socialUrl
@@ -96,6 +96,10 @@ const formatsToType = {
 					[typeof Astro.props.favicon === 'string' ? Astro.props.favicon.split('.').pop()! : Astro.props.favicon.format]
 				}
 			/>
+		}
+
+		{Astro.props.appleTouchIcon &&
+			<link rel="apple-touch-icon" href={Astro.props.appleTouchIcon} />
 		}
 
 		{title && (

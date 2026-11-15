@@ -98,3 +98,12 @@ test('French locale', async ({ page }) =>
 	await expect(page.getByRole('tab', { name: 'En-têtes' })).toBeVisible()
 	await expect(page.getByRole('heading', { name: 'Aucune pièce jointe' })).toBeVisible()
 })
+
+test('older emails in a legacy charset show their text', async ({ page }) =>
+{
+	await open(page, 'mixed-8bit.eml')
+	await expect(page.getByRole('heading', { level: 1, name: 'Menú van de week' })).toBeVisible()
+	await expect(page.getByText('Zoë').first()).toBeVisible()
+	await page.getByRole('radio', { name: 'Plain text' }).click()
+	await expect(page.frameLocator('iframe.body-frame').locator('pre')).toContainText('één ü — prijs € 12')
+})
