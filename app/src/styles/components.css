@@ -1,0 +1,46 @@
+/*
+ * The few things utilities can't express cleanly.
+ * Everything else is styled with Tailwind classes in the components.
+ */
+@layer components {
+	/* Perforated stamp edge: a dot grid, covered inside by the stamp face */
+	.stamp-perforation {
+		--perf: 6px;
+		padding: var(--perf);
+		background:
+			radial-gradient(circle at var(--perf) var(--perf), transparent 3px, var(--color-white) 3.5px)
+			calc(var(--perf) * -1) calc(var(--perf) * -1) / calc(var(--perf) * 2) calc(var(--perf) * 2) round;
+	}
+
+	/* Transparency checkerboard behind image previews */
+	.checkerboard {
+		background-image: repeating-conic-gradient(var(--color-book-600) 0% 25%, var(--color-book-700) 0% 50%);
+		background-size: 20px 20px;
+	}
+
+	/* pdf.js text layer: invisible, selectable text over the rendered page */
+	.pdf-text-layer {
+		position: absolute;
+		inset: 0;
+		overflow: clip;
+		line-height: 1;
+		text-align: initial;
+		text-size-adjust: none;
+		forced-color-adjust: none;
+		transform-origin: 0 0;
+		caret-color: CanvasText;
+
+		span,
+		br {
+			color: transparent;
+			position: absolute;
+			white-space: pre;
+			cursor: text;
+			transform-origin: 0% 0%;
+		}
+
+		::selection {
+			background: rgb(35 64 142 / 0.35);
+		}
+	}
+}

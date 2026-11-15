@@ -2,8 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { downloadBase64 } from '~/lib/download'
-import { ViewerNav } from './ViewerNav'
-import styles from './Viewer.module.css'
+import { ViewerButton, ViewerNav, ViewerReadout, ViewerShell } from './ViewerNav'
 
 const MIN_SCALE = 0.25
 const MAX_SCALE = 5
@@ -199,54 +198,33 @@ export function PdfViewer({ filename, data64, onClose }: {
 	const ready = numPages !== null
 
 	return (
-		<div className={styles.viewer}>
+		<ViewerShell>
 			<ViewerNav
 				filename={filename}
 				data64={data64}
 				onDownload={() => downloadBase64(data64, filename, 'application/pdf')}
 				onClose={onClose}
 			>
-				<div className={styles.group}>
-					<button className={styles.button} onClick={() => goTo(page - 1)} disabled={!ready || page <= 1}>
-						<span className="icon-[mdi--chevron-left]" />
-						<span className="sr-only">{t('viewer.previousPage')}</span>
-					</button>
-					<span className={styles.readout}>
-						<span className="sr-only">{t('viewer.page')} </span>
-						{page} / {numPages ?? '…'}
-					</span>
-					<button className={styles.button} onClick={() => goTo(page + 1)} disabled={!ready || page >= (numPages ?? 1)}>
-						<span className="icon-[mdi--chevron-right]" />
-						<span className="sr-only">{t('viewer.nextPage')}</span>
-					</button>
+				<div className="flex items-center">
+					<ViewerButton icon={<span className="icon-[mdi--chevron-left]" />} label={t('viewer.previousPage')} onClick={() => goTo(page - 1)} disabled={!ready || page <= 1} />
+					<ViewerReadout label={t('viewer.page')}>{page} / {numPages ?? '…'}</ViewerReadout>
+					<ViewerButton icon={<span className="icon-[mdi--chevron-right]" />} label={t('viewer.nextPage')} onClick={() => goTo(page + 1)} disabled={!ready || page >= (numPages ?? 1)} />
 				</div>
 
-				<div className={`${styles.group} ${styles.hideSmall}`}>
-					<button className={styles.button} onClick={() => zoomBy(1 / ZOOM_STEP)} disabled={!ready || (scale ?? 1) <= MIN_SCALE}>
-						<span className="icon-[mdi--magnify-minus]" />
-						<span className="sr-only">{t('viewer.zoomOut')}</span>
-					</button>
-					<span className={styles.readout}>
-						<span className="sr-only">{t('viewer.zoom')} </span>
-						{scale ? `${Math.round(scale * 100)}%` : '…'}
-					</span>
-					<button className={styles.button} onClick={() => zoomBy(ZOOM_STEP)} disabled={!ready || (scale ?? 1) >= MAX_SCALE}>
-						<span className="icon-[mdi--magnify-plus]" />
-						<span className="sr-only">{t('viewer.zoomIn')}</span>
-					</button>
-					<button className={styles.button} onClick={zoomFit} aria-pressed={fit} disabled={!ready}>
-						<span className="icon-[mdi--fit-to-screen]" />
-						<span className="sr-only">{t('viewer.fit')}</span>
-					</button>
+				<div className="hidden items-center md:flex">
+					<ViewerButton icon={<span className="icon-[mdi--magnify-minus]" />} label={t('viewer.zoomOut')} onClick={() => zoomBy(1 / ZOOM_STEP)} disabled={!ready || (scale ?? 1) <= MIN_SCALE} />
+					<ViewerReadout label={t('viewer.zoom')}>{scale ? `${Math.round(scale * 100)}%` : '…'}</ViewerReadout>
+					<ViewerButton icon={<span className="icon-[mdi--magnify-plus]" />} label={t('viewer.zoomIn')} onClick={() => zoomBy(ZOOM_STEP)} disabled={!ready || (scale ?? 1) >= MAX_SCALE} />
+					<ViewerButton icon={<span className="icon-[mdi--fit-to-screen]" />} label={t('viewer.fit')} onClick={zoomFit} aria-pressed={fit} disabled={!ready} />
 				</div>
 			</ViewerNav>
 
-			<div className={styles.canvasArea} ref={contentRef}>
-				<div className={styles.page}>
-					<canvas ref={canvasRef} />
-					<div className={styles.textLayer} ref={textLayerRef} />
+			<div ref={contentRef} className="relative flex min-h-0 grow overflow-auto bg-book-700 p-4">
+				<div className="relative m-auto shrink-0 bg-white shadow-page">
+					<canvas ref={canvasRef} className="block" />
+					<div ref={textLayerRef} className="pdf-text-layer" />
 				</div>
 			</div>
-		</div>
+		</ViewerShell>
 	)
 }

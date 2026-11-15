@@ -33,4 +33,45 @@
 	--color-carmine-wash: #fbeef0;
 	--color-olive: #5b6a2b;
 	--color-olive-light: #b9c77f;
+	--color-ultramarine-dark: #1e3679;
+
+	/* Glassine: the translucent strip stamps are mounted on */
+	--color-glassine: rgb(214 226 232 / 0.12);
+	--color-glassine-fade: rgb(214 226 232 / 0.07);
+	--color-glassine-edge: rgb(233 238 240 / 0.3);
+
+	/* Only paper casts shadows */
+	--shadow-sheet: 0 18px 40px rgb(0 0 0 / 0.35);
+	--shadow-page: 0 12px 30px rgb(0 0 0 / 0.35);
+	--shadow-segment: 0 1px 2px rgb(15 23 21 / 0.18);
+	--shadow-tab: inset 0 -3px 0 var(--color-ultramarine);
+
+	/* One easing for everything that moves */
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+	--animate-lay-down: lay-down 520ms var(--ease-out-expo);
+	--animate-cancel: cancel 420ms 180ms var(--ease-out-expo) backwards;
+	--animate-mount: mount 420ms var(--ease-out-expo) backwards;
+	--animate-fade-in: fade-in 140ms ease-out;
+	--animate-rise: rise 260ms var(--ease-out-expo);
+
+	@keyframes lay-down {
+		from { transform: translateY(18px) rotate(0.8deg); }
+	}
+
+	@keyframes cancel {
+		from { transform: rotate(-14deg) scale(1.25); opacity: 0; }
+	}
+
+	@keyframes mount {
+		from { transform: translateY(10px); opacity: 0; }
+	}
+
+	@keyframes fade-in {
+		from { opacity: 0; }
+	}
+
+	@keyframes rise {
+		from { transform: translateY(12px); }
+	}
 }

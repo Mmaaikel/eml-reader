@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { FILE_INPUT_ID } from '~/lib/filePicker'
 import { loadEmlFile } from '~/lib/loadEml'
 import emlLoading from '~/stores/emlLoading'
-import styles from './FileDrop.module.css'
 
 async function loadFile(file: File)
 {
@@ -94,9 +93,9 @@ export function FileDrop()
 			/>
 
 			{dragging && (
-				<div className={styles.overlay} aria-hidden="true">
-					<div className={styles.target}>
-						<span className="icon-[mdi--tray-arrow-down]" />
+				<div aria-hidden="true" className="fixed inset-0 z-[900] flex animate-fade-in items-center justify-center bg-book-900/80 p-6">
+					<div className="flex flex-col items-center gap-3 rounded border-2 border-dashed border-ultramarine-light px-12 py-10 text-center font-display text-2xl font-semibold text-white">
+						<span className="icon-[mdi--tray-arrow-down] text-5xl text-ultramarine-light" />
 						<span>{t('drop.overlay')}</span>
 					</div>
 				</div>

@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/AttachmentModal.tsx"
+        ],
+        "createdAt": "2026-11-15T18:01:21.224Z",
+        "reason": "Design system: the attachment preview carries the stamp's 4px ink edge on its top (DESIGN.md); intentional"
+      }
+    ]
+  }
+}

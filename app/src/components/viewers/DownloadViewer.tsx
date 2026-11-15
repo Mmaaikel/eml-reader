@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next'
+
 import { formatBase64Size } from '~/lib/fileSize'
 import { downloadBase64 } from '~/lib/download'
-import { ViewerNav } from './ViewerNav'
-import styles from './Viewer.module.css'
+import { Button } from '../ui/Button'
+import { ViewerNav, ViewerShell } from './ViewerNav'
 
 export function DownloadViewer({ filename, contentType, data64, openable, onOpen, onClose }: {
 	filename: string
@@ -19,31 +20,29 @@ export function DownloadViewer({ filename, contentType, data64, openable, onOpen
 	const download = () => downloadBase64(data64, filename, contentType)
 
 	return (
-		<div className={styles.viewer}>
+		<ViewerShell>
 			<ViewerNav filename={filename} onClose={onClose} />
 
-			<div className={styles.fileArea}>
-				<span className={`${styles.fileIcon} icon-[mdi--file-download-outline]`} />
-				<p className={styles.fileName}>{filename}</p>
-				<p className={styles.fileMeta}>{[extension, size].filter(Boolean).join(' · ')}</p>
-				<p className={styles.fileNote}>
-					{openable
-						? t('attachment.isEmail')
-						: t('attachment.noPreview')}
+			<div className="flex min-h-72 grow flex-col items-center justify-center gap-2 overflow-y-auto bg-book-800 px-6 py-10 text-center text-book-100">
+				<span className="icon-[mdi--file-download-outline] mb-2 text-6xl text-olive-light" />
+				<p className="max-w-full font-display text-2xl font-semibold wrap-anywhere">{filename}</p>
+				<p className="text-sm tabular-nums text-book-300">{[extension, size].filter(Boolean).join(' · ')}</p>
+				<p className="mt-2 max-w-[44ch] text-[15px] text-book-200">
+					{openable ? t('attachment.isEmail') : t('attachment.noPreview')}
 				</p>
-				<div className={styles.fileButtons}>
+				<div className="mt-5 flex flex-wrap justify-center gap-3">
 					{openable && (
-						<button className={styles.primary} onClick={onOpen}>
+						<Button onClick={onOpen}>
 							<span className="icon-[mdi--email-open-outline]" />
 							{t('attachment.openEmail')}
-						</button>
+						</Button>
 					)}
-					<button className={openable ? styles.secondary : styles.primary} onClick={download}>
+					<Button variant={openable ? 'secondary' : 'primary'} onClick={download}>
 						<span className="icon-[mdi--download]" />
 						{t('actions.downloadFile')}
-					</button>
+					</Button>
 				</div>
 			</div>
-		</div>
+		</ViewerShell>
 	)
 }

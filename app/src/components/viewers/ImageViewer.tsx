@@ -1,6 +1,5 @@
 import { downloadBase64 } from '~/lib/download'
-import { ViewerNav } from './ViewerNav'
-import styles from './Viewer.module.css'
+import { ViewerNav, ViewerShell } from './ViewerNav'
 
 export function ImageViewer({ filename, contentType, data64, onClose }: {
 	filename: string
@@ -10,16 +9,11 @@ export function ImageViewer({ filename, contentType, data64, onClose }: {
 })
 {
 	return (
-		<div className={styles.viewer}>
-			<ViewerNav
-				filename={filename}
-				data64={data64}
-				onDownload={() => downloadBase64(data64, filename, contentType)}
-				onClose={onClose}
-			/>
-			<div className={styles.imageArea}>
-				<img src={`data:${contentType};base64,${data64}`} alt={filename} />
+		<ViewerShell>
+			<ViewerNav filename={filename} data64={data64} onDownload={() => downloadBase64(data64, filename, contentType)} onClose={onClose} />
+			<div className="checkerboard relative flex min-h-64 grow items-center justify-center overflow-auto">
+				<img src={`data:${contentType};base64,${data64}`} alt={filename} className="max-h-full max-w-full object-contain" />
 			</div>
-		</div>
+		</ViewerShell>
 	)
 }

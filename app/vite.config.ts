@@ -63,11 +63,6 @@ export default defineConfig({
 		__APP_VERSION__: JSON.stringify(version),
 		__REPOSITORY_URL__: JSON.stringify(repositoryUrl),
 	},
-	css: {
-		modules: {
-			localsConvention: 'camelCaseOnly',
-		},
-	},
 	plugins: [
 		react(),
 		tailwindcss(),

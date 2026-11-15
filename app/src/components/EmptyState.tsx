@@ -1,12 +1,15 @@
 import { useStore } from '@nanostores/react'
-
 import { useTranslation } from 'react-i18next'
+
 import { openFilePicker } from '~/lib/filePicker'
 import emlData from '~/stores/emlData'
 import emlError from '~/stores/emlError'
 import emlLoading from '~/stores/emlLoading'
-import { FileDrop } from '~/components/FileDrop'
-import styles from './EmptyState.module.css'
+import { FileDrop } from './FileDrop'
+import { AttachmentRail } from './reader/AttachmentRail'
+import { Button } from './ui/Button'
+import { PaperStack } from './ui/PaperStack'
+import { Postmark } from './ui/Postmark'
 
 export function EmptyState()
 {
@@ -20,60 +23,36 @@ export function EmptyState()
 			<FileDrop />
 
 			{!data && (
-				<section className={styles.empty}>
-					<div className={styles.stack}>
-						<div className={`${styles.sheet} ${styles.sheetBack}`} />
-						<div className={`${styles.sheet} ${styles.letter}`}>
-							<div className={styles.postmark} aria-hidden="true">
-								<small>{t('postmark.openedLocally')}</small>
-								<strong>{t('postmark.noUpload')}</strong>
-								<small>{t('postmark.thisDevice')}</small>
-							</div>
+				<section className="grid w-full gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
+					<PaperStack className="min-h-[min(440px,60vh)] px-6 py-8 sm:px-11 sm:py-12">
+						<Postmark top={t('postmark.openedLocally')} main={t('postmark.noUpload')} bottom={t('postmark.thisDevice')} />
 
-							<h1>{t('empty.title')}</h1>
-							<p className={styles.lede}>
-								{t('empty.lede')}
-							</p>
+						<h1 className="max-w-[16ch] text-balance font-display text-4xl font-semibold leading-[1.1] sm:text-5xl">
+							{t('empty.title')}
+						</h1>
+						<p className="mt-5 max-w-[56ch] text-lg leading-relaxed text-book-600">{t('empty.lede')}</p>
 
-							<div className={styles.actions}>
-								<button type="button" className={styles.primary} aria-busy={loading} onClick={openFilePicker}>
-									<span className="icon-[mdi--file-upload-outline]" />
-									{loading
-										? t('actions.opening')
-										: t('actions.chooseFile')}
-								</button>
-								<span className={styles.hint}>
-									{t('empty.hint')}
-								</span>
-							</div>
+						<div className="mt-9 flex flex-col items-start gap-3">
+							<Button size="lg" aria-busy={loading} onClick={openFilePicker}>
+								<span className="icon-[mdi--file-upload-outline] text-xl" />
+								{loading ? t('actions.opening') : t('actions.chooseFile')}
+							</Button>
+							<span className="max-w-[52ch] text-sm text-book-500">{t('empty.hint')}</span>
+						</div>
 
-							{error && (
-								<div className={styles.error} role="alert">
-									<span className="icon-[mdi--alert-circle-outline]" />
-									<div>
-										<p className={styles.errorTitle}>
-											{t('errors.parseTitle')}
-										</p>
-										<p>
-											{t('errors.parseHelp')}
-										</p>
-										<p className={styles.errorDetail}>{error}</p>
-									</div>
+						{error && (
+							<div role="alert" className="mt-8 flex gap-3 rounded bg-carmine-wash p-4 text-carmine">
+								<span className="icon-[mdi--alert-circle-outline] mt-0.5 shrink-0 text-xl" />
+								<div>
+									<p className="font-semibold">{t('errors.parseTitle')}</p>
+									<p className="text-book-700">{t('errors.parseHelp')}</p>
+									<p className="mt-1 text-sm text-book-500">{error}</p>
 								</div>
-							)}
-						</div>
-					</div>
+							</div>
+						)}
+					</PaperStack>
 
-					<aside className={styles.rail} aria-hidden="true">
-						<p className={styles.railTitle}>{t('empty.railTitle')}</p>
-						<div className={styles.strip}>
-							<div className={styles.stampGhost} />
-							<div className={styles.stampGhost} />
-						</div>
-						<p className={styles.railNote}>
-							{t('empty.railNote')}
-						</p>
-					</aside>
+					<AttachmentRail.Placeholder />
 				</section>
 			)}
 		</>

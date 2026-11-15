@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, type MouseEvent } from 'react'
 import { useStore } from '@nanostores/react'
 
-import { cx } from '~/lib/cx'
+import { cn } from '~/lib/cn'
 import {
 	getAttachmentContentType,
 	getInkKind,
@@ -16,13 +16,7 @@ import { PdfViewer } from './viewers/PdfViewer'
 import { TextViewer } from './viewers/TextViewer'
 import { ErrorBoundary } from './ErrorBoundary'
 import { PreviewError } from './RenderError'
-import styles from './AttachmentModal.module.css'
-
-const inkClass = {
-	pdf: styles.inkPdf,
-	image: styles.inkImage,
-	other: styles.inkOther,
-}
+import { inkClass } from './reader/AttachmentRail'
 
 function close()
 {
@@ -93,18 +87,18 @@ export function AttachmentModal()
 		if (event.target === event.currentTarget) close()
 	}
 
-	const shape = kind === 'pdf' ? styles.fullscreen : kind === 'text' ? styles.fit : undefined
+	const shape = kind === 'pdf' ? 'grow' : kind === 'text' ? 'flex max-h-full min-h-0 flex-col' : undefined
 
 	return (
 		<div
 			ref={wrapper}
-			className={styles.backdrop}
+			className="fixed inset-0 z-[1000] flex animate-fade-in flex-col items-center justify-center gap-4 overflow-y-hidden bg-book-900/80 p-4"
 			role="dialog"
 			aria-modal="true"
 			aria-label={filename}
 			onClick={onBackdrop}
 		>
-			<div className={cx(styles.modal, shape, inkClass[getInkKind(attachment)])}>
+			<div className={cn('mx-auto w-full max-w-[calc(1000px+2rem)] animate-rise overflow-hidden rounded-[3px] border border-t-4 border-book-700 border-t-(--ink) bg-book-800 shadow-2xl', shape, inkClass[getInkKind(attachment)])}>
 				<ErrorBoundary resetKey={attachment} fallback={error => <PreviewError error={error} onClose={close} />}>
 				{kind === 'pdf' && <PdfViewer filename={filename} data64={data64} onClose={close} />}
 				{kind === 'image' && <ImageViewer filename={filename} contentType={contentType} data64={data64} onClose={close} />}

@@ -1,24 +1,24 @@
 import { useTranslation } from 'react-i18next'
+
 import { openFilePicker } from '~/lib/filePicker'
-import styles from './RenderError.module.css'
+import { Button } from './ui/Button'
 
 /** Shown in place of the reader when an email can't be displayed. */
 export function ReaderError({ error }: { error: Error })
 {
 	const { t } = useTranslation()
+
 	return (
-		<section className={styles.panel} role="alert">
-			<div className={styles.sheet}>
-				<span className={`${styles.icon} icon-[mdi--email-alert-outline]`} />
-				<h1>{t('errors.renderTitle')}</h1>
-				<p>
-					{t('errors.renderHelp')}
-				</p>
-				<button type="button" className={styles.button} onClick={openFilePicker}>
-					<span className="icon-[mdi--file-upload-outline]" />
+		<section role="alert" className="w-full">
+			<div className="relative max-w-[720px] rounded-[3px] bg-white px-6 py-10 text-book-800 shadow-sheet sm:px-11 sm:py-12">
+				<span className="icon-[mdi--email-alert-outline] text-5xl text-carmine" />
+				<h1 className="mt-3 text-balance font-display text-3xl font-semibold leading-tight sm:text-4xl">{t('errors.renderTitle')}</h1>
+				<p className="mt-4 max-w-[56ch] text-lg leading-relaxed text-book-600">{t('errors.renderHelp')}</p>
+				<Button className="mt-7" size="lg" onClick={openFilePicker}>
+					<span className="icon-[mdi--file-upload-outline] text-xl" />
 					{t('actions.openAnother')}
-				</button>
-				<p className={styles.detail}>{error.message}</p>
+				</Button>
+				<p className="mt-6 break-words text-sm text-book-500">{error.message}</p>
 			</div>
 		</section>
 	)
@@ -28,16 +28,13 @@ export function ReaderError({ error }: { error: Error })
 export function PreviewError({ error, onClose }: { error: Error, onClose: () => void })
 {
 	const { t } = useTranslation()
+
 	return (
-		<div className={styles.preview} role="alert">
-			<span className={`${styles.icon} icon-[mdi--file-alert-outline]`} />
-			<p className={styles.previewTitle}>
-				{t('errors.previewTitle')}
-			</p>
-			<p className={styles.detail}>{error.message}</p>
-			<button type="button" className={styles.button} onClick={onClose} data-autofocus>
-				{t('actions.close')}
-			</button>
+		<div role="alert" className="flex min-h-72 flex-col items-center justify-center gap-2 bg-book-800 px-6 py-10 text-center text-book-100">
+			<span className="icon-[mdi--file-alert-outline] text-5xl text-carmine-light" />
+			<p className="mt-2 font-display text-xl font-semibold">{t('errors.previewTitle')}</p>
+			<p className="mt-1 break-words text-sm text-book-300">{error.message}</p>
+			<Button className="mt-4" onClick={onClose} data-autofocus>{t('actions.close')}</Button>
 		</div>
 	)
 }
