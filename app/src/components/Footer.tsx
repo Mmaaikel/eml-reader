@@ -1,47 +1,42 @@
+import { Trans, useTranslation } from 'react-i18next'
+
 import { site } from '~/config/site'
-import { t } from '~/i18n'
 import styles from './Footer.module.css'
 
 export function Footer()
 {
+	const { t } = useTranslation()
+
 	return (
 		<footer id="footer" className={styles.footer}>
 			<section>
 				<h2>
 					<span className="icon-[mdi--shield-lock-outline]" />
-					{t({ en: 'Data privacy', fr: 'Confidentialité des données' })}
+					{t('footer.privacyTitle')}
 				</h2>
-				<p>
-					{t({
-						en: 'No data is collected or processed over the network or on any server. All data is processed locally in your browser, and stays on your own device.',
-						fr: 'Aucune donnée n\'est collectée ou traitée sur le réseau ou sur un serveur. Toutes les données sont traitées localement dans votre navigateur et restent sur votre propre appareil.',
-					})}
-				</p>
-				<p>
-					{t({
-						en: 'This website uses no cookies and does no tracking.',
-						fr: 'Ce site web n\'utilise pas de cookies et ne fait pas de suivi.',
-					})}
-				</p>
+				<p>{t('footer.privacy')}</p>
+				<p>{t('footer.cookies')}</p>
 			</section>
 
 			<section>
 				<h2>
 					<span className="icon-[mdi--code-braces]" />
-					{t({ en: 'Open source project', fr: 'Projet open source' })}
+					{t('footer.sourceTitle')}
 				</h2>
 				<p>
-					{t({ en: 'See the source code on', fr: 'Voir le code source sur' })}{' '}
-					<a href={__REPOSITORY_URL__}>GitHub</a>
+					<Trans i18nKey="footer.source" components={{ repo: <a href={__REPOSITORY_URL__} /> }} />
 					<span className={`${styles.version} tabular`}>v. {__APP_VERSION__}</span>
 				</p>
 				<p>
-					{t({ en: 'Made by', fr: 'Créé par' })}{' '}
-					<a href={site.authorUrl}>{site.author}</a>,{' '}
-					{t({ en: 'based on the original by', fr: 'd\'après l\'original de' })}{' '}
-					<a href={site.originalUrl}>{site.originalAuthor}</a>.{' '}
-					{t({ en: 'Built with', fr: 'Construit avec' })}{' '}
-					<a href="https://react.dev/">React</a>.
+					<Trans
+						i18nKey="footer.credits"
+						values={{ author: site.author, original: site.originalAuthor }}
+						components={{
+							author: <a href={site.authorUrl} />,
+							original: <a href={site.originalUrl} />,
+							react: <a href="https://react.dev/" />,
+						}}
+					/>
 				</p>
 			</section>
 		</footer>

@@ -4,7 +4,6 @@ import { useStore } from '@nanostores/react'
 import { cx } from '~/lib/cx'
 import {
 	getAttachmentContentType,
-	getAttachmentFileName,
 	getInkKind,
 	getPreviewKind,
 } from '~/lib/attachments'
@@ -15,6 +14,8 @@ import { DownloadViewer } from './viewers/DownloadViewer'
 import { ImageViewer } from './viewers/ImageViewer'
 import { PdfViewer } from './viewers/PdfViewer'
 import { TextViewer } from './viewers/TextViewer'
+import { ErrorBoundary } from './ErrorBoundary'
+import { PreviewError } from './RenderError'
 import styles from './AttachmentModal.module.css'
 
 const inkClass = {
@@ -35,7 +36,7 @@ export function AttachmentModal()
 	const wrapper = useRef<HTMLDivElement>(null)
 	const returnFocus = useRef<HTMLElement | null>(null)
 
-	const attachment = index !== null ? data?.attachments?.[index] ?? null : null
+	const attachment = index !== null ? data?.attachments[index] ?? null : null
 	const open = attachment !== null
 
 	// Move focus into the dialog when it opens, and back to the stamp when it closes
@@ -76,9 +77,9 @@ export function AttachmentModal()
 	if (!attachment) return null
 
 	const kind = getPreviewKind(attachment)
-	const filename = getAttachmentFileName(attachment) ?? 'file'
-	const contentType = getAttachmentContentType(attachment) ?? undefined
-	const data64: string | undefined = attachment.data64
+	const filename = attachment.filename ?? 'file'
+	const contentType = getAttachmentContentType(attachment)
+	const data64 = attachment.data64
 
 	async function openAttachedEmail()
 	{
@@ -104,6 +105,7 @@ export function AttachmentModal()
 			onClick={onBackdrop}
 		>
 			<div className={cx(styles.modal, shape, inkClass[getInkKind(attachment)])}>
+				<ErrorBoundary resetKey={attachment} fallback={error => <PreviewError error={error} onClose={close} />}>
 				{kind === 'pdf' && <PdfViewer filename={filename} data64={data64} onClose={close} />}
 				{kind === 'image' && <ImageViewer filename={filename} contentType={contentType} data64={data64} onClose={close} />}
 				{kind === 'text' && <TextViewer filename={filename} contentType={contentType} data64={data64} onClose={close} />}
@@ -117,6 +119,7 @@ export function AttachmentModal()
 						onClose={close}
 					/>
 				)}
+				</ErrorBoundary>
 			</div>
 		</div>
 	)

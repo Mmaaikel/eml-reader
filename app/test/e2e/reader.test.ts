@@ -91,14 +91,6 @@ test('an attached email opens in the reader', async ({ page }) =>
 	await expect(page.getByRole('heading', { level: 1, name: 'Supplier confirmation: oak worktop' })).toBeVisible()
 })
 
-test('French locale', async ({ page }) =>
-{
-	await page.goto('/fr/')
-	await open(page, 'plain.eml')
-	await expect(page.getByRole('tab', { name: 'En-têtes' })).toBeVisible()
-	await expect(page.getByRole('heading', { name: 'Aucune pièce jointe' })).toBeVisible()
-})
-
 test('older emails in a legacy charset show their text', async ({ page }) =>
 {
 	await open(page, 'mixed-8bit.eml')

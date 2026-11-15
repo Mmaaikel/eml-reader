@@ -32,13 +32,14 @@
     "@nanostores/react": "^2.0.1",
     "@tailwindcss/vite": "^4.3.5",
     "bytes": "^3.1.2",
-    "eml-parse-js": "^1.1.15",
+    "i18next": "^27.1.2",
     "nanostores": "^0.11.4",
     "pdfjs-dist": "^4.10.38",
+    "postal-mime": "^4.2.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "tailwindcss": "^4.3.5",
-    "vite-plugin-node-polyfills": "^0.28.0"
+    "react-i18next": "^18.0.1",
+    "tailwindcss": "^4.3.5"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",

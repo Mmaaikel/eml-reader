@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ChangeEvent } from 'react'
 
-import { t } from '~/i18n'
+import { useTranslation } from 'react-i18next'
 import { FILE_INPUT_ID } from '~/lib/filePicker'
 import { loadEmlFile } from '~/lib/loadEml'
 import emlLoading from '~/stores/emlLoading'
@@ -22,6 +22,7 @@ function hasFiles(event: DragEvent): boolean
 /** The hidden file input plus drop-anywhere handling for the whole page. */
 export function FileDrop()
 {
+	const { t } = useTranslation()
 	const [dragging, setDragging] = useState(false)
 	const depth = useRef(0)
 
@@ -96,7 +97,7 @@ export function FileDrop()
 				<div className={styles.overlay} aria-hidden="true">
 					<div className={styles.target}>
 						<span className="icon-[mdi--tray-arrow-down]" />
-						<span>{t({ en: 'Drop to open this email', fr: 'Déposez pour ouvrir cet e-mail' })}</span>
+						<span>{t('drop.overlay')}</span>
 					</div>
 				</div>
 			)}

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { t } from '~/i18n'
+import { useTranslation } from 'react-i18next'
 import { formatBase64Size } from '~/lib/fileSize'
 import styles from './Viewer.module.css'
 
@@ -13,6 +13,7 @@ export function ViewerNav({ filename, data64, onDownload, onClose, children }: {
 	children?: ReactNode
 })
 {
+	const { t } = useTranslation()
 	return (
 		<div className={styles.nav}>
 			<p className={styles.title}>{filename}</p>
@@ -23,13 +24,13 @@ export function ViewerNav({ filename, data64, onDownload, onClose, children }: {
 						<span className={styles.size}>{formatBase64Size(data64)}</span>
 						<button className={styles.button} onClick={onDownload}>
 							<span className="icon-[mdi--download]" />
-							<span className="sr-only">{t({ en: 'Download', fr: 'Télécharger' })}</span>
+							<span className="sr-only">{t('actions.download')}</span>
 						</button>
 					</>
 				)}
 				<button className={styles.button} onClick={onClose} data-autofocus>
 					<span className="icon-[mdi--close]" />
-					<span className="sr-only">{t({ en: 'Close', fr: 'Fermer' })}</span>
+					<span className="sr-only">{t('actions.close')}</span>
 				</button>
 			</div>
 		</div>

@@ -1,21 +1,22 @@
 import { useEffect } from 'react'
+import { useStore } from '@nanostores/react'
 
-import { t, localeUrl, locale } from '~/i18n'
+import { useTranslation } from 'react-i18next'
 import { AttachmentModal } from '~/components/AttachmentModal'
+import { ErrorBoundary } from '~/components/ErrorBoundary'
+import { ReaderError } from '~/components/RenderError'
 import { EmptyState } from '~/components/EmptyState'
 import { Footer } from '~/components/Footer'
-import { LocaleSwitch } from '~/components/LocaleSwitch'
 import { OpenFileButton } from '~/components/OpenFileButton'
 import { Reader } from '~/components/Reader'
+import emlData from '~/stores/emlData'
 import styles from './App.module.css'
-
-const promise = {
-	en: 'Stays on this device. Nothing is uploaded.',
-	fr: 'Reste sur cet appareil. Rien n\'est envoyé.',
-}
 
 export function App()
 {
+	const { t } = useTranslation()
+	const data = useStore(emlData)
+
 	useEffect(() =>
 	{
 		// Lets tests (and anything else) know the app is interactive
@@ -28,7 +29,7 @@ export function App()
 
 			<div className={styles.page}>
 				<header className={styles.topbar}>
-					<a href={localeUrl(locale)} className={styles.wordmark}>
+					<a href={import.meta.env.BASE_URL} className={styles.wordmark}>
 						<span className={styles.mark} aria-hidden="true">
 							<span className="icon-[mdi--email-open-outline]" />
 						</span>
@@ -37,21 +38,22 @@ export function App()
 					<div className={styles.topbarEnd}>
 						<p className={styles.promise}>
 							<span className="icon-[mdi--shield-lock-outline]" />
-							{t(promise)}
+							{t('app.promise')}
 						</p>
-						<LocaleSwitch />
 						<OpenFileButton />
 					</div>
 				</header>
 
 				<p className={styles.promiseMobile}>
 					<span className="icon-[mdi--shield-lock-outline]" />
-					{t(promise)}
+					{t('app.promise')}
 				</p>
 
 				<main className={styles.stage}>
 					<EmptyState />
-					<Reader />
+					<ErrorBoundary resetKey={data} fallback={error => <ReaderError error={error} />}>
+						<Reader />
+					</ErrorBoundary>
 				</main>
 
 				<Footer />

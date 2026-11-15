@@ -1,4 +1,4 @@
-import { t } from '~/i18n'
+import { useTranslation } from 'react-i18next'
 import { formatBase64Size } from '~/lib/fileSize'
 import { downloadBase64 } from '~/lib/download'
 import { ViewerNav } from './ViewerNav'
@@ -13,6 +13,7 @@ export function DownloadViewer({ filename, contentType, data64, openable, onOpen
 	onClose: () => void
 })
 {
+	const { t } = useTranslation()
 	const extension = /\.([a-z0-9]{1,5})$/i.exec(filename)?.[1]?.toUpperCase() ?? ''
 	const size = formatBase64Size(data64)
 	const download = () => downloadBase64(data64, filename, contentType)
@@ -27,25 +28,19 @@ export function DownloadViewer({ filename, contentType, data64, openable, onOpen
 				<p className={styles.fileMeta}>{[extension, size].filter(Boolean).join(' · ')}</p>
 				<p className={styles.fileNote}>
 					{openable
-						? t({
-							en: 'This attachment is an email itself. Open it here, or download it.',
-							fr: 'Cette pièce jointe est elle-même un e-mail. Ouvrez-la ici ou téléchargez-la.',
-						})
-						: t({
-							en: 'This file type can\'t be previewed here. Download it to open it with another app.',
-							fr: 'Ce type de fichier ne peut pas être prévisualisé ici. Téléchargez-le pour l\'ouvrir avec une autre application.',
-						})}
+						? t('attachment.isEmail')
+						: t('attachment.noPreview')}
 				</p>
 				<div className={styles.fileButtons}>
 					{openable && (
 						<button className={styles.primary} onClick={onOpen}>
 							<span className="icon-[mdi--email-open-outline]" />
-							{t({ en: 'Open this email', fr: 'Ouvrir cet e-mail' })}
+							{t('attachment.openEmail')}
 						</button>
 					)}
 					<button className={openable ? styles.secondary : styles.primary} onClick={download}>
 						<span className="icon-[mdi--download]" />
-						{t({ en: 'Download file', fr: 'Télécharger le fichier' })}
+						{t('actions.downloadFile')}
 					</button>
 				</div>
 			</div>

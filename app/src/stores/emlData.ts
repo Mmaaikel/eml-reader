@@ -1,5 +1,7 @@
 import { atom } from 'nanostores'
 
-const emlData = atom<Record<string, any> | null>(null)
+import type { Email } from '~/lib/email'
+
+const emlData = atom<Email | null>(null)
 
 export default emlData

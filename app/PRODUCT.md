@@ -27,11 +27,11 @@ Everything happens locally in the browser. No file is uploaded, nothing is proce
 
 ## Capabilities and Constraints
 
-- Stack: React 19 + Vite (two static HTML entries: / for English, /fr/ for French), Tailwind CSS 4 with CSS modules, Iconify (mdi) icons, nanostores. Static site (GitHub Pages / nginx Docker image).
-- Parsing via `eml-parse-js`; PDF preview via `pdfjs-dist` (page navigation, zoom, fit to screen, selectable text).
+- Stack: React 19 + Vite (single static page), Tailwind CSS 4, Iconify (mdi) icons, nanostores, i18next (react-i18next) for UI strings, postal-mime for parsing. Static site (GitHub Pages / nginx Docker image).
+- Parsing via `postal-mime`; PDF preview via `pdfjs-dist` (page navigation, zoom, fit to screen, selectable text).
 - Views: email (header fields + HTML/plain-text toggle when both exist), headers list, attachments list, attachment modal.
 - Inline `cid:` images are resolved from attachments into the HTML body.
-- Locales: English (default) and French; every user-facing string must exist in both.
+- Language: English only. Every user-facing string lives in `src/i18n/en.ts` (i18next), so another language can be added as a second resource file.
 - This is the owner's fork; name and branding may change. Current name: "EML Reader".
 
 ## Brand Commitments

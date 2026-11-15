@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { t } from '~/i18n'
+import { useTranslation } from 'react-i18next'
 import { downloadBase64 } from '~/lib/download'
 import { ViewerNav } from './ViewerNav'
 import styles from './Viewer.module.css'
@@ -15,6 +15,7 @@ export function PdfViewer({ filename, data64, onClose }: {
 	onClose: () => void
 })
 {
+	const { t } = useTranslation()
 	const contentRef = useRef<HTMLDivElement>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 	const textLayerRef = useRef<HTMLDivElement>(null)
@@ -208,34 +209,34 @@ export function PdfViewer({ filename, data64, onClose }: {
 				<div className={styles.group}>
 					<button className={styles.button} onClick={() => goTo(page - 1)} disabled={!ready || page <= 1}>
 						<span className="icon-[mdi--chevron-left]" />
-						<span className="sr-only">{t({ en: 'Previous page', fr: 'Page précédente' })}</span>
+						<span className="sr-only">{t('viewer.previousPage')}</span>
 					</button>
 					<span className={styles.readout}>
-						<span className="sr-only">Page </span>
+						<span className="sr-only">{t('viewer.page')} </span>
 						{page} / {numPages ?? '…'}
 					</span>
 					<button className={styles.button} onClick={() => goTo(page + 1)} disabled={!ready || page >= (numPages ?? 1)}>
 						<span className="icon-[mdi--chevron-right]" />
-						<span className="sr-only">{t({ en: 'Next page', fr: 'Page suivante' })}</span>
+						<span className="sr-only">{t('viewer.nextPage')}</span>
 					</button>
 				</div>
 
 				<div className={`${styles.group} ${styles.hideSmall}`}>
 					<button className={styles.button} onClick={() => zoomBy(1 / ZOOM_STEP)} disabled={!ready || (scale ?? 1) <= MIN_SCALE}>
 						<span className="icon-[mdi--magnify-minus]" />
-						<span className="sr-only">{t({ en: 'Zoom out', fr: 'Zoom arrière' })}</span>
+						<span className="sr-only">{t('viewer.zoomOut')}</span>
 					</button>
 					<span className={styles.readout}>
-						<span className="sr-only">Zoom </span>
+						<span className="sr-only">{t('viewer.zoom')} </span>
 						{scale ? `${Math.round(scale * 100)}%` : '…'}
 					</span>
 					<button className={styles.button} onClick={() => zoomBy(ZOOM_STEP)} disabled={!ready || (scale ?? 1) >= MAX_SCALE}>
 						<span className="icon-[mdi--magnify-plus]" />
-						<span className="sr-only">{t({ en: 'Zoom in', fr: 'Zoom avant' })}</span>
+						<span className="sr-only">{t('viewer.zoomIn')}</span>
 					</button>
 					<button className={styles.button} onClick={zoomFit} aria-pressed={fit} disabled={!ready}>
 						<span className="icon-[mdi--fit-to-screen]" />
-						<span className="sr-only">{t({ en: 'Fit to screen', fr: 'Ajuster à l\'écran' })}</span>
+						<span className="sr-only">{t('viewer.fit')}</span>
 					</button>
 				</div>
 			</ViewerNav>
