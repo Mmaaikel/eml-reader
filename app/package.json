@@ -6,14 +6,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "check": "astro check --tsconfig tsconfig.prod.json",
-    "build-only": "astro build",
+    "dev": "vite",
+    "start": "vite",
+    "check": "tsc --noEmit",
+    "build-only": "vite build",
     "build": "pnpm run check && pnpm run build-only",
-    "astro": "astro",
-    "astro:sync": "astro sync",
-    "astro:preview": "astro preview",
+    "preview": "vite preview",
     "test:vitest": "vitest run",
     "test:playwright": "playwright test",
     "npm:lockfile": "npm install --package-lock-only --ignore-scripts"
@@ -27,22 +25,18 @@
   },
   "homepage": "https://github.com/Mmaaikel/eml-reader#readme",
   "dependencies": {
-    "@astrojs/check": "^0.9.12",
-    "@astrojs/svelte": "^9.1.5",
-    "@astrojs/tailwind": "^5.1.5",
     "@fontsource/barlow": "^5.3.0",
     "@fontsource/barlow-semi-condensed": "^5.3.0",
     "@iconify-json/mdi": "^1.2.3",
-    "@iconify-json/twemoji": "^1.2.5",
     "@iconify/tailwind4": "^1.2.3",
+    "@nanostores/react": "^2.0.1",
     "@tailwindcss/vite": "^4.3.5",
-    "astro": "^7.4.11",
     "bytes": "^3.1.2",
     "eml-parse-js": "^1.1.15",
     "nanostores": "^0.11.4",
     "pdfjs-dist": "^4.10.38",
-    "sass": "^1.108.2",
-    "svelte": "^5.57.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "tailwindcss": "^4.3.5",
     "vite-plugin-node-polyfills": "^0.28.0"
   },
@@ -50,11 +44,11 @@
     "@playwright/test": "^1.65.0",
     "@types/bytes": "^3.1.6",
     "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
     "typescript": "^5.9.3",
+    "vite": "^8.3.8",
     "vitest": "^4.1.12"
-  },
-  "imports": {
-    "#global.css": "./src/styles/global.css",
-    "#tailwind.css": "./src/styles/tailwind.css"
   }
 }

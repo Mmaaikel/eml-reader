@@ -1,0 +1,22 @@
+@reference "../styles/tailwind.css";
+
+.switch {
+	@apply flex items-center rounded border border-book-600 p-0.5;
+}
+
+.locale {
+	@apply rounded-[3px] px-2 py-1 text-[13px] font-semibold tracking-wide text-book-300 no-underline;
+	transition: color 150ms ease-out, background-color 150ms ease-out;
+
+	&:hover {
+		@apply text-book-100;
+	}
+}
+
+.current {
+	@apply bg-book-600 text-white;
+
+	&:hover {
+		@apply text-white;
+	}
+}

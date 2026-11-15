@@ -61,9 +61,6 @@ RUN --mount=type=cache,id=npm,target=/root/.npm \
 
 FROM node_build_base AS deps_base
 
-# Create Astro runtime directory
-RUN mkdir -p ./.astro
-
 # Copy build configuration
 COPY --link ./package.json ./pnpm-lock.yaml ./pnpm-workspace.yaml ./
 
@@ -141,7 +138,6 @@ CMD []
 FROM alpine_base AS source_dev
 
 # Copy dev dependencies
-COPY --from=deps_dev --link /app/.astro/ ./.astro/
 COPY --from=deps_dev --link /app/node_modules/ ./node_modules/
 
 # Copy source code
@@ -169,13 +165,13 @@ ARG GITHUB_SHA=''
 ENV GITHUB_SHA=${GITHUB_SHA}
 ARG VERSION_TAG=''
 ENV VERSION_TAG=${VERSION_TAG}
-# : Astro configuration
-ARG ASTRO_SITE_URL=''
-ENV ASTRO_SITE_URL=${ASTRO_SITE_URL}
-ARG ASTRO_BASE_PATH=''
-ENV ASTRO_BASE_PATH=${ASTRO_BASE_PATH}
-ARG ASTRO_ASSETS_PREFIX=''
-ENV ASTRO_ASSETS_PREFIX=${ASTRO_ASSETS_PREFIX}
+# : Site configuration
+ARG SITE_URL=''
+ENV SITE_URL=${SITE_URL}
+ARG BASE_PATH=''
+ENV BASE_PATH=${BASE_PATH}
+ARG ASSETS_PREFIX=''
+ENV ASSETS_PREFIX=${ASSETS_PREFIX}
 # : Application configuration
 # Add env vars for your application here.
 
@@ -265,7 +261,6 @@ FROM test_base AS test_e2e
 ARG UID
 
 # Copy dev dependencies
-COPY --from=source_dev --link --chown="${UID}:0" /app/.astro/ ./.astro/
 COPY --from=source_dev --link --chown="${UID}:0" /app/node_modules/ ./node_modules/
 
 # Install Playwright dependencies

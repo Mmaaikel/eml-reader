@@ -1,0 +1,34 @@
+@reference "../styles/tailwind.css";
+
+.footer {
+	@apply mt-auto grid gap-8 border-t border-book-700 py-10 text-sm leading-relaxed text-book-300 sm:grid-cols-2 sm:gap-16;
+
+	h2 {
+		@apply mb-2 flex items-center gap-2 font-display text-[15px] font-semibold uppercase tracking-[0.1em] text-book-100;
+
+		span {
+			@apply text-base text-book-300;
+		}
+	}
+
+	p {
+		@apply max-w-[60ch];
+
+		+ p {
+			@apply mt-1.5;
+		}
+	}
+
+	a {
+		@apply text-book-100 underline decoration-book-500 decoration-1;
+		transition: text-decoration-color 150ms ease-out;
+
+		&:hover {
+			@apply decoration-book-100;
+		}
+	}
+}
+
+.version {
+	@apply ml-1 text-book-400;
+}

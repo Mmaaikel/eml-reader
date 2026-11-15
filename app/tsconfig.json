@@ -1,30 +1,21 @@
 {
-  "extends": "astro/tsconfigs/strictest",
-  "compilerOptions": {
-    "rootDir": ".",
-
-    "paths": {
-      "//*": [ "./*" ],
-      "~/*": [ "./src/*" ]
-		},
-
-    "outDir": "./dist",
-
-    "resolveJsonModule": true,
-    "noUnusedLocals": false,
-
-    "types": [
-      "node",
-      "vitest/globals"
-    ]
-  },
-  "include": [
-    "${configDir}/.astro/types.d.ts",
-    "${configDir}/src",
-    "${configDir}/*.ts"
-  ],
-  "exclude": [
-    "${configDir}/dist",
-    "${configDir}/node_modules"
-  ]
+	"compilerOptions": {
+		"target": "ES2022",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"jsx": "react-jsx",
+		"strict": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"verbatimModuleSyntax": false,
+		"allowImportingTsExtensions": true,
+		"types": ["vite/client", "node"],
+		"paths": {
+			"~/*": ["./src/*"]
+		}
+	},
+	"include": ["src", "test", "vite.config.ts", "vitest.config.ts", "playwright.config.ts"]
 }

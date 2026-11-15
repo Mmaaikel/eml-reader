@@ -13,10 +13,10 @@ x-common:
     GITHUB_REPOSITORY_URL: ${GITHUB_REPOSITORY_URL:-}
     GITHUB_SHA: ${GITHUB_SHA:-}
     VERSION_TAG: ${VERSION_TAG:-}
-    # Astro
-    ASTRO_SITE_URL: ${ASTRO_SITE_URL:-}
-    ASTRO_BASE_PATH: ${ASTRO_BASE_PATH:-}
-    ASTRO_ASSETS_PREFIX: ${ASTRO_ASSETS_PREFIX:-}
+    # Site
+    SITE_URL: ${SITE_URL:-}
+    BASE_PATH: ${BASE_PATH:-}
+    ASSETS_PREFIX: ${ASSETS_PREFIX:-}
     # Application
     # (Add env vars for your application here.)
 

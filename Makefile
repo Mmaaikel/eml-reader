@@ -4,7 +4,7 @@ help:
 	@printf '%s\n' \
 		'install	 Install dependencies' \
 		'update      Update dependencies' \
-		'check       Run Astro and TypeScript checks' \
+		'check       Run TypeScript checks' \
 		'lint-docker Lint Dockerfiles' \
 		'test-unit   Run unit tests' \
 		'test-e2e    Build app and run browser tests' \

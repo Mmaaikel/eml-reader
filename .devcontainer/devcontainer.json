@@ -11,9 +11,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "astro-build.astro-vscode",
         "mhutchie.git-graph",
-        "svelte.svelte-vscode"
+        "bradlc.vscode-tailwindcss"
       ]
     }
   }

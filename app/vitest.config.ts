@@ -1,21 +1,9 @@
-/// <reference types="vitest/config" />
-import { getViteConfig } from 'astro/config'
+import { defineConfig, mergeConfig } from 'vitest/config'
 
-export default getViteConfig({
+import viteConfig from './vite.config'
+
+export default mergeConfig(viteConfig, defineConfig({
 	test: {
-		include: [
-			// Default config
-			'**/*.{test,spec}.?(c|m)[jt]s?(x)',
-		],
-		exclude: [
-			// Default config
-			'**/node_modules/**',
-			'**/dist/**',
-			'**/cypress/**',
-			'**/.{idea,git,cache,output,temp}/**',
-			'**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*',
-			// Custom config
-			'**/test/e2e/**',
-		],
+		include: ['test/unit/**/*.test.ts'],
 	},
-})
+}))

@@ -12,7 +12,7 @@ export default defineConfig({
   reporter: process.env.CI ? 'github' : 'list', // See https://playwright.dev/docs/test-reporters#github-actions-annotations.
 
   use: {
-    baseURL: 'http://localhost:4321',
+    baseURL: 'http://localhost:4173',
     trace: 'on-first-retry', // See https://playwright.dev/docs/trace-viewer.
   },
 
@@ -26,8 +26,8 @@ export default defineConfig({
 
   // Start the local server before starting tests
   webServer: {
-    command: 'pnpm run astro:preview',
-    url: 'http://localhost:4321',
+    command: 'pnpm run build-only && pnpm run preview --port 4173 --strictPort',
+    url: 'http://localhost:4173',
     reuseExistingServer: !process.env.CI,
   },
 });

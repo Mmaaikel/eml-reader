@@ -1,0 +1,120 @@
+@reference "../styles/tailwind.css";
+
+.empty {
+	@apply grid w-full gap-10 lg:grid-cols-[minmax(0,1fr)_300px];
+}
+
+.stack {
+	@apply relative isolate;
+}
+
+.sheet {
+	@apply rounded-[3px] bg-white;
+}
+
+.sheet-back {
+	@apply absolute inset-0 -z-10 bg-book-200;
+	transform: rotate(-1.6deg) translate(-6px, 6px);
+}
+
+.letter {
+	@apply relative px-6 py-8 text-book-800 sm:px-11 sm:py-12;
+	box-shadow: 0 18px 40px rgb(0 0 0 / 0.35);
+	min-height: min(440px, 60vh);
+}
+
+.postmark {
+	@apply float-right mb-3 ml-4 flex h-[7.25rem] w-[7.25rem] flex-col items-center justify-center rounded-full text-center text-ultramarine sm:mb-4 sm:ml-6 sm:h-[132px] sm:w-[132px];
+	border: 3px solid currentColor;
+	transform: rotate(-8deg);
+
+	small {
+		@apply font-display text-[9px] font-semibold uppercase tracking-[0.08em] sm:text-[11px] sm:tracking-[0.12em];
+	}
+
+	strong {
+		@apply my-1 font-display text-base font-bold uppercase leading-none sm:text-xl;
+	}
+}
+
+.letter h1 {
+	@apply max-w-[16ch] font-display text-4xl font-semibold leading-[1.1] text-book-800 sm:text-5xl;
+	text-wrap: balance;
+}
+
+.lede {
+	@apply mt-5 max-w-[56ch] text-lg leading-relaxed text-book-600;
+}
+
+.actions {
+	@apply mt-9 flex flex-col items-start gap-3;
+}
+
+.primary {
+	@apply inline-flex cursor-pointer items-center gap-2 rounded bg-ultramarine px-5 py-3 text-lg font-semibold text-white;
+	transition: background-color 150ms ease-out, transform 150ms ease-out;
+
+	&:hover {
+		background: color-mix(in srgb, var(--color-ultramarine) 85%, black);
+	}
+
+	&:active {
+		transform: translateY(1px);
+	}
+
+	&[aria-busy="true"] {
+		@apply cursor-progress opacity-80;
+	}
+
+	span {
+		@apply text-xl;
+	}
+}
+
+
+.hint {
+	@apply max-w-[52ch] text-sm text-book-500;
+}
+
+.error {
+	@apply mt-8 flex gap-3 rounded-sm bg-carmine-wash p-4 text-carmine;
+
+	> span {
+		@apply mt-0.5 shrink-0 text-xl;
+	}
+
+	p {
+		@apply text-book-700;
+	}
+
+	.error-title {
+		@apply font-semibold text-carmine;
+	}
+
+	.error-detail {
+		@apply mt-1 text-sm text-book-500;
+	}
+}
+
+.rail {
+	@apply hidden lg:block;
+}
+
+.rail-title {
+	@apply mb-3 font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-book-300;
+}
+
+.strip {
+	@apply flex flex-col gap-4 px-3.5 py-4;
+	background: linear-gradient(rgb(214 226 232 / 0.12), rgb(214 226 232 / 0.07));
+	border-top: 1px solid rgb(233 238 240 / 0.22);
+}
+
+.stamp-ghost {
+	@apply h-[92px];
+	border: 1.5px dashed var(--color-book-600);
+}
+
+.rail-note {
+	@apply mt-4 text-sm leading-relaxed text-book-300;
+}

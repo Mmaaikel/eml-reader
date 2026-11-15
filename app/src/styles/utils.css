@@ -8,6 +8,10 @@
 		scrollbar-color: var(--color-book-600) var(--color-book-900);
 	}
 
+	body {
+		min-height: 100vh;
+	}
+
 	::selection {
 		background: var(--color-ultramarine);
 		color: #fff;

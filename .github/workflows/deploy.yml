@@ -2,9 +2,9 @@ name: Deploy CD
 
 # GitHub variables:
 # - VERSION_TAG
-# - ASTRO_SITE_URL
-# - ASTRO_BASE_PATH
-# - ASTRO_ASSETS_PREFIX
+# - SITE_URL
+# - BASE_PATH
+# - ASSETS_PREFIX
 
 # GitHub secrets:
 # - CONFIG_PROD (optional)
@@ -87,10 +87,10 @@ jobs:
           load_var 'GITHUB_SHA' 'false' "${GITHUB_SHA}"
           load_var 'VERSION_TAG' 'true' "${GITHUB_REF_NAME}"
 
-          # Astro
-          load_var 'ASTRO_SITE_URL' 'true'
-          load_var 'ASTRO_BASE_PATH' 'true'
-          load_var 'ASTRO_ASSETS_PREFIX' 'true'
+          # Site
+          load_var 'SITE_URL' 'true'
+          load_var 'BASE_PATH' 'true'
+          load_var 'ASSETS_PREFIX' 'true'
 
           # Application (app env vars)
           # (Load env vars for your application here.)
@@ -117,10 +117,10 @@ jobs:
           GITHUB_REPOSITORY_URL: ${{ env.GITHUB_REPOSITORY_URL }}
           GITHUB_SHA: ${{ env.GITHUB_SHA }}
           VERSION_TAG: ${{ env.VERSION_TAG }}
-          # Astro
-          ASTRO_SITE_URL: ${{ env.ASTRO_SITE_URL }}
-          ASTRO_BASE_PATH: ${{ env.ASTRO_BASE_PATH }}
-          ASTRO_ASSETS_PREFIX: ${{ env.ASTRO_ASSETS_PREFIX }}
+          # Site
+          SITE_URL: ${{ env.SITE_URL }}
+          BASE_PATH: ${{ env.BASE_PATH }}
+          ASSETS_PREFIX: ${{ env.ASSETS_PREFIX }}
           # Application (app env vars)
           # (Add env vars for your application here.)
         run: |

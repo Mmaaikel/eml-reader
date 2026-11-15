@@ -2,9 +2,9 @@ name: Check CI
 
 # GitHub variables:
 # - VERSION_TAG
-# - ASTRO_SITE_URL
-# - ASTRO_BASE_PATH
-# - ASTRO_ASSETS_PREFIX
+# - SITE_URL
+# - BASE_PATH
+# - ASSETS_PREFIX
 
 # GitHub secrets: N/A
 
@@ -82,10 +82,10 @@ jobs:
           GITHUB_REPOSITORY_URL: https://github.com/${{ github.repository }}
           GITHUB_SHA: ${{ github.sha }}
           VERSION_TAG: ${{ vars.VERSION_TAG }}
-          # Astro
-          ASTRO_SITE_URL: ${{ vars.ASTRO_SITE_URL }}
-          ASTRO_BASE_PATH: ${{ vars.ASTRO_BASE_PATH }}
-          ASTRO_ASSETS_PREFIX: ${{ vars.ASTRO_ASSETS_PREFIX }}
+          # Site
+          SITE_URL: ${{ vars.SITE_URL }}
+          BASE_PATH: ${{ vars.BASE_PATH }}
+          ASSETS_PREFIX: ${{ vars.ASSETS_PREFIX }}
           # Application (app env vars)
           # (Add env vars for your application here.)
         run: |
@@ -156,10 +156,10 @@ jobs:
           GITHUB_REPOSITORY_URL: https://github.com/${{ github.repository }}
           GITHUB_SHA: ${{ github.sha }}
           VERSION_TAG: ${{ vars.VERSION_TAG }}
-          # Astro
-          ASTRO_SITE_URL: ${{ vars.ASTRO_SITE_URL }}
-          ASTRO_BASE_PATH: ${{ vars.ASTRO_BASE_PATH }}
-          ASTRO_ASSETS_PREFIX: ${{ vars.ASTRO_ASSETS_PREFIX }}
+          # Site
+          SITE_URL: ${{ vars.SITE_URL }}
+          BASE_PATH: ${{ vars.BASE_PATH }}
+          ASSETS_PREFIX: ${{ vars.ASSETS_PREFIX }}
           # Application (app env vars)
           # (Add env vars for your application here.)
         run: |
@@ -282,10 +282,10 @@ jobs:
           GITHUB_REPOSITORY_URL: https://github.com/${{ github.repository }}
           GITHUB_SHA: ${{ github.sha }}
           VERSION_TAG: ${{ vars.VERSION_TAG }}
-          # Astro
-          ASTRO_SITE_URL: ${{ vars.ASTRO_SITE_URL }}
-          ASTRO_BASE_PATH: ${{ vars.ASTRO_BASE_PATH }}
-          ASTRO_ASSETS_PREFIX: ${{ vars.ASTRO_ASSETS_PREFIX }}
+          # Site
+          SITE_URL: ${{ vars.SITE_URL }}
+          BASE_PATH: ${{ vars.BASE_PATH }}
+          ASSETS_PREFIX: ${{ vars.ASSETS_PREFIX }}
           # Application (app env vars)
           # (Add env vars for your application here.)
         run: |

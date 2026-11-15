@@ -37,8 +37,6 @@ Thumbs.db
 dist/
 node_modules/
 
-# Astro
-.astro/
 .vite/
 
 # Playwright

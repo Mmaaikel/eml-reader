@@ -27,8 +27,8 @@ Everything happens locally in the browser. No file is uploaded, nothing is proce
 
 ## Capabilities and Constraints
 
-- Stack: Astro 7 + Svelte 5 components, Tailwind CSS 4, Iconify (mdi, twemoji) icons, nanostores. Static site (GitHub Pages / nginx Docker image).
-- Parsing via `eml-parse-js`; PDF preview via `pdfjs-dist` (page navigation; zoom controls exist but are not implemented).
+- Stack: React 19 + Vite (two static HTML entries: / for English, /fr/ for French), Tailwind CSS 4 with CSS modules, Iconify (mdi) icons, nanostores. Static site (GitHub Pages / nginx Docker image).
+- Parsing via `eml-parse-js`; PDF preview via `pdfjs-dist` (page navigation, zoom, fit to screen, selectable text).
 - Views: email (header fields + HTML/plain-text toggle when both exist), headers list, attachments list, attachment modal.
 - Inline `cid:` images are resolved from attachments into the HTML body.
 - Locales: English (default) and French; every user-facing string must exist in both.

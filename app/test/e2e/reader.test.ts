@@ -5,8 +5,8 @@ const fixture = (name: string) => path.join(import.meta.dirname, '..', 'fixtures
 
 async function open(page: Page, name: string)
 {
-	// Wait until the Svelte islands are hydrated so the input has its handler
-	await page.waitForFunction(() => document.querySelector('astro-island[ssr]') === null)
+	// Wait until React has mounted so the input has its handler
+	await page.locator('html[data-ready]').waitFor({ state: 'attached' })
 	await page.setInputFiles('#eml-file-input', fixture(name))
 }
 
@@ -34,7 +34,7 @@ test('an email opens as a letter with its attachments', async ({ page }) =>
 	await expect(page.getByRole('heading', { level: 1, name: 'Quote for kitchen renovation (final version)' })).toBeVisible()
 	await expect(page.getByText('sanne@studionoord.nl').first()).toBeVisible()
 	await expect(page.getByRole('heading', { name: /Enclosed · 6 attachments/ })).toBeVisible()
-	await expect(page.locator('.stamp')).toHaveCount(6)
+	await expect(page.locator('[data-stamp]')).toHaveCount(6)
 	await expect(page.getByRole('button', { name: /leeg\.bin/ })).toBeDisabled()
 })
 
@@ -52,7 +52,7 @@ test('switching between formatted and plain text', async ({ page }) =>
 	await open(page, 'sample.eml')
 	await page.getByRole('radio', { name: 'Plain text' }).click()
 	await expect(page.getByRole('radio', { name: 'Plain text' })).toHaveAttribute('aria-checked', 'true')
-	await expect(page.frameLocator('iframe.body-frame').locator('pre')).toContainText('As promised')
+	await expect(page.frameLocator('iframe[title="Message body"]').locator('pre')).toContainText('As promised')
 })
 
 test('headers tab lists key headers first and all headers on request', async ({ page }) =>
@@ -105,5 +105,5 @@ test('older emails in a legacy charset show their text', async ({ page }) =>
 	await expect(page.getByRole('heading', { level: 1, name: 'Menú van de week' })).toBeVisible()
 	await expect(page.getByText('Zoë').first()).toBeVisible()
 	await page.getByRole('radio', { name: 'Plain text' }).click()
-	await expect(page.frameLocator('iframe.body-frame').locator('pre')).toContainText('één ü — prijs € 12')
+	await expect(page.frameLocator('iframe[title="Message body"]').locator('pre')).toContainText('één ü — prijs € 12')
 })
