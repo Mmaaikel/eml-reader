@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-15T00:00:00Z",
+  "generatedAt": "2026-11-15T17:42:44Z",
   "title": "Design System: EML Reader",
   "extensions": {
     "colorMeta": {
@@ -229,6 +229,21 @@
           "#fbe5e8"
         ]
       },
+      "carmine-wash": {
+        "role": "secondary",
+        "displayName": "Carmine Wash",
+        "canonical": "#fbeef0",
+        "tonalRamp": [
+          "#4a0e16",
+          "#7a1824",
+          "#c0283a",
+          "#e04a5a",
+          "#ea6f7c",
+          "#f08a95",
+          "#f6bcc2",
+          "#fbe5e8"
+        ]
+      },
       "olive": {
         "role": "tertiary",
         "displayName": "Engraved Olive",
@@ -258,6 +273,36 @@
           "#d6dfae",
           "#eef2dc"
         ]
+      },
+      "glassine": {
+        "role": "neutral",
+        "displayName": "Glassine",
+        "canonical": "rgb(214 226 232 / 0.12)",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
+      },
+      "glassine-fade": {
+        "role": "neutral",
+        "displayName": "Glassine Fade",
+        "canonical": "rgb(214 226 232 / 0.07)",
+        "tonalRamp": [
+          "#16201e",
+          "#212c29",
+          "#34433f",
+          "#4f5f5b",
+          "#74827e",
+          "#a3afac",
+          "#cfd7d4",
+          "#e7ecea"
+        ]
       }
     },
     "typographyMeta": {
@@ -273,9 +318,13 @@
         "displayName": "Denomination",
         "purpose": "File size on a stamp, printed in the stamp's ink."
       },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Panel titles: download-viewer file name and drag-overlay prompt (24px); preview-error title at 20px, reader fallback heading at 30/36px."
+      },
       "postmark": {
         "displayName": "Postmark",
-        "purpose": "Struck date or promise inside the postmark, uppercase (16px mobile)."
+        "purpose": "Struck date or promise inside the postmark, uppercase (16px mobile; 20px on the blank sheet)."
       },
       "postmark-ring": {
         "displayName": "Postmark Ring",
@@ -287,7 +336,7 @@
       },
       "body-large": {
         "displayName": "Body Large",
-        "purpose": "Empty-state lede, max 56ch."
+        "purpose": "Empty-state lede and reader fallback explanation, max 56ch."
       },
       "body": {
         "displayName": "Body",
@@ -299,18 +348,18 @@
       },
       "small": {
         "displayName": "Small",
-        "purpose": "Hints, notices, warnings, footer."
+        "purpose": "Hints, notices, warnings, footer, viewer readouts and file size, error detail."
       },
       "meta": {
         "displayName": "Meta",
-        "purpose": "Stamp kind and action line; locale options."
+        "purpose": "Stamp kind and action line."
       }
     },
     "shadows": [
       {
         "name": "laid-sheet",
         "value": "0 18px 40px rgb(0 0 0 / 0.35)",
-        "purpose": "Letter sheet."
+        "purpose": "Letter sheet and reader fallback sheet."
       },
       {
         "name": "previewed-page",
@@ -397,14 +446,6 @@
       {
         "name": "lg",
         "value": "1024px"
-      },
-      {
-        "name": "viewer-stack",
-        "value": "900px"
-      },
-      {
-        "name": "viewer-compact",
-        "value": "600px"
       }
     ],
     "materials": [
@@ -459,14 +500,6 @@
       "css": ".ds-seg{display:inline-flex;padding:2px;border-radius:4px;background:var(--color-book-100,#e7ecea)}.ds-seg button{padding:6px 12px;border:0;border-radius:3px;background:none;font:600 14px var(--font-sans,Barlow,sans-serif);color:var(--color-book-500,#4f5f5b);cursor:pointer;transition:background-color 150ms ease-out,color 150ms ease-out}.ds-seg button:hover{color:var(--color-book-800,#16201e)}.ds-seg button[aria-checked=true]{background:#fff;color:var(--color-book-800,#16201e);box-shadow:0 1px 2px rgb(15 23 21 / .18)}.ds-seg button:focus-visible{outline: 2px solid var(--color-ultramarine-light); outline-offset: 2px;}"
     },
     {
-      "name": "Language Switch",
-      "kind": "nav",
-      "refersTo": "locale-option",
-      "description": "EN / FR switch in the top bar.",
-      "html": "<div class=\"ds-ground\"><nav class=\"ds-locale\"><a class=\"current\" href=\"#\">EN</a><a href=\"#\">FR</a></nav></div>",
-      "css": ".ds-ground{background:var(--color-book-800,#16201e);padding:16px}.ds-locale{display:inline-flex;padding:2px;border:1px solid var(--color-book-600,#34433f);border-radius:4px}.ds-locale a{padding:4px 8px;border-radius:3px;font:600 13px var(--font-sans,Barlow,sans-serif);letter-spacing:.025em;color:var(--color-book-300,#a3afac);text-decoration:none;transition:color 150ms ease-out,background-color 150ms ease-out}.ds-locale a:hover{color:var(--color-book-100,#e7ecea)}.ds-locale a.current{background:var(--color-book-600,#34433f);color:#fff}.ds-locale a:focus-visible{outline: 2px solid var(--color-ultramarine-light); outline-offset: 2px;}"
-    },
-    {
       "name": "Stamp",
       "kind": "custom",
       "refersTo": "stamp-face",
@@ -491,17 +524,33 @@
       "css": ".ds-sheet{background:#fff;padding:24px;border-radius:3px}.ds-notice{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 16px;border-radius:4px;background:var(--color-book-100,#e7ecea);color:var(--color-book-700,#212c29);font:400 14px/1.5 var(--font-sans,Barlow,sans-serif)}.ds-notice svg{flex-shrink:0;color:var(--color-book-500,#4f5f5b)}.ds-notice p{margin:0;flex:1 1 15rem;min-width:0}.ds-notice button{padding:6px 12px;border:0;border-radius:4px;background:#fff;color:var(--color-ultramarine,#23408e);font:600 14px var(--font-sans,Barlow,sans-serif);box-shadow:0 1px 2px rgb(15 23 21 / .18);cursor:pointer}.ds-notice button:hover{background:var(--color-book-200,#cfd7d4)}.ds-notice button:focus-visible{outline: 2px solid var(--color-ultramarine-light); outline-offset: 2px;}"
     },
     {
-      "name": "Drop Hint",
+      "name": "Viewer Toolbar",
+      "kind": "nav",
+      "refersTo": "viewer-toolbar",
+      "description": "The one toolbar shared by the PDF, image, text and download viewers; fit is a pressed toggle.",
+      "html": "<div class=\"ds-vnav\"><p class=\"ds-vtitle\">quarterly-report.pdf</p><div class=\"ds-vgroup\"><button class=\"ds-vbtn\" disabled><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M15.41 16.58 10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.42Z\"/></svg><span class=\"ds-sr\">Previous page</span></button><span class=\"ds-vread\">1 / 12</span><button class=\"ds-vbtn\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M8.59 16.58 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42Z\"/></svg><span class=\"ds-sr\">Next page</span></button></div><div class=\"ds-vgroup\"><button class=\"ds-vbtn\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M9 2a7 7 0 0 1 7 7c0 1.57-.5 3-1.39 4.19l.8.81H16l6 6-2 2-6-6v-.59l-.81-.8A7 7 0 0 1 9 16a7 7 0 0 1-7-7 7 7 0 0 1 7-7m0 2a5 5 0 0 0-5 5 5 5 0 0 0 5 5 5 5 0 0 0 5-5 5 5 0 0 0-5-5\"/></svg><span class=\"ds-sr\">Zoom out</span></button><span class=\"ds-vread\">100%</span><button class=\"ds-vbtn\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M9 2a7 7 0 0 1 7 7c0 1.57-.5 3-1.39 4.19l.8.81H16l6 6-2 2-6-6v-.59l-.81-.8A7 7 0 0 1 9 16a7 7 0 0 1-7-7 7 7 0 0 1 7-7m0 2a5 5 0 0 0-5 5 5 5 0 0 0 5 5 5 5 0 0 0 5-5 5 5 0 0 0-5-5\"/></svg><span class=\"ds-sr\">Zoom in</span></button><button class=\"ds-vbtn\" aria-pressed=\"true\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M17 4h3a2 2 0 0 1 2 2v2h-2V6h-3V4M4 8V6h2V4H4a2 2 0 0 0-2 2v2h2m16 8v2h-3v2h3a2 2 0 0 0 2-2v-2h-2M6 18H4v-2H2v2a2 2 0 0 0 2 2h2v-2m0-10v8h12V8H6Z\"/></svg><span class=\"ds-sr\">Fit</span></button></div><div class=\"ds-vgroup\"><span class=\"ds-vsize\">1.4 MB</span><button class=\"ds-vbtn\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7 7-7Z\"/></svg><span class=\"ds-sr\">Download</span></button><button class=\"ds-vbtn\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z\"/></svg><span class=\"ds-sr\">Close</span></button></div></div>",
+      "css": ".ds-vnav{display:flex;height:48px;align-items:center;justify-content:space-between;gap:16px;padding-left:16px;background:var(--color-book-900,#0f1715);color:var(--color-book-100,#e7ecea);font-family:var(--font-sans,Barlow,sans-serif)}.ds-vtitle{flex:1;min-width:0;margin:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:15px;font-weight:600}.ds-vgroup{display:flex;align-items:center}.ds-vread{min-width:48px;padding:0 4px;text-align:center;font-size:14px;color:var(--color-book-200,#cfd7d4);font-variant-numeric:tabular-nums}.ds-vsize{margin-right:4px;font-size:14px;color:var(--color-book-300,#a3afac);font-variant-numeric:tabular-nums;white-space:nowrap}.ds-vbtn{display:flex;height:48px;min-width:44px;align-items:center;justify-content:center;border:0;border-radius:0;background:transparent;color:inherit;cursor:pointer;transition:background-color 150ms ease-out}.ds-vbtn:hover:not(:disabled){background:var(--color-book-700,#212c29)}.ds-vbtn:active:not(:disabled),.ds-vbtn[aria-pressed=\"true\"]{background:var(--color-book-600,#34433f)}.ds-vbtn:disabled{opacity:.4;cursor:not-allowed}.ds-vbtn:focus-visible{outline:2px solid var(--color-ultramarine-light,#8fa6e6);outline-offset:-2px}.ds-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}"
+    },
+    {
+      "name": "Reader Fallback Sheet",
+      "kind": "card",
+      "refersTo": "error-sheet",
+      "description": "Replaces the letter when a parsed email cannot be displayed: one white sheet, one way forward.",
+      "html": "<section class=\"ds-errsheet\" role=\"alert\"><span class=\"ds-erricon\"><svg width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12v-2H4V8l8 5 8-5v5h2V6a2 2 0 0 0-2-2m-8 7L4 6h16l-8 5m8 4h2v4h-2v-4m0 5h2v2h-2v-2Z\"/></svg></span><h1>This email could not be displayed</h1><p>The file was read, but something in it stopped the reader. Try another file.</p><button class=\"ds-errbtn\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6m4 18H6V4h7v5h5v11m-6-9-4 4h3v4h2v-4h3l-4-4Z\"/></svg>Open another file</button><p class=\"ds-errdetail\">TypeError: Cannot read properties of undefined</p></section>",
+      "css": ".ds-errsheet{position:relative;max-width:720px;padding:48px 44px;border-radius:3px;background:#fff;color:var(--color-book-800,#16201e);box-shadow:0 18px 40px rgb(0 0 0 / .35);font-family:var(--font-sans,Barlow,sans-serif)}.ds-erricon{display:block;color:var(--color-carmine,#c0283a)}.ds-errsheet h1{margin:12px 0 0;font:600 36px/1.25 var(--font-display,'Barlow Semi Condensed',sans-serif);text-wrap:balance}.ds-errsheet p{margin:16px 0 0;max-width:56ch;font-size:18px;line-height:1.625;color:var(--color-book-600,#34433f)}.ds-errbtn{margin-top:28px;display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border:0;border-radius:4px;background:var(--color-ultramarine,#23408e);color:#fff;font:600 16px/1.5 var(--font-sans,Barlow,sans-serif);cursor:pointer}.ds-errbtn:hover{background:color-mix(in srgb,var(--color-ultramarine,#23408e) 85%,black)}.ds-errbtn:focus-visible{outline:2px solid var(--color-ultramarine-light,#8fa6e6);outline-offset:2px}.ds-errsheet .ds-errdetail{margin-top:24px;font-size:14px;line-height:1.5;color:var(--color-book-500,#4f5f5b);overflow-wrap:anywhere}"
+    },
+    {
+      "name": "Preview Error",
       "kind": "custom",
-      "refersTo": "",
-      "description": "Dashed empty slot on the ground inviting another file.",
-      "html": "<div class=\"ds-ground\"><button class=\"ds-drop\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M2 12h2v5h16v-5h2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5m10 3-5.5-5.5 1.4-1.4 3.1 3V2h2v9.1l3.1-3 1.4 1.4L12 15Z\"/></svg>Drop another .eml file anywhere, or choose one</button></div>",
-      "css": ".ds-ground{background:var(--color-book-800,#16201e);padding:16px;width:300px}.ds-drop{display:flex;align-items:center;gap:8px;width:100%;padding:14px 16px;background:none;text-align:left;border:1.5px dashed var(--color-book-600,#34433f);color:var(--color-book-300,#a3afac);font:400 14px/1.5 var(--font-sans,Barlow,sans-serif);cursor:pointer;transition:color 150ms ease-out,border-color 150ms ease-out}.ds-drop:hover{color:var(--color-book-100,#e7ecea);border-color:var(--color-book-400,#74827e)}.ds-drop:focus-visible{outline: 2px solid var(--color-ultramarine-light); outline-offset: 2px;}"
+      "refersTo": "preview-error",
+      "description": "Fills the modal body when an attachment cannot be shown; Close takes focus.",
+      "html": "<div class=\"ds-perr\" role=\"alert\"><span class=\"ds-perricon\"><svg width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6m7 1.5L18.5 9H13V3.5M11 11h2v5h-2v-5m0 7h2v2h-2v-2Z\"/></svg></span><p class=\"ds-perrtitle\">This attachment could not be shown</p><p class=\"ds-perrdetail\">Invalid PDF structure.</p><button class=\"ds-perrbtn\">Close</button></div>",
+      "css": ".ds-perr{display:flex;min-height:288px;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:40px 24px;text-align:center;background:var(--color-book-800,#16201e);color:var(--color-book-100,#e7ecea);border-top:4px solid var(--color-carmine,#c0283a);font-family:var(--font-sans,Barlow,sans-serif)}.ds-perricon{color:var(--color-carmine-light,#f08a95)}.ds-perrtitle{margin:8px 0 0;font:600 20px/1.4 var(--font-display,'Barlow Semi Condensed',sans-serif)}.ds-perrdetail{margin:4px 0 0;font-size:14px;color:var(--color-book-300,#a3afac)}.ds-perrbtn{margin-top:16px;display:inline-flex;align-items:center;padding:10px 20px;border:0;border-radius:4px;background:var(--color-ultramarine,#23408e);color:#fff;font:600 16px/1.5 var(--font-sans,Barlow,sans-serif);cursor:pointer}.ds-perrbtn:hover{background:color-mix(in srgb,var(--color-ultramarine,#23408e) 85%,black)}.ds-perrbtn:focus-visible{outline:2px solid var(--color-ultramarine-light,#8fa6e6);outline-offset:2px}"
     }
   ],
   "narrative": {
     "northStar": "Stockbook & Postmark",
-    "overview": "The page is a collector's stockbook opened on a dark green-grey leaf. The email is a white letter laid on top of a small stack of sheets; its attachments are mounted in a glassine strip beside it as perforated stamps, each printed in one engraved ink for its kind and carrying its file size as the denomination. A single circular postmark, struck at an angle onto the letter, carries the local-only promise and the moment the file was opened. Everything else is flat, quiet, and squared to the page.\n\nDensity is calm and operational: one letter, one rail, generous margins, nothing competing with the message. The palette is one neutral ramp plus three inks, and the inks are rationed: ultramarine marks what is active, carmine marks PDFs and warnings, olive marks every other file. Physical objects (sheets, stamps, postmark) are the only things allowed to tilt or cast shadow; the page structure around them stays strictly orthogonal.\n\nThe world rejects the mail-client split pane and the white SaaS card holding a file input.",
+    "overview": "**Creative North Star: \"Stockbook & Postmark\"**\n\nThe page is a collector's stockbook opened on a dark green-grey leaf. The email is a white letter laid on top of a small stack of sheets; its attachments are mounted in a glassine strip beside it as perforated stamps, each printed in one engraved ink for its kind and carrying its file size as the denomination. A single circular postmark, struck at an angle onto the letter, carries the local-only promise and the moment the file was opened. Everything else is flat, quiet, and squared to the page.\n\nDensity is calm and operational: one letter, one rail, generous margins, nothing competing with the message. The palette is one neutral ramp plus three inks, and the inks are rationed: ultramarine marks what is active, carmine marks PDFs and warnings, olive marks every other file. Physical objects (sheets, stamps, postmark) are the only things allowed to tilt or cast shadow; the page structure around them stays strictly orthogonal.\n\nThe world rejects the mail-client split pane and the white SaaS card holding a file input.",
     "keyCharacteristics": [
       "Dark stockbook ground built from a single 9-step green-grey ramp; no other neutrals.",
       "White paper sheets stacked with slight rotation; one more sheet when attachments exist.",
@@ -524,17 +573,17 @@
       },
       {
         "name": "The Ground Variant Rule",
-        "body": "Base inks carry text and icons on paper; their light or bright variants carry text and icons on the dark ground. Base inks may appear on the ground only as non-text bars (the modal's ink edge).",
+        "body": "Base inks carry text and icons on paper; their light or bright variants carry text and icons on the dark ground. On the ground a base ink appears only as a surface: the modal's ink edge, or an ultramarine button fill carrying white text.",
         "section": "colors"
       },
       {
         "name": "The Struck Type Rule",
-        "body": "Semi Condensed is for what would be printed or stamped: subjects, display titles, denominations, the postmark, labels, the wordmark. Reading text, controls, and field values are always Barlow.",
+        "body": "Semi Condensed is for what would be printed or stamped: subjects, display and panel titles, denominations, the postmark, labels, the wordmark. Reading text, controls, and field values are always Barlow.",
         "section": "typography"
       },
       {
         "name": "The Tabular Numbers Rule",
-        "body": "Sizes, counts, and times use tabular figures.",
+        "body": "Sizes, counts, times, page numbers, and zoom percentages use tabular figures.",
         "section": "typography"
       },
       {
@@ -564,23 +613,25 @@
       }
     ],
     "dos": [
-      "**Do** take every neutral from the nine book steps or paper white; build tints by giving a book step transparency.",
-      "**Do** give each attachment kind its fixed ink (PDF carmine, image ultramarine, other olive) on the stamp bar, denomination, and the viewer's top edge.",
-      "**Do** use the light or bright ink variant for text and icons on the dark ground, and the base ink on paper.",
-      "**Do** set subjects, display titles, denominations, labels, and the postmark in Barlow Semi Condensed; everything readable in Barlow.",
-      "**Do** keep the postmark as the single circle per view, struck at -8° with a 3px ring.",
-      "**Do** keep hairlines, borders, and underlines at 0° or 90°; let only sheets, stamps, and the postmark rotate.",
-      "**Do** use exponential ease-out for anything that lands, and honour reduced motion by removing it.",
-      "**Do** mark empty slots with a dashed book-600 outline."
+      "Do take every neutral from the nine book steps or paper white; build tints by giving a book step transparency.",
+      "Do give each attachment kind its fixed ink (PDF carmine, image ultramarine, other olive) on the stamp bar, denomination, and the viewer's top edge.",
+      "Do use the light or bright ink variant for text and icons on the dark ground, and the base ink on paper; an ultramarine button fill with white text works on both.",
+      "Do set subjects, display titles, denominations, labels, and the postmark in Barlow Semi Condensed; everything readable in Barlow.",
+      "Do keep the postmark as the single circle per view, struck at -8° with a 3px ring.",
+      "Do keep hairlines, borders, and underlines at 0° or 90°; let only sheets, stamps, and the postmark rotate.",
+      "Do use exponential ease-out for anything that lands, and honour reduced motion by removing it.",
+      "Do mark empty slots with a dashed book-600 outline.",
+      "Do open every attachment inside the one shared viewer toolbar, and add viewer controls as square 48px toolbar buttons with an `aria-pressed` state for toggles.",
+      "Do fail onto paper or into the modal: a render failure gets its own white sheet with one way forward, a preview failure gets a centred panel in the modal with Close."
     ],
     "donts": [
-      "**Don't** introduce a neutral outside the book ramp, or use Tailwind's default greys.",
-      "**Don't** use an ink without its meaning: no carmine accents that are not PDFs or warnings, no olive outside non-PDF, non-image files and the local/safe signal.",
-      "**Don't** add a second circle: no round avatars, pill badges, circular icon buttons, or a second postmark.",
-      "**Don't** draw rules at diagonals or put shadows on chrome; depth belongs to paper.",
-      "**Don't** give stamps rounded corners or a plain border; their edge is perforated.",
-      "**Don't** put base ultramarine, carmine, or olive text on the dark ground.",
-      "**Don't** stack an uppercase label above a heading; labels are headings of their own section."
+      "Don't introduce a neutral outside the book ramp, or use Tailwind's default greys.",
+      "Don't use an ink without its meaning: no carmine accents that are not PDFs or warnings, no olive outside non-PDF, non-image files and the local/safe signal.",
+      "Don't add a second circle: no round avatars, pill badges, circular icon buttons, or a second postmark.",
+      "Don't draw rules at diagonals or put shadows on chrome; depth belongs to paper.",
+      "Don't give stamps rounded corners or a plain border; their edge is perforated.",
+      "Don't put base ultramarine, carmine, or olive text on the dark ground.",
+      "Don't stack an uppercase label above a heading; labels are headings of their own section."
     ]
   }
 }

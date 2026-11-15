@@ -44,6 +44,10 @@ typography:
     fontWeight: 700
     lineHeight: 1
     fontFeature: "\"tnum\""
+  title:
+    fontFamily: "Barlow Semi Condensed, Barlow, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "24px"
+    fontWeight: 600
   postmark:
     fontFamily: "Barlow Semi Condensed, Barlow, ui-sans-serif, system-ui, sans-serif"
     fontSize: "22px"
@@ -152,14 +156,16 @@ components:
     textColor: "{colors.book-700}"
     typography: "{typography.small}"
     padding: "12px 16px"
-  locale-option:
-    textColor: "{colors.book-300}"
-    typography: "{typography.meta}"
+  error-sheet:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.book-800}"
     rounded: "{rounded.sheet}"
-    padding: "4px 8px"
-  locale-option-current:
-    backgroundColor: "{colors.book-600}"
-    textColor: "{colors.paper}"
+    padding: "48px 44px"
+    width: "720px"
+  preview-error:
+    backgroundColor: "{colors.book-800}"
+    textColor: "{colors.book-100}"
+    padding: "40px 24px"
   modal:
     backgroundColor: "{colors.book-800}"
     rounded: "{rounded.sheet}"
@@ -167,6 +173,14 @@ components:
     backgroundColor: "{colors.book-900}"
     textColor: "{colors.book-100}"
     height: "48px"
+  viewer-button:
+    textColor: "{colors.book-100}"
+    height: "48px"
+    width: "44px"
+  viewer-button-hover:
+    backgroundColor: "{colors.book-700}"
+  viewer-button-pressed:
+    backgroundColor: "{colors.book-600}"
 ---
 
 # Design System: EML Reader
@@ -195,12 +209,12 @@ The world rejects the mail-client split pane and the white SaaS card holding a f
 One green-grey ramp for everything neutral, white paper, and three engraved inks that each mean exactly one thing.
 
 ### Primary
-- **Engraved Ultramarine** (ultramarine): the active ink. Primary buttons, the selected tab underline, links and link-like actions on paper, the postmark, image stamps, text selection, and the image-viewer modal's top edge. Used on paper (white) only for text.
+- **Engraved Ultramarine** (ultramarine): the active ink. Primary button fills (on paper and on the dark ground alike), the selected tab underline, links and link-like actions on paper, the postmark, image stamps, text selection, and the image-viewer modal's top edge. As a text or icon colour it appears on paper only.
 - **Pale Ultramarine** (ultramarine-light): ultramarine's voice on the dark ground. The global focus ring and the drag-and-drop target outline and icon.
 
 ### Secondary
-- **Engraved Carmine** (carmine): PDFs and warnings on paper. The PDF stamp ink and denomination, the PDF modal's top edge, the parse-error icon and title.
-- **Pale Carmine** (carmine-light): the warning icon beside the attachment trust notice on the dark ground.
+- **Engraved Carmine** (carmine): PDFs and warnings on paper. The PDF stamp ink and denomination, the PDF modal's top edge, the parse-error icon and title, and the large alert icon on the reader fallback sheet.
+- **Pale Carmine** (carmine-light): warning icons on the dark ground: the shield beside the attachment trust notice and the alert icon of the in-modal preview error.
 - **Bright Carmine** (carmine-bright): the "Reader" half of the wordmark on the dark ground; the only display use of carmine.
 - **Carmine Wash** (carmine-wash): the pale ground of the parse-error message on the blank sheet; never used elsewhere.
 
@@ -210,13 +224,13 @@ One green-grey ramp for everything neutral, white paper, and three engraved inks
 
 ### Neutral
 - **Stockbook Black** (book-900): viewer toolbars, modal backdrop (80%), drag overlay (82%), scrollbar track.
-- **Stockbook Leaf** (book-800): the page ground and modal body; also the darkest text colour on paper (subject, headings, field values).
+- **Stockbook Leaf** (book-800): the page ground, the modal body, and the download and preview-error panels inside it; also the darkest text colour on paper (subject, headings, field values).
 - **Deep Leaf** (book-700): hairlines on the ground (top bar, footer), viewer canvas behind previewed pages, toolbar hover, body text in plain-text emails.
-- **Slate Leaf** (book-600): dashed slot outlines, scrollbar thumb, current-locale fill, header-name labels on paper, lede text.
+- **Slate Leaf** (book-600): dashed slot outlines, scrollbar thumb, pressed viewer-toolbar buttons, header-name labels on paper, lede text.
 - **Mid Slate** (book-500): secondary text on paper (field labels, inactive tabs, hints, stamp meta).
-- **Muted Slate** (book-400): decorative-only marks on paper (recipient separators, idle copy icons) and the disabled-stamp ink. Not for readable text on paper.
-- **Pale Slate** (book-300): secondary text on the ground (rail title, footer text, drop hint, locale options); the second backing sheet.
-- **Mist** (book-200): primary-ish text on the ground (privacy line, trust warning); the first backing sheet; hairlines on paper.
+- **Muted Slate** (book-400): decorative-only marks on paper (recipient separators, idle copy icons), the disabled-stamp ink, the footer version number, and the drop hint's hover border. Not for readable text on paper.
+- **Pale Slate** (book-300): secondary text on the ground (rail title, footer text, drop hint, viewer file size and meta, error detail in the modal); the second backing sheet.
+- **Mist** (book-200): primary-ish text on the ground (privacy line, trust warning, viewer page and zoom readouts); the first backing sheet; hairlines on paper.
 - **Fog** (book-100): main text on the ground; tinted surfaces on paper (remote notice, segmented track, hover fills).
 - **Letter White** (paper): letter sheets, stamp faces, previewed pages, paper buttons, and text on ink fills.
 
@@ -225,36 +239,37 @@ One green-grey ramp for everything neutral, white paper, and three engraved inks
 
 **The Ink Has A Meaning Rule.** Ultramarine is active, carmine is PDF or warning, olive is every other file. An ink never appears as decoration without that meaning.
 
-**The Ground Variant Rule.** Base inks carry text and icons on paper; their light or bright variants carry text and icons on the dark ground. Base inks may appear on the ground only as non-text bars (the modal's ink edge).
+**The Ground Variant Rule.** Base inks carry text and icons on paper; their light or bright variants carry text and icons on the dark ground. On the ground a base ink appears only as a surface: the modal's ink edge, or an ultramarine button fill carrying white text.
 
 ## Typography
 
 **Display Font:** Barlow Semi Condensed (with Barlow, ui-sans-serif, system-ui)
 **Body Font:** Barlow (with ui-sans-serif, system-ui)
 
-**Character:** A sturdy, slightly mechanical grotesque with its condensed sibling for anything that would be printed or struck: subjects read like typeset headlines, sizes like stamp values, the postmark like an inked die. Both are self-hosted (Barlow 400/600, Semi Condensed 600/700); the email body iframe receives Barlow 400/600 so plain-text mail matches the page.
+**Character:** A sturdy, slightly mechanical grotesque with its condensed sibling for anything that would be printed or struck: subjects read like typeset headlines, sizes like stamp values, the postmark like an inked die. Both are self-hosted through Fontsource and only four cuts ship: Barlow 400/600 and Barlow Semi Condensed 600/700. The email body iframe receives Barlow 400/600 so plain-text mail matches the page.
 
 ### Hierarchy
 - **Display** (Semi Condensed 600, 36px mobile / 48px from 640px, line-height 1.1, max 16ch, balanced): the empty-state title on the blank sheet.
 - **Headline** (Semi Condensed 600, 26px mobile / 34px from 640px, line-height 1.15, balanced): the email subject.
 - **Denomination** (Semi Condensed 700, 22px, line-height 1, tabular): file size on a stamp, printed in the stamp's ink.
-- **Postmark** (Semi Condensed 700 uppercase, 16px mobile / 22px; ring lines 600 uppercase 9px/11px, tracking 0.08em/0.12em): only inside the postmark.
+- **Title** (Semi Condensed 600, 24px): panel titles inside the stage and modal: the file name in the download viewer and the drag-overlay prompt. The preview-error title uses the same voice at 20px; the reader fallback heading at 30px mobile / 36px from 640px.
+- **Postmark** (Semi Condensed 700 uppercase, 16px mobile / 22px on the letter, 20px on the blank sheet; ring lines 600 uppercase 9px/11px, tracking 0.08em/0.12em): only inside the postmark.
 - **Wordmark** (Semi Condensed 700, 22px, tracking 0.01em): top bar only.
 - **Label** (Semi Condensed 600 uppercase, 13px, tracking 0.14em; footer headings 15px, 0.1em): section titles on the dark ground, such as the attachment rail title. A label is the heading of its section, never a line above another heading.
-- **Body Large** (Barlow 400, 18px, line-height 1.625, max 56ch): the empty-state lede.
+- **Body Large** (Barlow 400, 18px, line-height 1.625, max 56ch): the empty-state lede and the reader fallback explanation.
 - **Body** (Barlow 400, 16px; 15px under 640px, line-height 1.65): header fields, plain-text email at 17px/1.6 within 72ch.
-- **UI** (Barlow 600, 15px): tabs, buttons, attachment link, stamp file names, viewer file titles.
-- **Small** (Barlow 400, 14px): hints, notices, footer, warnings.
-- **Meta** (Barlow 400, 13px): stamp kind and action line, locale options (600).
+- **UI** (Barlow 600, 15px): tabs, buttons, attachment link, stamp file names, viewer file titles. Segmented options and compact paper buttons drop to 14px.
+- **Small** (Barlow 400, 14px): hints, notices, footer, warnings, viewer readouts and file size, error detail.
+- **Meta** (Barlow 400, 13px): stamp kind and action line.
 
 ### Named Rules
-**The Struck Type Rule.** Semi Condensed is for what would be printed or stamped: subjects, display titles, denominations, the postmark, labels, the wordmark. Reading text, controls, and field values are always Barlow.
+**The Struck Type Rule.** Semi Condensed is for what would be printed or stamped: subjects, display and panel titles, denominations, the postmark, labels, the wordmark. Reading text, controls, and field values are always Barlow.
 
-**The Tabular Numbers Rule.** Sizes, counts, and times use tabular figures.
+**The Tabular Numbers Rule.** Sizes, counts, times, page numbers, and zoom percentages use tabular figures.
 
 ## Layout
 
-A centred page up to 1280px wide with side gutters of 16px, 32px from 640px, and 40px from 1024px. A 64px top bar (wordmark left; privacy line, language switch, and open-file button right) sits over a hairline in book-700. The stage below has 32px vertical padding (40px from 640px) and, from 1024px, a two-column grid: the letter stack in a fluid column and a fixed 300px attachment rail, separated by 40px. The footer is pinned to the bottom of the page with a book-700 hairline and two columns from 640px.
+A centred page up to 1280px wide with side gutters of 16px, 32px from 640px, and 40px from 1024px. A 64px top bar (wordmark left; privacy line and open-file button right) sits over a hairline in book-700. The stage below has 32px vertical padding (40px from 640px) and, from 1024px, a two-column grid: the letter stack in a fluid column and a fixed 300px attachment rail, separated by 40px. The footer is pinned to the bottom of the page with a book-700 hairline and two columns from 640px.
 
 The letter sheet pads 20px horizontally on mobile and 44px from 640px. The rail is sticky at 24px from the top on desktop. The stage clips horizontal overflow with a 1rem margin so tilted sheets never cause sideways scroll.
 
@@ -263,14 +278,15 @@ The letter sheet pads 20px horizontally on mobile and 44px from 640px. The rail 
 - Under 768px the privacy line leaves the top bar and becomes its own strip under it, with the same shield icon and a hairline.
 - Under 640px the open-file button switches to its short label, the postmark shrinks (about 116px instead of 132px) and drops its cancellation bars, and the header fields clear below the postmark rather than wrapping beside it.
 - The empty-state rail (ghost stamp slots) is shown from 1024px only.
-- Viewer toolbars in the modal grow to 64px and stack their side groups under 900px, and hide secondary controls under 600px.
+- The viewer toolbar stays a single 48px row at every width: the file title truncates first, the file size hides under 640px, and the PDF zoom group (zoom out, readout, zoom in, fit) hides under 768px, leaving page controls, download, and close.
+- The reader fallback sheet is capped at 720px and left-aligned in the stage; the preview error fills the modal body with at least 288px of height.
 
 ## Elevation & Depth
 
 Depth is physical, not interface. The ground and all chrome are flat; only paper objects cast shadows, and each kind of object has one shadow. Backing sheets imply depth by rotation and offset, not by shadow.
 
 ### Shadow Vocabulary
-- **Laid sheet** (`box-shadow: 0 18px 40px rgb(0 0 0 / 0.35)`): the letter sheet, empty or loaded.
+- **Laid sheet** (`box-shadow: 0 18px 40px rgb(0 0 0 / 0.35)`): the letter sheet (empty or loaded) and the reader fallback sheet.
 - **Previewed page** (`box-shadow: 0 12px 30px rgb(0 0 0 / 0.35)`): PDF pages and text sheets inside the viewer.
 - **Mounted stamp** (`filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.3))`, lifting to `drop-shadow(0 8px 12px rgb(0 0 0 / 0.4))` on hover): drop-shadow follows the perforated silhouette.
 - **Pressed-in segment** (`box-shadow: 0 1px 2px rgb(15 23 21 / 0.18)`): the selected segmented option and the paper button inside the remote notice.
@@ -283,7 +299,7 @@ Depth is physical, not interface. The ground and all chrome are flat; only paper
 
 ## Shapes
 
-Paper corners are barely softened (3px) on sheets, the wordmark tile, the modal, and segmented options; controls use 4px. Everything else is square: the glassine strip, dashed slots, viewer toolbars, and toolbar buttons.
+Paper corners are barely softened (3px) on sheets, the wordmark tile, the modal, and segmented options; controls, notices, and the drag target use 4px. Everything else is square: the glassine strip, dashed slots, the viewer toolbar and its buttons, and previewed PDF pages.
 
 Stamps have no radius at all; their edge is a perforation made from a 6px dot grid, so the silhouette reads as torn paper rather than a rounded card.
 
@@ -299,10 +315,12 @@ Stamps have no radius at all; their edge is a perforation made from a 6px dot gr
 ### Buttons
 Few, solid, and plain; ink only on the primary.
 - **Shape:** softened corners (4px).
-- **Primary:** ultramarine fill, white Barlow 600 text at 18px, 12px/20px padding, leading icon. Used once per view for the main action (choose a file, download). Hover darkens toward black (ultramarine mixed 85% with black); active nudges down 1px; busy state drops to 80% opacity with a progress cursor.
-- **Paper button:** white fill, book-800 text at 15px/600, 8px/14px padding; hover fills book-100. Used on the dark ground for "Open another file", and on paper (with the pressed-in segment shadow and ultramarine text) for the remote-content toggle.
-- **Outline on dark:** 1px book-500 border, book-100 text; hover fills book-700. Secondary action in the download viewer.
-- **Viewer toolbar buttons:** square, 40-48px, transparent on book-900, hover book-700, pressed book-600, disabled at 50% opacity.
+- **Primary:** ultramarine fill, white Barlow 600 text, leading icon. Used once per view for the main action: choose a file (18px, 12px/20px padding, on the blank sheet), open another file on the reader fallback sheet (16px, 12px/20px), open or download in the download viewer and close in the preview error (16px, 10px/20px). Hover darkens toward black (ultramarine mixed 85% with black); on the blank sheet, active nudges down 1px and the busy state drops to 80% opacity with a progress cursor.
+- **Paper button:** white fill, book-800 text at 15px/600, 8px/14px padding; hover fills book-100. Used on the dark ground for "Open another file" (short label under 640px), and on paper at 14px with 6px/12px padding, the pressed-in segment shadow, and ultramarine text for the remote-content toggle (hover book-200).
+- **Outline on paper:** 1px book-200 border, book-700 text at 14px/600, 6px/12px padding; hover fills book-100. The "copy all headers" action.
+- **Outline on dark:** 1px book-500 border, book-100 text, 10px/20px padding; hover fills book-700. Secondary action (download) in the download viewer when the attachment can also be opened.
+- **Icon buttons on paper:** 32px square, 4px radius, book-400 at 60% opacity until the row is hovered; hover or focus fills book-100 with book-800 icon. The per-header copy action; the icon swaps to a check after copying.
+- **Viewer toolbar buttons:** see Viewer toolbar.
 
 ### Tabs
 - **Style:** Barlow 600 15px, book-500 at rest, book-800 on hover and when selected; the selected tab carries a 3px ultramarine underline drawn on the book-200 hairline.
@@ -312,8 +330,8 @@ Few, solid, and plain; ink only on the primary.
 ### Segmented control
 - **Style:** book-100 track with 2px padding and 4px radius; options are 14px Barlow 600, book-500; the selected option is a white 3px-radius segment with book-800 text and the pressed-in segment shadow.
 
-### Navigation (language switch)
-- **Style:** a 1px book-600 bordered group (4px radius, 2px padding); options are 13px Barlow 600, slightly tracked, book-300, brightening to book-100 on hover; the current locale is a book-600 fill with white text.
+### Navigation (top bar)
+- **Style:** wordmark at left (a 32px white 3px-radius tile holding the ultramarine open-envelope icon, then "EML" in book-100 and "Reader" in carmine-bright); at right the privacy line (15px book-200 with an olive-light shield) and the paper button. No other navigation exists.
 
 ### Letter sheet
 - **Corner Style:** 3px.
@@ -339,15 +357,25 @@ The attachment, mounted. Size is the denomination.
 
 ### States and notices
 - **Focus ring:** 2px ultramarine-light outline, 2px offset, everywhere by default; tabs use ultramarine inset so the ring reads on paper.
-- **Error (parse failure):** the carmine-wash ground on the blank sheet with a carmine alert icon and carmine semibold title, book-700 explanation, and the raw error detail in small book-500.
+- **Error (parse failure):** the carmine-wash ground (4px radius, 16px padding) on the blank sheet with a carmine alert icon and carmine semibold title, book-700 explanation, and the raw error detail in small book-500.
+- **Reader fallback (render failure):** when a parsed email cannot be displayed, the stage holds a single white sheet instead of the letter: laid-sheet shadow, 3px radius, max 720px, 40px/24px padding (48px/44px from 640px); a 48px carmine envelope-alert icon, the Title-voice heading, an 18px book-600 explanation, a primary button to open another file, and the raw error in 14px book-500. No paper stack and no postmark: this is not a letter.
+- **Preview error (in modal):** when an attachment cannot be shown, the modal body becomes a centred book-800 panel: a 48px carmine-light file-alert icon, a 20px Semi Condensed 600 title in book-100, the error detail in 14px book-300, and a primary Close button that takes initial focus. The modal keeps its ink edge.
 - **Remote-content notice:** a book-100 band on paper (14px book-700 text, image-off icon in book-500) stating whether remote images are blocked, with a paper button toggling them. Never coloured as a warning; it reports a protection.
 - **Trust warning:** on the ground under the strip, 14px book-200 with a carmine-light shield icon.
 - **Drag overlay:** the whole viewport dims to book-900 at 82% and shows a dashed ultramarine-light target with a large tray icon.
 
 ### Attachment viewer (modal)
 - **Frame:** book-800 body, 1px book-700 border, 3px radius, 4px ink edge on top matching the stamp, max 1000px wide, over a book-900 backdrop at 80%.
-- **Toolbar:** 48px book-900 bar with file title, page/zoom controls, size, download, and close.
-- **Canvas:** book-700 behind previewed pages; images sit on a 20px book-600/book-700 checkerboard; text attachments render as a white sheet up to 80ch.
+- **Canvas:** book-700 behind previewed pages (16px padding); images sit on a 20px book-600/book-700 checkerboard; text attachments render as a white 15px Barlow sheet up to 80ch with the previewed-page shadow.
+- **Download panel:** for files with no preview, a centred book-800 panel: a 60px olive-light file icon, the file name in Title voice, "EXT · size" in 14px book-300 tabular, a 15px book-200 note up to 44ch, then the primary and outline-on-dark buttons.
+
+### Viewer toolbar
+One toolbar serves every viewer (PDF, image, text, download), so every opened attachment has the same frame.
+- **Bar:** 48px, book-900, book-100 text, 16px left padding and flush right; file title in 15px Barlow 600, truncated, taking the free space.
+- **Groups, left to right:** viewer-specific controls (PDF only: previous page, "n / total" readout, next page; then zoom out, zoom percentage readout, zoom in, fit), then the file size (14px book-300, tabular), download, and close. Readouts are 14px book-200, tabular, at least 48px wide.
+- **Buttons:** 48px tall and at least 44px wide, square, transparent, 20px icon; hover book-700; active book-600; disabled at 40% opacity with a not-allowed cursor. The focus ring is inset 2px so it stays inside the bar.
+- **Toggle state:** fit is a toggle; while the page is fitted it carries `aria-pressed="true"` and holds the book-600 pressed fill. Zooming in or out releases it.
+- **Keyboard:** arrow keys flip PDF pages; close takes initial focus.
 
 ### Browser surfaces
 - **Selection:** ultramarine with white text (PDF text layer: ultramarine at 35%).
@@ -367,12 +395,14 @@ One easing for anything that lands or settles, exponential ease-out (`cubic-bezi
 ### Do:
 - **Do** take every neutral from the nine book steps or paper white; build tints by giving a book step transparency.
 - **Do** give each attachment kind its fixed ink (PDF carmine, image ultramarine, other olive) on the stamp bar, denomination, and the viewer's top edge.
-- **Do** use the light or bright ink variant for text and icons on the dark ground, and the base ink on paper.
+- **Do** use the light or bright ink variant for text and icons on the dark ground, and the base ink on paper; an ultramarine button fill with white text works on both.
 - **Do** set subjects, display titles, denominations, labels, and the postmark in Barlow Semi Condensed; everything readable in Barlow.
 - **Do** keep the postmark as the single circle per view, struck at -8° with a 3px ring.
 - **Do** keep hairlines, borders, and underlines at 0° or 90°; let only sheets, stamps, and the postmark rotate.
 - **Do** use exponential ease-out for anything that lands, and honour reduced motion by removing it.
 - **Do** mark empty slots with a dashed book-600 outline.
+- **Do** open every attachment inside the one shared viewer toolbar, and add viewer controls as square 48px toolbar buttons with an `aria-pressed` state for toggles.
+- **Do** fail onto paper or into the modal: a render failure gets its own white sheet with one way forward, a preview failure gets a centred panel in the modal with Close.
 
 ### Don't:
 - **Don't** introduce a neutral outside the book ramp, or use Tailwind's default greys.
