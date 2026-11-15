@@ -28,5 +28,6 @@ export default defineConfig({
   webServer: {
     command: 'pnpm run astro:preview',
     url: 'http://localhost:4321',
+    reuseExistingServer: !process.env.CI,
   },
 });

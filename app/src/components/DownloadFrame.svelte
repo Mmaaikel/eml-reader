@@ -1,6 +1,6 @@
 <script lang="ts">
 import { createEventDispatcher } from 'svelte'
-import bytes from 'bytes'
+import { formatBase64Size } from '~/lib/fileSize'
 
 import type { Locales } from '~/i18n/type.d.ts'
 import { i18nFactory } from '~/i18n'
@@ -12,6 +12,7 @@ let locale: Locales | undefined = undefined
 let filename: string | undefined = undefined
 let contentType: string | undefined = undefined
 let data64: string | undefined = undefined
+let openable: boolean = false
 export {
 	userClass as class,
 	style,
@@ -19,11 +20,15 @@ export {
 	filename,
 	contentType,
 	data64,
+	openable,
 }
 
 const _ = i18nFactory(locale)
 
-async function downloadImage()
+$: extension = /\.([a-z0-9]{1,5})$/i.exec(filename ?? '')?.[1]?.toUpperCase() ?? ''
+$: size = formatBase64Size(data64)
+
+function downloadFile()
 {
 	if (!data64)
 	{
@@ -32,364 +37,132 @@ async function downloadImage()
 
 	const a = document.createElement('a')
 	a.href = `data:${contentType};base64,${data64}`
-	a.download = filename ?? 'image'
+	a.download = filename ?? 'file'
 	a.click()
 	a.remove()
 }
 
 const dispatch = createEventDispatcher()
 
-async function closePdfFrame()
+function close()
 {
 	dispatch('close')
 }
 </script>
 
 <div
-	class={Array.from(new Set([
-		'wrapper',
-		...(userClass ? userClass.split(' ') : []),
-	])).join(' ')}
+	class={['wrapper', userClass].filter(Boolean).join(' ')}
 	style={style}
 >
-
 	<div class="file-nav">
-		<div class="file-nav-section">
-			<p>{filename}</p>
-		</div>
-		<div class="file-nav-section file-nav-section-end sm-small">
-			<p class="sm-hidden">
-				<span class="icon icon-[mdi--database] align-icon-inline"></span>
-				{data64 && bytes(data64.length)}
-			</p>
-			<button
-				on:click|preventDefault={downloadImage}
-			>
-				<span class="sr-only">
-					{_({
-						en: 'Download',
-						fr: 'Télécharger',
-					})}
-				</span>
-				<span class="icon icon-[mdi--download]"></span>
-			</button>
-			<button
-				on:click|preventDefault={closePdfFrame}
-			>
-				<span class="icon icon-[mdi--close]"></span>
-				<span class="sr-only">
-					{_({
-						en: 'Close',
-						fr: 'Fermer',
-					})}
-				</span>
-			</button>
-		</div>
+		<p class="file-title">{filename}</p>
+		<button on:click|preventDefault={close} data-autofocus>
+			<span class="icon-[mdi--close]"></span>
+			<span class="sr-only">
+				{_({
+					en: 'Close',
+					fr: 'Fermer',
+				})}
+			</span>
+		</button>
 	</div>
 
 	<div class="file-content">
-		<div class="left">
-			<span class="icon icon-[mdi--file-document]"></span>
-		</div>
-		<div class="right">
-			<p>
-				{filename}
-			</p>
-			<p>
-				<span class="icon icon-[mdi--database] align-icon-inline"></span>
-				{data64 && bytes(data64.length)}
-			</p>
-			<button
-				on:click|preventDefault={downloadImage}
-			>
-				<span class="icon icon-[mdi--download]"></span>
-				{_({
-					en: 'Download file',
-					fr: 'Télécharger le fichier',
+		<span class="file-icon icon-[mdi--file-download-outline]"></span>
+		<p class="file-name">{filename}</p>
+		<p class="file-meta tabular">
+			{extension}{extension && size ? ' · ' : ''}{size}
+		</p>
+		<p class="file-note">
+			{openable
+				? _({
+					en: 'This attachment is an email itself. Open it here, or download it.',
+					fr: 'Cette pièce jointe est elle-même un e-mail. Ouvrez-la ici ou téléchargez-la.',
+				})
+				: _({
+					en: 'This file type can\'t be previewed here. Download it to open it with another app.',
+					fr: 'Ce type de fichier ne peut pas être prévisualisé ici. Téléchargez-le pour l\'ouvrir avec une autre application.',
 				})}
+		</p>
+		<div class="file-buttons">
+		{#if openable}
+			<button class="file-download" on:click|preventDefault={() => dispatch('open')}>
+				<span class="icon-[mdi--email-open-outline]"></span>
+				{_({ en: 'Open this email', fr: 'Ouvrir cet e-mail' })}
 			</button>
+		{/if}
+		<button class={openable ? 'file-secondary' : 'file-download'} on:click|preventDefault={downloadFile}>
+			<span class="icon-[mdi--download]"></span>
+			{_({
+				en: 'Download file',
+				fr: 'Télécharger le fichier',
+			})}
+		</button>
 		</div>
 	</div>
-
 </div>
 
 <style lang="scss">
-@reference "tailwindcss/theme";
+@reference "#tailwind.css";
 
-.wrapper
-{
-	@apply
-		flex
-		flex-col
-		items-center
-		w-full
-		h-full
-		overflow-hidden
-		;
+.wrapper {
+	@apply flex h-full w-full flex-col overflow-hidden;
+}
 
-	> * {
-		@apply
-			w-full
-			shrink-0
-			;
+.file-nav {
+	@apply flex h-12 shrink-0 items-center justify-between gap-4 bg-book-900 pl-4 text-book-100;
+
+	.file-title {
+		@apply min-w-0 truncate text-[15px] font-semibold;
 	}
 
-	> .file-nav,
-	> .file-footer {
-		@apply
-			bg-gray-600
-			grid
-			grid-flow-col
-			auto-cols-fr
-			gap-4
-			h-10
-			px-4
-			text-white
-			;
+	button {
+		@apply flex h-12 min-w-12 cursor-pointer items-center justify-center text-xl;
 
-		.file-nav-section {
-			@apply
-				col-span-3
-				flex
-				items-center
-				justify-center
-				gap-2
-				;
-
-			&.sm-small {
-				@apply
-					col-span-2
-					;
-			}
-
-			&.sm-xsmall {
-				@apply
-					col-span-1
-					;
-			}
-
-			&:has(.file-nav-section) {
-				@apply
-					gap-4
-					;
-			}
-
-			&.file-nav-section-start {
-				@apply
-					justify-start
-					;
-			}
-
-			&.file-nav-section-end {
-				@apply
-					justify-end
-					;
-			}
-
-			> p {
-				@apply
-					text-center
-					whitespace-nowrap
-					;
-
-				&.min-width-1 {
-					@apply
-						min-w-10
-						;
-				}
-
-				&.min-width-2 {
-					@apply
-						min-w-20
-						;
-				}
-			}
+		&:hover {
+			@apply bg-book-700;
 		}
+	}
+}
 
-		.buttons-group {
-			@apply
-				flex
-				items-center
-				justify-center
-				;
-		}
+.file-content {
+	@apply flex min-h-72 grow flex-col items-center justify-center gap-2 overflow-y-auto bg-book-800 px-6 py-10 text-center text-book-100;
 
-		button {
-			@apply
-				flex
-				items-center
-				justify-center
-				min-w-10
-				h-10
-				;
+	.file-icon {
+		@apply mb-2 text-6xl text-olive-light;
+	}
 
-			&:disabled {
-				@apply
-					cursor-not-allowed
-					opacity-50
-					;
-			}
+	.file-name {
+		@apply max-w-full font-display text-2xl font-semibold;
+		overflow-wrap: anywhere;
+	}
 
-			&:not(:disabled):hover {
-				@apply
-					bg-gray-700
-					;
-			}
+	.file-meta {
+		@apply text-sm text-book-300;
+	}
 
-			&:not(:disabled):active, &.active {
-				@apply
-					bg-gray-800
-					;
+	.file-note {
+		@apply mt-2 max-w-[44ch] text-[15px] text-book-200;
+	}
 
-				&:disabled {
-					@apply
-						bg-gray-700
-						;
-				}
-			}
+	.file-buttons {
+		@apply mt-5 flex flex-wrap justify-center gap-3;
+	}
+
+	.file-secondary {
+		@apply inline-flex cursor-pointer items-center gap-2 rounded border border-book-500 px-5 py-2.5 font-semibold text-book-100;
+
+		&:hover {
+			@apply bg-book-700;
 		}
 	}
 
-	@media (max-width: 899.98px)
-	{
-		> .file-nav {
-			> .file-nav-section {
-				&:has(.file-nav-section) {
-					@apply
-						flex-col
-						gap-0
-						;
+	.file-download {
+		@apply inline-flex cursor-pointer items-center gap-2 rounded bg-ultramarine px-5 py-2.5 font-semibold text-white;
 
-					&.file-nav-section-start {
-						@apply
-							items-start
-							justify-center
-							;
-					}
-
-					&.file-nav-section-end {
-						@apply
-							items-end
-							justify-center
-							;
-					}
-				}
-			}
+		&:hover {
+			background: color-mix(in srgb, var(--color-ultramarine) 85%, black);
 		}
-	}
-
-	@media (max-width: 599.98px)
-	{
-		> .file-nav {
-			.file-nav-section.sm-small {
-				@apply
-					col-span-1
-					;
-			}
-
-			.sm-hidden {
-				@apply
-					hidden
-					;
-			}
-		}
-	}
-
-	> .file-content {
-		@apply
-			relative
-			bg-gray-200
-			min-h-64
-			grow
-			flex
-			items-center
-			justify-center
-			gap-4
-			mx-auto
-			overflow-y-auto
-			;
-
-		> .left {
-			> .icon {
-				@apply
-					text-6xl
-					;
-			}
-		}
-
-		> .center {
-			@apply
-				bg-gray-500
-				h-full
-				w-2
-				;
-		}
-
-		> .right {
-			@apply
-				flex
-				flex-col
-				items-start
-				justify-center
-				gap-2
-				border-l-2
-				border-gray-500
-				pl-4
-				py-2
-				;
-
-			button {
-				@apply
-					bg-gray-600
-					min-w-10
-					px-4
-					py-2
-					text-white
-					rounded-lg
-					;
-
-				&:disabled {
-					@apply
-						cursor-not-allowed
-						opacity-50
-						;
-				}
-
-				&:not(:disabled):hover {
-					@apply
-						bg-gray-700
-						;
-				}
-
-				&:not(:disabled):active, &.active {
-					@apply
-						bg-gray-800
-						;
-
-					&:disabled {
-						@apply
-							bg-gray-700
-							;
-					}
-				}
-
-				> .icon {
-					@apply
-						align-[-0.125em]
-						;
-				}
-			}
-		}
-
-	}
-
-	> .file-footer {
-		@apply
-			flex
-			items-center
-			justify-around
-			items-stretch
-			;
 	}
 }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
 import { onMount, onDestroy, createEventDispatcher } from 'svelte'
-import bytes from 'bytes'
+import { formatBase64Size } from '~/lib/fileSize'
 
 import type { Locales } from '~/i18n/type.d.ts'
 import { i18nFactory } from '~/i18n'
@@ -75,14 +75,16 @@ async function handlePage(page: any)
 
 			// Set --scale-factor to the PDF scale
 			textLayer.style.setProperty('--scale-factor', scale!.toString())
+			textLayer.style.width = `${viewport.width}px`
+			textLayer.style.height = `${viewport.height}px`
 
 			const PdfJS = await import('pdfjs-dist')
-			PdfJS.renderTextLayer({
+			const layer = new PdfJS.TextLayer({
 				textContentSource: textContent,
 				container: textLayer,
 				viewport: viewport,
-				textDivs: [],
 			})
+			await layer.render()
 		})
 }
 
@@ -153,15 +155,30 @@ onDestroy(async () =>
 		pdfDocument = null
 	})
 
-function onPdfContentMouseWheel(event: WheelEvent)
-{
-	if (!pdfDocument)
-	{
-		return
-	}
 
-	// event.preventDefault()
-	console.log('mousewheel', event)
+const MIN_SCALE = 0.25
+const MAX_SCALE = 5
+
+async function rerender()
+{
+	await pdfDocument?.getPage(currPage).then(handlePage)
+}
+
+async function zoomBy(factor: number)
+{
+	if (!pdfDocument || scale === null) return
+	scaleFit = false
+	scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale * factor))
+	await rerender()
+}
+
+async function zoomFit()
+{
+	if (!pdfDocument) return
+	scaleFit = true
+	const page = await pdfDocument.getPage(currPage)
+	scale = getInitialScale(page)
+	await handlePage(page)
 }
 
 async function loadPreviousPage()
@@ -246,7 +263,7 @@ async function closePdfFrame()
 		</div>
 		<div class="pdf-nav-section">
 			<div class="pdf-nav-section">
-				<p class="min-width-2">
+				<p class="min-width-2 tabular">
 					<span class="sr-only">Page</span>
 					{currPage} / {pdfDocument?.numPages ?? '...'}
 				</p>
@@ -255,12 +272,12 @@ async function closePdfFrame()
 						on:click|preventDefault={loadPreviousPage}
 					>
 						<span class="icon icon-[mdi--chevron-left]"></span>
-						<span class="sr-only">Previous</span>
+						<span class="sr-only">{_({ en: 'Previous page', fr: 'Page précédente' })}</span>
 					</button>
 					<button
 						on:click|preventDefault={loadNextPage}
 					>
-						<span class="sr-only">Next</span>
+						<span class="sr-only">{_({ en: 'Next page', fr: 'Page suivante' })}</span>
 						<span class="icon icon-[mdi--chevron-right]"></span>
 					</button>
 				</div>
@@ -271,16 +288,16 @@ async function closePdfFrame()
 					{scale ? `${Math.round(scale * 100)}%` : '...'}
 				</p>
 				<div class="buttons-group">
-					<button disabled>
-						<span class="sr-only">Zoom Out</span>
+					<button on:click|preventDefault={() => zoomBy(1 / 1.25)} disabled={!pdfDocument || (scale ?? 1) <= MIN_SCALE}>
+						<span class="sr-only">{_({ en: 'Zoom out', fr: 'Zoom arrière' })}</span>
 						<span class="icon icon-[mdi--magnify-minus]"></span>
 					</button>
-					<button disabled>
-						<span class="sr-only">Zoom In</span>
+					<button on:click|preventDefault={() => zoomBy(1.25)} disabled={!pdfDocument || (scale ?? 1) >= MAX_SCALE}>
+						<span class="sr-only">{_({ en: 'Zoom in', fr: 'Zoom avant' })}</span>
 						<span class="icon icon-[mdi--magnify-plus]"></span>
 					</button>
-					<button class={scaleFit ? 'active' : undefined} disabled>
-						<span class="sr-only">Fit screen</span>
+					<button class={scaleFit ? 'active' : undefined} aria-pressed={scaleFit} on:click|preventDefault={zoomFit} disabled={!pdfDocument}>
+						<span class="sr-only">{_({ en: 'Fit to screen', fr: 'Ajuster à l\'écran' })}</span>
 						<span class="icon icon-[mdi--fit-to-screen]"></span>
 					</button>
 				</div>
@@ -290,21 +307,22 @@ async function closePdfFrame()
 			<div class="pdf-nav-section">
 				<p class="sm-hidden">
 					<span class="icon icon-[mdi--database] align-icon-inline"></span>
-					{data64 && bytes(data64.length)}
+					{formatBase64Size(data64)}
 				</p>
 				<button
 					on:click|preventDefault={downloadPdf}
 				>
-					<span class="sr-only">Download</span>
+					<span class="sr-only">{_({ en: 'Download', fr: 'Télécharger' })}</span>
 					<span class="icon icon-[mdi--download]"></span>
 				</button>
 			</div>
 			<div class="pdf-nav-section">
 				<button
 					on:click|preventDefault={closePdfFrame}
+					data-autofocus
 				>
 					<span class="icon icon-[mdi--close]"></span>
-					<span class="sr-only">Close</span>
+					<span class="sr-only">{_({ en: 'Close', fr: 'Fermer' })}</span>
 				</button>
 			</div>
 		</div>
@@ -313,15 +331,16 @@ async function closePdfFrame()
 	<div
 		class="pdf-content"
 		bind:this={contentWrapper}
-		on:mousewheel={onPdfContentMouseWheel}
 	>
-		<canvas
-			bind:this={pdfCanvas}
-		></canvas>
-		<div
-			class="text-layer"
-			bind:this={textLayer}
-		></div>
+		<div class="pdf-page">
+			<canvas
+				bind:this={pdfCanvas}
+			></canvas>
+			<div
+				class="text-layer"
+				bind:this={textLayer}
+			></div>
+		</div>
 	</div>
 
 	<!-- <div class="pdf-footer">
@@ -334,7 +353,7 @@ async function closePdfFrame()
 </div>
 
 <style lang="scss">
-@reference "tailwindcss/theme";
+@reference "#tailwind.css";
 
 .wrapper
 {
@@ -357,14 +376,14 @@ async function closePdfFrame()
 	> .pdf-nav,
 	> .pdf-footer {
 		@apply
-			bg-gray-600
+			bg-book-900
 			grid
 			grid-flow-col
 			auto-cols-fr
 			gap-4
-			h-10
+			h-12
 			px-4
-			text-white
+			text-book-100
 			;
 
 		.pdf-nav-section {
@@ -402,8 +421,7 @@ async function closePdfFrame()
 
 			> p {
 				@apply
-					text-center
-					whitespace-nowrap
+					truncate
 					;
 
 				&.min-width-1 {
@@ -446,18 +464,235 @@ async function closePdfFrame()
 
 			&:not(:disabled):hover {
 				@apply
-					bg-gray-700
+					bg-book-700
 					;
 			}
 
 			&:not(:disabled):active, &.active {
 				@apply
-					bg-gray-800
+					bg-book-600
 					;
 
 				&:disabled {
 					@apply
-						bg-gray-700
+						bg-book-700
+						;
+				}
+			}
+		}
+	}
+
+	@media (max-width: 899.98px)
+	{
+		> .pdf-nav {
+			@apply
+				h-16
+				;
+
+			> .pdf-nav-section {
+				&:has(.pdf-nav-section) {
+					@apply
+						flex-col
+						gap-0
+						;
+
+					&.pdf-nav-section-start {
+						@apply
+							items-start
+							justify-center
+							;
+					}
+
+					&.pdf-nav-section-end {
+						@apply
+							items-end
+							justify-center
+							;
+					}
+				}
+
+				> p {
+					&.min-width-1 {
+						@apply
+							min-w-8
+							;
+					}
+
+					&.min-width-2 {
+						@apply
+							min-w-16
+							;
+					}
+				}
+			}
+
+			button {
+				@apply
+					min-h-8
+					h-8
+					;
+			}
+		}
+	}
+
+	@media (max-width: 599.98px)
+	{
+		> .pdf-nav {
+			.pdf-nav-section.sm-small {
+				@apply
+					col-span-1
+					;
+			}
+
+			.sm-hidden {
+				@apply
+					hidden
+					;
+			}
+		}
+	}
+
+	> .pdf-content {
+		@apply relative flex grow overflow-auto bg-book-700 p-4;
+		min-height: 0;
+
+		> .pdf-page {
+			@apply relative m-auto shrink-0 bg-white;
+			box-shadow: 0 12px 30px rgb(0 0 0 / 0.35);
+
+			> canvas {
+				@apply block;
+			}
+		}
+
+		.text-layer {
+			position: absolute;
+			inset: 0;
+			overflow: clip;
+			line-height: 1;
+			text-align: initial;
+			text-size-adjust: none;
+			forced-color-adjust: none;
+			transform-origin: 0 0;
+			caret-color: CanvasText;
+
+			:global(span),
+			:global(br) {
+				color: transparent;
+				position: absolute;
+				white-space: pre;
+				cursor: text;
+				transform-origin: 0% 0%;
+			}
+
+			:global(::selection) {
+				background: rgb(35 64 142 / 0.35);
+			}
+		}
+	}
+
+	> .pdf-footer {
+		@apply
+			bg-book-900
+			grid
+			grid-flow-col
+			auto-cols-fr
+			gap-4
+			h-12
+			px-4
+			text-book-100
+			;
+
+		.pdf-nav-section {
+			@apply
+				col-span-3
+				flex
+				items-center
+				justify-center
+				gap-2
+				;
+
+			&.sm-small {
+				@apply
+					col-span-2
+					;
+			}
+
+			&:has(.pdf-nav-section) {
+				@apply
+					gap-4
+					;
+			}
+
+			&.pdf-nav-section-start {
+				@apply
+					justify-start
+					;
+			}
+
+			&.pdf-nav-section-end {
+				@apply
+					justify-end
+					;
+			}
+
+			> p {
+				@apply
+					truncate
+					;
+
+				&.min-width-1 {
+					@apply
+						min-w-10
+						;
+				}
+
+				&.min-width-2 {
+					@apply
+						min-w-20
+						;
+				}
+			}
+		}
+
+		.buttons-group {
+			@apply
+				flex
+				items-center
+				justify-center
+				;
+		}
+
+		button {
+			@apply
+				flex
+				items-center
+				justify-center
+				min-w-10
+				h-10
+				;
+
+			&:disabled {
+				@apply
+					cursor-not-allowed
+					opacity-50
+					;
+			}
+
+			&:not(:disabled):hover {
+				@apply
+					bg-book-700
+					;
+			}
+
+			&:not(:disabled):active, &.active {
+				@apply
+					bg-book-600
+					;
+
+				&:disabled {
+					@apply
+						bg-book-700
 						;
 				}
 			}
@@ -537,7 +772,7 @@ async function closePdfFrame()
 	> .pdf-content {
 		@apply
 			relative
-			bg-gray-400
+			bg-book-700
 			grow
 			flex
 			items-center

@@ -7,7 +7,6 @@ export const localeKeys = [
 	'See the source code on',
 	'Built with',
 	'served by',
-	'Made with love by',
 	'Data privacy',
 	'No data is collected or processed over the network or on any server.',
 	'All data is processed locally in your browser, and stays on your own device.',

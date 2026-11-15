@@ -1,7 +1,6 @@
 @layer theme, base, components, utilities;
 
 /* Tailwind CSS */
-/* You may optionally disable the preflight styles import. */
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/preflight.css" layer(base);
 @import "tailwindcss/utilities.css" layer(utilities);
@@ -9,13 +8,28 @@
 /* Iconify Plugin for Tailwind CSS */
 @plugin "@iconify/tailwind4";
 
-/* Custom theme configuration */
+/* Stockbook & Postmark theme */
 @theme {
-	/* Custom theme variables */
-	/* Set your custom theme variables below.
-	   See the documentation for more information: https://tailwindcss.com/docs/theme */
-}
+	--font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+	--font-display: "Barlow Semi Condensed", "Barlow", ui-sans-serif, system-ui, sans-serif;
 
-/* Tailwind CSS safe list */
-/* You may optionally declare a safelist of classes to always include in the final CSS output. */
-/* Syntax example: `@source inline("{sm:,md,lg:,xl:,}bg-red-{100..900..50}");` */
+	/* One 9-step stockbook ramp, the only neutrals */
+	--color-book-900: #0f1715;
+	--color-book-800: #16201e;
+	--color-book-700: #212c29;
+	--color-book-600: #34433f;
+	--color-book-500: #4f5f5b;
+	--color-book-400: #74827e;
+	--color-book-300: #a3afac;
+	--color-book-200: #cfd7d4;
+	--color-book-100: #e7ecea;
+
+	/* Engraved inks */
+	--color-ultramarine: #23408e;
+	--color-ultramarine-light: #8fa6e6;
+	--color-carmine: #c0283a;
+	--color-carmine-light: #f08a95;
+	--color-carmine-bright: #e04a5a;
+	--color-olive: #5b6a2b;
+	--color-olive-light: #b9c77f;
+}

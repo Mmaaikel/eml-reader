@@ -1,5 +1,6 @@
 ---
 import { i18nFactory } from '~/i18n'
+import { githubRepositoryUrl } from '~/site'
 const _ = i18nFactory(Astro.currentLocale as any)
 
 export interface Props
@@ -8,98 +9,80 @@ export interface Props
 	style?: string
 }
 
-const githubRepositoryUrl = process.env.GITHUB_REPOSITORY_URL || null as string | null
 const githubSha = process.env.GITHUB_SHA || null as string | null
 const buildVersion = githubSha ? githubSha.slice(0, 7) : 'dev'
 ---
 
 <footer
 	id="footer"
-	class={Astro.props.class}
+	class:list={['footer', Astro.props.class]}
 	style={Astro.props.style}
 >
-	<div>
-		<h3>
-			<span class="icon-[mdi--code-braces] icon-align"></span>
-			{_('Open source project')}
-		</h3>
-		<p>
-			<span class="icon-[mdi--github] icon-align"></span>
-			{_('See the source code on')}
-			<a href={githubRepositoryUrl ?? '#'}>GitHub</a>
-			<small>(v. {buildVersion})</small>
-		</p>
-		<p>
-			<span class="icon-[mdi--fire] icon-align"></span>
-			{_('Built with')}
-			<a href="https://astro.build/">Astro</a>,
-			{_('served by')}
-			<a href="https://pages.github.com/">GitHub Pages</a>
-		</p>
-		<p>
-			<span class="icon-[mdi--heart] icon-align text-red-500"></span>
-			{_('Made with love by')}
-			<a href="https://matiboux.me/">Matiboux</a>
-		</p>
-	</div>
-
-	<div>
-		<h3>
-			<span class="icon-[mdi--security-lock] icon-align"></span>
+	<section>
+		<h2>
+			<span class="icon-[mdi--shield-lock-outline]"></span>
 			{_('Data privacy')}
-		</h3>
+		</h2>
 		<p>
-			<span class="icon-[mdi--server-network-off] icon-align"></span>
-			{_('No data is collected or processed over the network or on any server.')}
+			{_('No data is collected or processed over the network or on any server.')}{' '}
 			{_('All data is processed locally in your browser, and stays on your own device.')}
 		</p>
+		<p>{_('This website uses no cookies and does no tracking.')}</p>
+	</section>
+
+	<section>
+		<h2>
+			<span class="icon-[mdi--code-braces]"></span>
+			{_('Open source project')}
+		</h2>
 		<p>
-			<span class="icon-[mdi--cookie-off] icon-align"></span>
-			{_('This website uses no cookies and does no tracking.')}
+			{_('See the source code on')}{' '}
+			<a href={githubRepositoryUrl}>GitHub</a>
+			<span class="version tabular">v. {buildVersion}</span>
 		</p>
-	</div>
+		<p>
+			{_({ en: 'Made by', fr: 'Créé par' })}{' '}
+			<a href="https://github.com/Mmaaikel">Maikel</a>,{' '}
+			{_({ en: 'based on the original by', fr: 'd\'après l\'original de' })}{' '}
+			<a href="https://github.com/matiboux/eml-reader">Matiboux</a>.{' '}
+			{_('Built with')}{' '}<a href="https://astro.build/">Astro</a>.
+		</p>
+	</section>
 </footer>
 
 <style lang="scss">
-@reference "tailwindcss/theme";
+@reference "#tailwind.css";
 
-footer {
-	@apply
-		flex
-		flex-wrap
-		justify-around
-		items-start
-		space-y-8
-		sm:space-y-0
-		;
+.footer {
+	@apply mt-auto grid gap-8 border-t border-book-700 py-10 text-sm leading-relaxed text-book-300 sm:grid-cols-2 sm:gap-16;
+}
 
-	> div {
-		@apply
-			w-full
-			sm:w-auto
-			sm:max-w-[50%]
-			space-y-2
+h2 {
+	@apply mb-2 flex items-center gap-2 font-display text-[15px] font-semibold uppercase tracking-[0.1em] text-book-100;
 
-			;
-
-		h3 {
-			@apply
-				text-lg
-				;
-		}
-
-		a {
-			@apply
-				text-blue-500
-				hover:text-blue-700 hover:underline
-				;
-		}
-
-		strong, b {
-			@apply
-				font-semibold
-				;
-		}
+	span {
+		@apply text-base text-book-300;
 	}
+}
+
+p {
+	@apply max-w-[60ch];
+
+	+ p {
+		@apply mt-1.5;
+	}
+}
+
+a {
+	@apply text-book-100 underline decoration-book-500 decoration-1;
+	transition: text-decoration-color 150ms ease-out;
+
+	&:hover {
+		@apply decoration-book-100;
+	}
+}
+
+.version {
+	@apply ml-1 text-book-400;
 }
 </style>

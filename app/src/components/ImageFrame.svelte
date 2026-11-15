@@ -1,6 +1,6 @@
 <script lang="ts">
 import { createEventDispatcher } from 'svelte'
-import bytes from 'bytes'
+import { formatBase64Size } from '~/lib/fileSize'
 
 import type { Locales } from '~/i18n/type.d.ts'
 import { i18nFactory } from '~/i18n'
@@ -82,7 +82,7 @@ async function closePdfFrame()
 		<div class="image-nav-section image-nav-section-end sm-small">
 			<p class="sm-hidden">
 				<span class="icon icon-[mdi--database] align-icon-inline"></span>
-				{data64 && bytes(data64.length)}
+				{formatBase64Size(data64)}
 			</p>
 			<button
 				on:click|preventDefault={downloadImage}
@@ -97,9 +97,15 @@ async function closePdfFrame()
 			</button>
 			<button
 				on:click|preventDefault={closePdfFrame}
+					data-autofocus
 			>
 				<span class="icon icon-[mdi--close]"></span>
-				<span class="sr-only">Close</span>
+				<span class="sr-only">
+					{_({
+						en: 'Close',
+						fr: 'Fermer',
+					})}
+				</span>
 			</button>
 		</div>
 	</div>
@@ -109,6 +115,7 @@ async function closePdfFrame()
 		bind:this={contentWrapper}
 	>
 		<img
+			class="max-h-full max-w-full object-contain"
 			src={`data:${contentType};base64,${data64}`}
 			alt={filename}
 		/>
@@ -117,7 +124,7 @@ async function closePdfFrame()
 </div>
 
 <style lang="scss">
-@reference "tailwindcss/theme";
+@reference "#tailwind.css";
 
 .wrapper
 {
@@ -140,14 +147,14 @@ async function closePdfFrame()
 	> .image-nav,
 	> .image-footer {
 		@apply
-			bg-gray-600
+			bg-book-900
 			grid
 			grid-flow-col
 			auto-cols-fr
 			gap-4
-			h-10
+			h-12
 			px-4
-			text-white
+			text-book-100
 			;
 
 		.image-nav-section {
@@ -191,8 +198,7 @@ async function closePdfFrame()
 
 			> p {
 				@apply
-					text-center
-					whitespace-nowrap
+					truncate
 					;
 
 				&.min-width-1 {
@@ -235,18 +241,18 @@ async function closePdfFrame()
 
 			&:not(:disabled):hover {
 				@apply
-					bg-gray-700
+					bg-book-700
 					;
 			}
 
 			&:not(:disabled):active, &.active {
 				@apply
-					bg-gray-800
+					bg-book-600
 					;
 
 				&:disabled {
 					@apply
-						bg-gray-700
+						bg-book-700
 						;
 				}
 			}
@@ -301,7 +307,7 @@ async function closePdfFrame()
 	> .image-content {
 		@apply
 			relative
-			bg-gray-400
+			bg-book-700
 			min-h-64
 			grow
 			flex
@@ -310,6 +316,9 @@ async function closePdfFrame()
 			mx-auto
 			overflow-y-auto
 			;
+
+		background-image: repeating-conic-gradient(var(--color-book-600) 0% 25%, var(--color-book-700) 0% 50%);
+		background-size: 20px 20px;
 
 		> .text-layer {
 			@apply

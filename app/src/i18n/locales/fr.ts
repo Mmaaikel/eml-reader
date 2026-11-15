@@ -9,7 +9,6 @@ const locale = {
 	'See the source code on': 'Voir le code source sur',
 	'Built with': 'Construit avec',
 	'served by': 'servi par',
-	'Made with love by': 'Créé avec amour par',
 	'Data privacy': 'Confidentialité des données',
 	'No data is collected or processed over the network or on any server.':
 		'Aucune donnée n\'est collectée ou traitée sur le réseau ou sur un serveur.',

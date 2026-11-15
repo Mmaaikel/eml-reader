@@ -30,8 +30,8 @@ export const site: Site = {
 		'fr': 'Outil en ligne pour lire et afficher le contenu d\'un fichier EML.',
 	},
 	version: GITHUB_SHA || VERSION_TAG || 'dev',
-	author: 'Matiboux',
-	themeColor: '#ffffff',
+	author: 'Maikel',
+	themeColor: '#16201e',
 	viewportScale: 1,
 	socialTitle: true,
 	socialDescription: true,
@@ -39,5 +39,5 @@ export const site: Site = {
 
 export const githubRepositoryUrl: string = (
 	GITHUB_REPOSITORY_URL
-	|| 'https://github.com/matiboux/eml-reader'
+	|| 'https://github.com/Mmaaikel/eml-reader'
 )

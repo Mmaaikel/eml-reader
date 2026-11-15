@@ -1,6 +1,6 @@
 {
   "name": "eml-reader",
-  "author": "Matiboux",
+  "author": "Maikel",
   "license": "MIT",
   "version": "0.0.1",
   "private": true,
@@ -20,16 +20,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matiboux/eml-reader.git"
+    "url": "git+https://github.com/Mmaaikel/eml-reader.git"
   },
   "bugs": {
-    "url": "https://github.com/matiboux/eml-reader/issues"
+    "url": "https://github.com/Mmaaikel/eml-reader/issues"
   },
-  "homepage": "https://github.com/matiboux/eml-reader#readme",
+  "homepage": "https://github.com/Mmaaikel/eml-reader#readme",
   "dependencies": {
     "@astrojs/check": "^0.9.12",
     "@astrojs/svelte": "^9.1.5",
     "@astrojs/tailwind": "^5.1.5",
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/barlow-semi-condensed": "^5.3.0",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/twemoji": "^1.2.5",
     "@iconify/tailwind4": "^1.2.3",
@@ -46,6 +48,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",
+    "@types/bytes": "^3.1.6",
     "@types/node": "^24.19.2",
     "typescript": "^5.9.3",
     "vitest": "^4.1.12"

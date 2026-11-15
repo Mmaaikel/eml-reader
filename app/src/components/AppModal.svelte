@@ -1,11 +1,20 @@
 <script lang="ts">
-import { unquoteString } from 'eml-parse-js'
+import { tick } from 'svelte'
 
 import type { Locales } from '~/i18n/type.d.ts'
 import openedAttachmentIndex from '~/stores/openedAttachmentIndex'
 import emlData from '~/stores/emlData'
+import {
+	decodeBase64Text,
+	getAttachmentContentType,
+	getAttachmentFileName,
+	getInkKind,
+	getPreviewKind,
+} from '~/lib/attachments'
+import { loadEmlText } from '~/lib/loadEml'
 import PdfFrame from '~/components/PdfFrame.svelte'
 import ImageFrame from '~/components/ImageFrame.svelte'
+import TextFrame from '~/components/TextFrame.svelte'
 import DownloadFrame from '~/components/DownloadFrame.svelte'
 
 // Props
@@ -17,6 +26,15 @@ export {
 	style,
 	locale,
 }
+
+let wrapper: HTMLDivElement
+let returnFocus: HTMLElement | null = null
+
+$: attachment = $openedAttachmentIndex !== null ? $emlData?.attachments?.[$openedAttachmentIndex] ?? null : null
+$: kind = attachment ? getPreviewKind(attachment) : null
+$: ink = attachment ? getInkKind(attachment) : 'other'
+$: filename = attachment ? getAttachmentFileName(attachment) ?? 'file' : 'file'
+$: contentType = attachment ? getAttachmentContentType(attachment) ?? undefined : undefined
 
 function closeModal()
 {
@@ -31,170 +49,119 @@ function onWrapperClick(event: MouseEvent)
 	}
 }
 
-function getAttachmentFileName(attachment: any): string | null
+function onKeydown(event: KeyboardEvent)
 {
-	if (attachment?.contentType)
+	if ($openedAttachmentIndex !== null && event.key === 'Escape')
 	{
-		// Get the name from the content type
-		const match = /(?:N|n)ame=(?:'|")?(.+?)(?:'|")?(\s*;[\s\S]*)?$/g.exec(attachment.contentType)
-		if (match && match[1])
-		{
-			return unquoteString(match[1])
-		}
+		event.preventDefault()
+		closeModal()
 	}
-
-	if (attachment?.name)
-	{
-		// Get the name from the name
-		const match = /([^/\\]+)$/.exec(attachment.name)
-		if (match && match[1])
-		{
-			return unquoteString(match[1])
-		}
-	}
-
-	return unquoteString(attachment?.name) ?? null
 }
 
-function getAttachmentContentType(attachment: any): string | null
+async function openAttachedEmail()
 {
-	if (attachment?.contentType)
-	{
-		// Get the content type without named arguments
-		const match = /^([^;]+)/.exec(attachment.contentType)
-		if (match && match[1])
-		{
-			return match[1]
-		}
-	}
-
-	if (attachment?.name)
-	{
-		// Get the type from the name
-		const match = /([^.]+)$/.exec(attachment.name)
-		if (match && match[1])
-		{
-			return `image/${match[1]}`
-		}
-	}
-
-	return null
+	if (!attachment?.data64) return
+	returnFocus = null
+	const ok = await loadEmlText(decodeBase64Text(attachment.data64))
+	if (ok) window.scrollTo({ top: 0 })
 }
+
+openedAttachmentIndex.subscribe(async index =>
+{
+	if (typeof document === 'undefined') return
+	if (index !== null)
+	{
+		returnFocus = document.activeElement as HTMLElement | null
+		await tick()
+		wrapper?.querySelector<HTMLElement>('[data-autofocus]')?.focus()
+	}
+	else if (returnFocus)
+	{
+		returnFocus.focus()
+		returnFocus = null
+	}
+})
 </script>
 
+<svelte:window on:keydown={onKeydown} />
+
 <div
-	class={Array.from(new Set([
-		'modal-wrapper',
-		...(userClass ? userClass.split(' ') : []),
-		...($openedAttachmentIndex !== null ? ['opened'] : []),
-	])).join(' ')}
+	class={['modal-wrapper', userClass, attachment ? 'opened' : ''].filter(Boolean).join(' ')}
 	style={style}
-	on:click|preventDefault={onWrapperClick}
+	bind:this={wrapper}
+	role="dialog"
+	aria-modal="true"
+	aria-label={attachment ? filename : undefined}
+	on:click={onWrapperClick}
 >
-
-	<!-- <div class="modal">
-		{$openedAttachmentIndex}
-		{#if $openedAttachmentIndex !== null}
-			<br />
-			{$emlData?.attachments?.[$openedAttachmentIndex]?.name} <br />
-			{$emlData?.attachments?.[$openedAttachmentIndex]?.contentType} <br />
-			{$emlData?.attachments?.[$openedAttachmentIndex]?.data64 && bytes($emlData.attachments?.[$openedAttachmentIndex]?.data64.length)}
-		{/if}
-	</div> -->
-
-	{#if $openedAttachmentIndex !== null}
-		{#if $emlData?.attachments?.[$openedAttachmentIndex]?.contentType?.match(/^application\/pdf(?:$|;)/)}
-			<div class="modal modal-fullscreen no-padding">
-				<PdfFrame
-					locale={locale}
-					filename={getAttachmentFileName($emlData?.attachments?.[$openedAttachmentIndex]) ?? 'document.pdf'}
-					data64={$emlData?.attachments?.[$openedAttachmentIndex]?.data64}
-					on:close={closeModal}
-				/>
+	{#if attachment}
+		{#if kind === 'pdf'}
+			<div class={`modal modal-fullscreen ink-${ink}`}>
+				<PdfFrame {locale} {filename} data64={attachment.data64} on:close={closeModal} />
 			</div>
-		{:else if $emlData?.attachments?.[$openedAttachmentIndex]?.contentType?.match(/^image\/(?:png|jpeg|gif)(?:$|;)/)}
-			<div class="modal no-padding">
-				<ImageFrame
-					locale={locale}
-					filename={getAttachmentFileName($emlData?.attachments?.[$openedAttachmentIndex]) ?? 'document.pdf'}
-					contentType={getAttachmentContentType($emlData?.attachments?.[$openedAttachmentIndex]) ?? undefined}
-					data64={$emlData?.attachments?.[$openedAttachmentIndex]?.data64}
-					on:close={closeModal}
-				/>
+		{:else if kind === 'image'}
+			<div class={`modal ink-${ink}`}>
+				<ImageFrame {locale} {filename} {contentType} data64={attachment.data64} on:close={closeModal} />
+			</div>
+		{:else if kind === 'text'}
+			<div class={`modal modal-text ink-${ink}`}>
+				<TextFrame {locale} {filename} {contentType} data64={attachment.data64} on:close={closeModal} />
 			</div>
 		{:else}
-			<div class="modal no-padding">
+			<div class={`modal ink-${ink}`}>
 				<DownloadFrame
-					locale={locale}
-					filename={getAttachmentFileName($emlData?.attachments?.[$openedAttachmentIndex]) ?? 'document.pdf'}
-					contentType={getAttachmentContentType($emlData?.attachments?.[$openedAttachmentIndex]) ?? undefined}
-					data64={$emlData?.attachments?.[$openedAttachmentIndex]?.data64}
+					{locale}
+					{filename}
+					{contentType}
+					data64={attachment.data64}
+					openable={kind === 'email'}
 					on:close={closeModal}
+					on:open={openAttachedEmail}
 				/>
 			</div>
 		{/if}
 	{/if}
-
 </div>
 
 <style lang="scss">
-@reference "tailwindcss/theme";
+@reference "#tailwind.css";
 
 :global(body):has(.modal-wrapper.opened) {
 	overflow: hidden;
 }
 
 .modal-wrapper {
-	@apply
-		fixed
-		bg-[#00000044]
-		top-0
-		left-0
-		flex
-		flex-col
-		justify-center
-		items-center
-		gap-4
-		w-full
-		h-full
-		p-4
-		overflow-y-hidden
-		z-[1000]
-		;
+	@apply fixed left-0 top-0 z-[1000] flex h-full w-full flex-col items-center justify-center gap-4 overflow-y-hidden bg-book-900/80 p-4;
+	animation: fade-in 140ms ease-out;
 
 	&:not(.opened) {
-		@apply
-			hidden
-			;
+		@apply hidden;
+	}
+}
+
+.modal {
+	@apply mx-auto w-full max-w-[calc(1000px_+_2rem)] overflow-hidden rounded-[3px] border border-book-700 bg-book-800 shadow-2xl;
+	border-top: 4px solid var(--ink);
+	animation: rise 260ms cubic-bezier(0.16, 1, 0.3, 1);
+
+	&.modal-fullscreen {
+		@apply grow;
 	}
 
-	.modal {
-		@apply
-			bg-white
-			w-full
-			max-w-[calc(1000px_+_2rem)]
-			mx-auto
-			p-6
-			space-y-4
-			overflow-y-auto
-			rounded-lg
-			shadow-lg
-			border
-			border-[#00000011]
-			;
-
-		&.modal-fullscreen {
-			@apply
-				grow
-				;
-		}
-
-		&.no-padding {
-			@apply
-				bg-gray-600
-				p-0
-				;
-		}
+	&.modal-text {
+		@apply flex max-h-full min-h-0 flex-col;
 	}
+}
+
+.ink-pdf { --ink: var(--color-carmine); }
+.ink-image { --ink: var(--color-ultramarine); }
+.ink-other { --ink: var(--color-olive); }
+
+@keyframes fade-in {
+	from { opacity: 0; }
+}
+
+@keyframes rise {
+	from { transform: translateY(12px); }
 }
 </style>
